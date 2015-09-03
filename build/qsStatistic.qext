@@ -1,0 +1,10 @@
+{
+    "name" : "qsStatistic",
+    "description" : "Statistic block",
+    "preview": "preview.png",
+    "icon" : "extension",
+    "type" : "visualization",
+    "version": "0.1",
+    "preview" : "bar",
+    "author": "Alexander Nerush"
+}
