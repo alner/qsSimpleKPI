@@ -1,5 +1,7 @@
 # Statistic block
 
+Statistic (KPI) block component for Qlik Sense (under development).
+
 ## Installation
 
 Download and unzip template to appropriate folder.
