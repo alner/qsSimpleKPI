@@ -7,16 +7,34 @@ class Statistic extends React.Component {
 
 	render(){
 		let size = this.props.options.size || "";
-		let labelOrientation = this.props.item.labelOrientation || "";
-		let classes = `ui ${labelOrientation} ${size} orange statistic`;
+		let labelOrientation = this.props.options.labelOrientation || "";
+		let labelOrderFirst = this.props.options.labelOrder === "first";
+		let classes = `ui ${labelOrientation} ${size} orange statistic`;		
+
+		let labelComponent = (
+			<div className="label">
+		      {this.props.item.label}
+		    </div>
+		);
+
+		let valueComponent = (
+		    <div className="value">
+		      {this.props.item.value}
+		    </div>
+		);
+
+		let content = [];
+		if(labelOrderFirst) {
+			content.push(labelComponent);
+			content.push(valueComponent);
+		} else {
+			content.push(valueComponent);			
+			content.push(labelComponent);
+		}
+
 		return (
 			<div className={classes}>
-			    <div className="label">
-			      {this.props.item.label}
-			    </div>	  
-			    <div className="value">
-			      {this.props.item.value}
-			    </div>
+			    {content}
 		  	</div>
 		);
 	}

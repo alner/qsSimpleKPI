@@ -16,23 +16,6 @@ let kpis = {
 			show : true,
 			defaultValue: "New expression"
         },
-      	labelOrientation: {
-      		type: "string",
-      		component: "buttongroup",
-      		label: "Label orientation",
-      		ref: "labelOrientation",
-      		options: [{
-      			value: "horizontal",
-      			label: "Horizontal",
-      			tooltip: "Horizontal"
-      		},
-      		{
-      			value: "",
-      			label: "Vertical",
-      			tooltip: "Vertical"
-      		}],
-      		defaultValue: ""
-      	},	        
         item: {
         	type: "string",
         	ref: "value",
@@ -46,7 +29,44 @@ let kpis = {
 // Additional options
 let options = {
 	label: "Options",
+	type: "items",
 	items: {
+      	labelOrientation: {
+      		type: "string",
+      		component: "buttongroup",
+      		label: "Label orientation",
+      		ref: "options.labelOrientation",
+      		options: [{
+      			value: "horizontal",
+      			label: "Horizontal",
+      			tooltip: "Horizontal"
+      		},
+      		{
+      			value: "",
+      			label: "Vertical",
+      			tooltip: "Vertical"
+      		}],
+      		defaultValue: ""
+      	},
+
+      	labelOrder: {
+      		type: "string",
+      		component: "buttongroup",
+      		label: "Label order",
+      		ref: "options.labelOrder",
+      		options: [{
+      			value: "first",
+      			label: "Label, Value",
+      			tooltip: "Label, Value"
+      		},
+      		{
+      			value: "last",
+      			label: "Value, Label",
+      			tooltip: "Value, Label"
+      		}],
+      		defaultValue: "first"
+      	},      	
+
 		size: {
 	  		type: "string",
 	  		component: "dropdown",
