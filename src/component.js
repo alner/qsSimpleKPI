@@ -1,8 +1,8 @@
-const define = (window && window.define) || define;
-
 import initialProperties from './initialProperties';
 import definition from './definition';
 import paint from './paint';
+
+const define = (window && window.define) || define;
 
 // './semantic/dist/semantic.min.js'
 // 'css!./semantic/dist/semantic.min.css'
@@ -14,6 +14,9 @@ define([
 		return {
 			initialProperties,
 			definition,
-			paint
+			paint,
+			snapshot: {
+				canTakeSnapshot : true
+			}
 		}
 });

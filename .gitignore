@@ -2,3 +2,4 @@ node_modules/
 semantic/
 *.zip
 *.map
+*.log

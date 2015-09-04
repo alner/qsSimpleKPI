@@ -1,5 +1,25 @@
 import React from 'react';
 
+const DIVIDE_BY = [
+	'', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'
+];
+
+const COLORS = {
+	red: 'red',
+	orange: 'orange',
+	yellow: 'yellow',
+	olive: 'olive',
+	green: 'green',
+	teal: 'teal',
+	blue: 'blue',
+	violet: 'violet',
+	purple: 'purple',
+	pink: 'pink',
+	brown: 'brown',
+	grey: 'grey',
+	black: 'black'
+};
+
 class Statistic extends React.Component {
 	constructor(props){
 		super(props);
@@ -9,7 +29,21 @@ class Statistic extends React.Component {
 		let size = this.props.options.size || "";
 		let labelOrientation = this.props.options.labelOrientation || "";
 		let labelOrderFirst = this.props.options.labelOrder === "first";
-		let classes = `ui ${labelOrientation} ${size} orange statistic`;		
+		let valueColor = this.props.item.valueColor || "";
+		let valueStyles = {};
+
+		let classes = `ui ${labelOrientation} ${size} statistic`;
+
+		if(COLORS[valueColor]) {
+			classes = classes.concat(` ${valueColor}`);
+		}
+		else {
+			valueStyles.color = valueColor;			
+		}
+
+		classes = classes.split(" ").filter(function(item){
+			return item.trim().length > 0;
+		}).join(" ");
 
 		let labelComponent = (
 			<div className="label">
@@ -18,7 +52,7 @@ class Statistic extends React.Component {
 		);
 
 		let valueComponent = (
-		    <div className="value">
+		    <div className="value" style={valueStyles}>
 		      {this.props.item.value}
 		    </div>
 		);
@@ -32,6 +66,7 @@ class Statistic extends React.Component {
 			content.push(labelComponent);
 		}
 
+		// <div className="ui segment">
 		return (
 			<div className={classes}>
 			    {content}
@@ -47,9 +82,16 @@ class StatisticBlock extends React.Component {
 			return <Statistic key={item.cId} item={item} options={options} />
 		});
 
+		/*<div className="ui segments">*/
+		let divideBy = options.divideBy;
+		if(divideBy === "auto")
+			divideBy = DIVIDE_BY[Math.min(10, kpis.length)];
+
 		return (
 			<div className="qv-object-qsstatistic">
-			{kpis}
+				<div className={`ui ${divideBy} statistics`}>
+				{kpis}
+				</div>
 			</div>
 		);
 	}
