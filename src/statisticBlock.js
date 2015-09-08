@@ -4,24 +4,8 @@ const DIVIDE_BY = [
 	'', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'
 ];
 
-const COLORS = {
-	red: 'red',
-	orange: 'orange',
-	yellow: 'yellow',
-	olive: 'olive',
-	green: 'green',
-	teal: 'teal',
-	blue: 'blue',
-	violet: 'violet',
-	purple: 'purple',
-	pink: 'pink',
-	brown: 'brown',
-	grey: 'grey',
-	black: 'black'
-};
-
 class Statistic extends React.Component {
-	constructor(props){
+	constructor(props) {
 		super(props);
 	}
 
@@ -30,16 +14,12 @@ class Statistic extends React.Component {
 		let labelOrientation = this.props.options.labelOrientation || "";
 		let labelOrderFirst = this.props.options.labelOrder === "first";
 		let valueColor = this.props.item.valueColor || "";
+		let valueIcon = this.props.item.valueIcon || "";
 		let valueStyles = {};
 
 		let classes = `ui ${labelOrientation} ${size} statistic`;
 
-		if(COLORS[valueColor]) {
-			classes = classes.concat(` ${valueColor}`);
-		}
-		else {
-			valueStyles.color = valueColor;			
-		}
+		valueStyles.color = valueColor;
 
 		classes = classes.split(" ").filter(function(item){
 			return item.trim().length > 0;
@@ -53,6 +33,7 @@ class Statistic extends React.Component {
 
 		let valueComponent = (
 		    <div className="value" style={valueStyles}>
+		      <i className={valueIcon}></i>
 		      {this.props.item.value}
 		    </div>
 		);
@@ -78,6 +59,7 @@ class Statistic extends React.Component {
 class StatisticBlock extends React.Component {
 	render(){
 		let options = this.props.options;
+		let size = options.size || "";
 		let kpis = this.props.kpis.map(function(item){
 			return <Statistic key={item.cId} item={item} options={options} />
 		});
@@ -89,7 +71,7 @@ class StatisticBlock extends React.Component {
 
 		return (
 			<div className="qv-object-qsstatistic">
-				<div className={`ui ${divideBy} statistics`}>
+				<div className={`ui ${divideBy} ${size} statistics`}>
 				{kpis}
 				</div>
 			</div>

@@ -1,5 +1,5 @@
-import {HelloWorldComponent} from './definitionComponents';
-console.log(HelloWorldComponent);
+import {ColorsComponent, ColorsPickerComponent, IconsPickerComponent} from './definitionComponents';
+import {ALL_ICONS} from './iconsDefinitions';
 
 // Kpi array
 let kpis = {
@@ -31,10 +31,100 @@ let kpis = {
         	type: "string",
         	ref: "valueColor",
         	label: "Value color",
-        	expression: "optional",
-        	defaultValue: "blue",
+        	expression: "always",
+        	defaultValue: "#808080",
         	show: true
-        }        
+        },
+        pickItemColor: {
+			type: "string",
+	  		component: ColorsPickerComponent,
+	  		ref: "valueColor",
+	  		defaultValue: "#808080",
+	  		options: [
+	  			{
+		  			value: "#d01919",
+		  			label: "red",
+		  			tooltip: "red"
+	  			},	  		
+	  			{
+		  			value: "#f2711c",
+		  			label: "orange",
+		  			tooltip: "orange"
+	  			},
+  				{
+		  			value: "#fbbd08",
+		  			label: "yellow",
+		  			tooltip: "yellow"
+	  			},
+  				{
+		  			value: "#b5cc18",
+		  			label: "olive",
+		  			tooltip: "olive"
+	  			},
+  				{
+		  			value: "#21ba45",
+		  			label: "green",
+		  			tooltip: "green"
+	  			},
+  				{
+		  			value: "#009c95",
+		  			label: "teal",
+		  			tooltip: "teal"
+	  			},
+  				{
+		  			value: "#2185d0",
+		  			label: "blue",
+		  			tooltip: "blue"
+	  			},
+  				{
+		  			value: "#6435c9",
+		  			label: "violet",
+		  			tooltip: "violet"
+	  			},
+  				{
+		  			value: "#a333c8",
+		  			label: "purple",
+		  			tooltip: "purple"
+	  			},
+  				{
+		  			value: "#e03997",
+		  			label: "pink",
+		  			tooltip: "pink"
+	  			},
+  				{
+		  			value: "#975b33",
+		  			label: "brown",
+		  			tooltip: "brown"
+	  			},
+  				{
+		  			value: "#767676",
+		  			label: "grey",
+		  			tooltip: "grey"
+	  			},
+  				{
+		  			value: "#1b1c1d",
+		  			label: "black",
+		  			tooltip: "black"
+	  			}
+	  		]        	
+        },
+		itemIcon: {
+        	type: "string",
+        	ref: "valueIcon",
+        	label: "Value icon",
+        	expression: "always",
+        	defaultValue: "",
+        	show: true
+        },
+        pickItemIcon: {
+			type: "string",
+	  		component: IconsPickerComponent,
+	  		ref: "valueIcon",
+	  		defaultValue: "",
+	  		options: ALL_ICONS.map(function(item) {
+	  			return {label: item, value: item};
+	  		})
+	  	}
   	}
 };
 
@@ -188,79 +278,15 @@ let options = {
 	  		]
 	  	},
 
-	  	test: {
+	  	pickIcon: {
 			type: "string",
-	  		label: "Hello World",
-	  		component: HelloWorldComponent,//'HelloWorldComponent',
-	  		ref: "options.test",
+			label: "Choose icons",
+	  		component: IconsPickerComponent,
+	  		ref: "testIcon",
 	  		defaultValue: "",
-	  		options: [
-	  			{
-		  			value: "red",
-		  			label: "red",
-		  			tooltip: "red"
-	  			},	  		
-	  			{
-		  			value: "orange",
-		  			label: "orange",
-		  			tooltip: "orange"
-	  			},
-  				{
-		  			value: "yellow",
-		  			label: "yellow",
-		  			tooltip: "yellow"
-	  			},
-  				{
-		  			value: "olive",
-		  			label: "olive",
-		  			tooltip: "olive"
-	  			},
-  				{
-		  			value: "green",
-		  			label: "green",
-		  			tooltip: "green"
-	  			},
-  				{
-		  			value: "teal",
-		  			label: "teal",
-		  			tooltip: "teal"
-	  			},
-  				{
-		  			value: "blue",
-		  			label: "blue",
-		  			tooltip: "blue"
-	  			},
-  				{
-		  			value: "violet",
-		  			label: "violet",
-		  			tooltip: "violet"
-	  			},
-  				{
-		  			value: "purple",
-		  			label: "purple",
-		  			tooltip: "purple"
-	  			},
-  				{
-		  			value: "pink",
-		  			label: "pink",
-		  			tooltip: "pink"
-	  			},
-  				{
-		  			value: "brown",
-		  			label: "brown",
-		  			tooltip: "brown"
-	  			},
-  				{
-		  			value: "grey",
-		  			label: "grey",
-		  			tooltip: "grey"
-	  			},
-  				{
-		  			value: "black",
-		  			label: "black",
-		  			tooltip: "black"
-	  			}
-	  		]
+	  		options: ALL_ICONS.map(function(item) {
+	  			return {label: item, value: item};
+	  		})
 	  	}
 	}
 };	  	
