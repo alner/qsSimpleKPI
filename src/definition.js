@@ -1,6 +1,38 @@
 import {ColorsComponent, ColorsPickerComponent, IconsPickerComponent} from './definitionComponents';
 import {ALL_ICONS} from './iconsDefinitions';
 
+let sizeOptions = [{
+	  			value: "mini",
+	  			label: "Mini",
+	  			tooltip: "Mini"
+	  		},
+	  		{
+	  			value: "tiny",
+	  			label: "Tiny",
+	  			tooltip: "Tiny"
+	  		},
+	  		{
+	  			value: "small",
+	  			label: "Small",
+	  			tooltip: "Small"
+	  		},
+	  		{
+	  			value: "",
+	  			label: "Normal",
+	  			tooltip: "Normal"
+	  		},
+	  		{
+	  			value: "large",
+	  			label: "Large",
+	  			tooltip: "Large"
+	  		},
+	  		{
+	  			value: "huge",
+	  			label: "Huge",
+	  			tooltip: "Huge"
+	  		} 		
+	  		];
+
 // Kpi array
 let kpis = {
   	label: "KPIs",
@@ -30,7 +62,7 @@ let kpis = {
         itemColor: {
         	type: "string",
         	ref: "valueColor",
-        	label: "Value color",
+        	label: "Color",
         	expression: "always",
         	defaultValue: "#808080",
         	show: true
@@ -111,7 +143,7 @@ let kpis = {
 		itemIcon: {
         	type: "string",
         	ref: "valueIcon",
-        	label: "Value icon",
+        	label: "Icon",
         	expression: "always",
         	defaultValue: "",
         	show: true
@@ -124,7 +156,38 @@ let kpis = {
 	  		options: ALL_ICONS.map(function(item) {
 	  			return {label: item, value: item};
 	  		})
-	  	}
+	  	},
+		iconOrder: {
+      		type: "string",
+      		component: "buttongroup",
+      		label: "Icon order",
+      		ref: "iconOrder",
+      		options: [{
+      			value: "first",
+      			label: "Icon, Value",
+      			tooltip: "Icon, Value"
+      		},
+      		{
+      			value: "last",
+      			label: "Value, Icon",
+      			tooltip: "Value, Icon"
+      		}],
+      		defaultValue: "first",
+      		show : function (a) {
+              return a.valueIcon;
+            }
+      	},
+		iconSize: {
+	  		type: "string",
+	  		component: "dropdown",
+	  		label: "Icon size",
+	  		ref: "iconSize",
+			show : function (a) {
+              return a.valueIcon;
+            },	  		
+	  		options: sizeOptions,
+	  		defaultValue: ""
+  		}      	
   	}
 };
 
@@ -174,37 +237,7 @@ let options = {
 	  		component: "dropdown",
 	  		label: "Size",
 	  		ref: "options.size",
-	  		options: [{
-	  			value: "mini",
-	  			label: "Mini",
-	  			tooltip: "Mini"
-	  		},
-	  		{
-	  			value: "tiny",
-	  			label: "Tiny",
-	  			tooltip: "Tiny"
-	  		},
-	  		{
-	  			value: "small",
-	  			label: "Small",
-	  			tooltip: "Small"
-	  		},
-	  		{
-	  			value: "",
-	  			label: "Normal",
-	  			tooltip: "Normal"
-	  		},
-	  		{
-	  			value: "large",
-	  			label: "Large",
-	  			tooltip: "Large"
-	  		},
-	  		{
-	  			value: "huge",
-	  			label: "Huge",
-	  			tooltip: "Huge"
-	  		}		  		
-	  		],
+	  		options: sizeOptions,
 	  		defaultValue: ""
   		},
 
@@ -276,17 +309,6 @@ let options = {
 	  			tooltip: "Ten"
 	  		}
 	  		]
-	  	},
-
-	  	pickIcon: {
-			type: "string",
-			label: "Choose icons",
-	  		component: IconsPickerComponent,
-	  		ref: "testIcon",
-	  		defaultValue: "",
-	  		options: ALL_ICONS.map(function(item) {
-	  			return {label: item, value: item};
-	  		})
 	  	}
 	}
 };	  	

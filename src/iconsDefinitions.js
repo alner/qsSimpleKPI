@@ -97,14 +97,35 @@ const CURRENCY_ICONS = [
   "yen icon",
 ];
 
+const SHAPES_ICONS = [
+  "asterisk icon",
+  "certificate icon",
+  "circle icon",
+  "circle notched icon",
+  "circle thin icon",
+  "crosshairs icon",
+  "cube icon",
+  "cubes icon",
+  "ellipsis horizontal icon",
+  "ellipsis vertical icon",
+  "quote left icon",
+  "quote right icon",
+  "spinner icon",
+  "square icon",
+  "square outline icon",
+];
+
 export default {
 	ALL_ICONS: []
 		.concat(MESSAGE_ICONS)
 		.concat(ITEMSELECTIONS_ICONS)
 		.concat(POINTERS_ICONS)
 		.concat(RATINGS_ICONS)
-		.concat(CURRENCY_ICONS),
+		.concat(CURRENCY_ICONS)
+		.concat(SHAPES_ICONS)
+		,
 	MESSAGE_ICONS,
 	ITEMSELECTIONS_ICONS,
-	POINTERS_ICONS
+	POINTERS_ICONS,
+	SHAPES_ICONS
 }

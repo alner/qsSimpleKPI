@@ -1,0 +1,11 @@
+/*******************************
+        Global Overrides
+*******************************/
+@mini            : unit( round(@miniSize * @emSize) / @emSize, em);
+@tiny            : unit( round(@tinySize * @emSize) / @emSize, em);
+@small           : unit( round(@smallSize * @emSize) / @emSize, em);
+@medium          : unit( round(@mediumSize * @emSize) / @emSize, em);
+@large           : unit( round(@largeSize * @emSize) / @emSize, em);
+@big             : unit( round(@bigSize * @emSize) / @emSize, em);
+@huge            : unit( round(@hugeSize * @emSize) / @emSize, em);
+@massive         : unit( round(@massiveSize * @emSize) / @emSize, em);

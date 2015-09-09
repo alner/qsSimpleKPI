@@ -1,5 +1,6 @@
 node_modules/
-semantic/
+semantic/dist/
+semantic/tasks/
 *.zip
 *.map
 *.log

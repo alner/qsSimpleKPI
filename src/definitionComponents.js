@@ -177,7 +177,6 @@ let ColorsPickerComponent = {
 		}]
 };
 
-//q-title-translation="{{option.tooltip || option.label}}">
 let IconsPickerComponent = {
 	template:
 		`<div class="pp-component pp-buttongroup-component" ng-if="visible">
@@ -196,6 +195,36 @@ let IconsPickerComponent = {
 						<i class="icon-expression" ng-if="isExpression" style="font-size:18px;"></i>
 					</button>
 					<span ng-if="!isExpression">{{value}}</span>
+					<div style="margin-top: 5px;">
+						<label class="qui-checkboxicon"
+							title="Disabled icon style"
+							ng-class="{ \'qui-hover\': hover }" 
+							ng-mouseenter="hover = true" 
+							ng-mouseleave="hover = false">
+							<input type="checkbox" 
+								ng-model="opts.disabled"
+								ng-change="checkIconStyles('disabled')">
+							<div class="check-wrap">
+								<span class="check"></span>
+								<span class="check-text">Disabled style</span>
+							</div>
+						</label>
+
+						<label class="qui-checkboxicon" 
+							title="Loading icon style"
+							ng-class="{ \'qui-hover\': hover }" 
+							ng-mouseenter="hover = true" 
+							ng-mouseleave="hover = false">
+							<input type="checkbox" 
+								ng-model="opts.loading"
+								ng-change="checkIconStyles('loading')">
+							<div class="check-wrap">
+								<span class="check"></span>
+								<span class="check-text">Loading style</span>
+							</div>
+						</label>						
+					</div>
+
 					<div ng-if="isShowIcons">
 						<button ng-repeat="option in options track by option.value"
 							class="ui tiny icon button"
@@ -215,7 +244,7 @@ let IconsPickerComponent = {
 	,	
 	controller: 
 		["$scope", function(c){
-			console.log(c);
+
 			function initOptions() {
 				c.loading = true;
 				c.errorMessage = "";
@@ -230,11 +259,21 @@ let IconsPickerComponent = {
 					c.isExpression = true;
 					c.iconExpression = (c.value.qStringExpression.qExpr) || "";					
 				}
+				c.opts = {};
+				c.opts.disabled = (c.getValueIndex('disabled') != -1);
+				c.opts.loading = (c.getValueIndex('loading') != -1);
 				c.visible = true;
 				c.loading = false;
-			}
+			}			
 
-			initOptions();
+			c.getValueIndex = function(styleName){
+				let indx = -1;
+				if(!c.isExpression && typeof c.value === 'string')	{
+					let styles = (c.value && c.value.split(' ')) || [];
+					indx = styles.indexOf(styleName);
+				}
+				return indx;
+			};
 
 			// see template
 			c.select = function (a) {
@@ -254,13 +293,30 @@ let IconsPickerComponent = {
 				c.$emit("saveProperties");
 			};
 
+			c.checkIconStyles = function (styleName) {
+				if(!c.isExpression && typeof c.value === 'string')	{
+					let isDisabled = c.opts[styleName];
+					let styles = (c.value && c.value.split(' ')) || [];
+					let indx = styles.indexOf(styleName);
+					if(isDisabled && indx === -1)
+						styles.push(styleName);
+					else if(!isDisabled && (indx != -1))
+						styles.splice(indx, 1);
+
+					let value = styles.join(' ');
+					c.select(value);
+				}
+			};
+
 			c.showHideIcons = function(){
 				c.isShowIcons = !c.isShowIcons;
 			};
 
 			c.$on("datachanged", function () {
 				initOptions();
-			});
+			});			
+
+			initOptions();			
 		}]
 };
 

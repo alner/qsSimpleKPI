@@ -4,7 +4,7 @@ const DIVIDE_BY = [
 	'', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'
 ];
 
-class Statistic extends React.Component {
+class StatisticItem extends React.Component {
 	constructor(props) {
 		super(props);
 	}
@@ -15,6 +15,12 @@ class Statistic extends React.Component {
 		let labelOrderFirst = this.props.options.labelOrder === "first";
 		let valueColor = this.props.item.valueColor || "";
 		let valueIcon = this.props.item.valueIcon || "";
+		let iconOrderFirst = this.props.item.iconOrder === "first";
+		let iconSize = this.props.item.iconSize;
+		
+		if(iconSize)
+			valueIcon += ` ${iconSize}`;
+
 		let valueStyles = {};
 
 		let classes = `ui ${labelOrientation} ${size} statistic`;
@@ -31,12 +37,22 @@ class Statistic extends React.Component {
 		    </div>
 		);
 
-		let valueComponent = (
-		    <div className="value" style={valueStyles}>
-		      <i className={valueIcon} style={{fontSize: '100%'}}></i>
-		      {this.props.item.value}
-		    </div>
-		);
+		let valueComponent;
+		if(iconOrderFirst) {
+			valueComponent = (
+		    	<div className="value" style={valueStyles}>				
+				  <i className={valueIcon}></i>
+				  {this.props.item.value}
+				</div>
+			);
+		} else {
+			valueComponent = (
+		    	<div className="value" style={valueStyles}>
+				  {this.props.item.value}
+				  <i className={valueIcon}></i>
+				</div>
+			);
+		}
 
 		let content = [];
 		if(labelOrderFirst) {
@@ -61,7 +77,7 @@ class StatisticBlock extends React.Component {
 		let options = this.props.options;
 		let size = options.size || "";
 		let kpis = this.props.kpis.map(function(item){
-			return <Statistic key={item.cId} item={item} options={options} />
+			return <StatisticItem key={item.cId} item={item} options={options} />
 		});
 
 		/*<div className="ui segments">*/
