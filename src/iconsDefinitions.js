@@ -1,6 +1,6 @@
 const MESSAGE_ICONS = [
 	"announcement icon",
-	"birthday icon",
+//	"birthday icon",
 	"help icon",
 	"help circle icon",
 	"info icon",

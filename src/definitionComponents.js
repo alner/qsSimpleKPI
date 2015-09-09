@@ -152,7 +152,17 @@ let ColorsPickerComponent = {
 				if(color) {
 					c.t.value = color;
 				}
-				setRefValue(c.data, c.definition.ref, c.t.value);
+
+				if(c.isColorExpression) {
+					let val = getRefValue(c.data, c.definition.ref);
+					if(val && val.qStringExpression && val.qStringExpression.qExpr){
+						val.qStringExpression.qExpr += c.t.value;
+					} else
+						setRefValue(c.data, c.definition.ref, c.t.value);
+				}
+				else
+					setRefValue(c.data, c.definition.ref, c.t.value);
+
 				"function" == typeof c.definition.change && c.definition.change(c.data, c.args.handler);
 				c.$emit("saveProperties");
 				c.showColorPallete = false;
@@ -167,7 +177,7 @@ let ColorsPickerComponent = {
 		}]
 };
 
-
+//q-title-translation="{{option.tooltip || option.label}}">
 let IconsPickerComponent = {
 	template:
 		`<div class="pp-component pp-buttongroup-component" ng-if="visible">
@@ -177,21 +187,21 @@ let IconsPickerComponent = {
 			<div class="value">
 				<div class="qv-object-qsstatistic" ng-if="!loading">
 					<button 
-						class="qui-button" 
+						class="qui-button"
+						title="{{iconExpression}}"
 						ng-class="{'qui-active': isShowIcons}"
 						qva-activate="showHideIcons()"
-						ng-disabled="readOnly"
-						q-title-translation="{{option.tooltip || option.label}}">
-						<i class="{{value}}" style="font-size:18px;"></i>
+						ng-disabled="readOnly">
+						<i class="{{value}}" ng-if="!isExpression" style="font-size:18px;"></i>
+						<i class="icon-expression" ng-if="isExpression" style="font-size:18px;"></i>
 					</button>
-					<span>{{value}}</span>					
+					<span ng-if="!isExpression">{{value}}</span>
 					<div ng-if="isShowIcons">
 						<button ng-repeat="option in options track by option.value"
 							class="ui tiny icon button"
 							ng-disabled="readOnly"
 							style="margin: 2px;"
-							qva-activate="select(option.value)"
-							q-title-translation="{{option.tooltip || option.label}}">
+							qva-activate="select(option.value)">
 							<div><i class="{{option.value}}"></i></div>
 						</button>
 					</div>
@@ -205,14 +215,21 @@ let IconsPickerComponent = {
 	,	
 	controller: 
 		["$scope", function(c){
-
+			console.log(c);
 			function initOptions() {
 				c.loading = true;
 				c.errorMessage = "";
 				c.isShowIcons = false;
+				c.isExpression = false;
+				c.iconExpression = "";
 				c.label = c.definition.label;
 				c.options = c.definition.options;
 				c.value = getRefValue(c.data, c.definition.ref);
+				if(typeof c.value === "object"
+					&& c.value.qStringExpression) {
+					c.isExpression = true;
+					c.iconExpression = (c.value.qStringExpression.qExpr) || "";					
+				}
 				c.visible = true;
 				c.loading = false;
 			}
@@ -221,9 +238,18 @@ let IconsPickerComponent = {
 
 			// see template
 			c.select = function (a) {
-				console.log(a);
 				c.value = a;
-				setRefValue(c.data, c.definition.ref, a);
+
+				if(c.isExpression) {
+					let val = getRefValue(c.data, c.definition.ref);
+					if(val && val.qStringExpression && val.qStringExpression.qExpr){
+						val.qStringExpression.qExpr += c.value;
+					} else
+						setRefValue(c.data, c.definition.ref, c.value);
+				}
+				else
+					setRefValue(c.data, c.definition.ref, a);
+
 				"function" == typeof c.definition.change && c.definition.change(c.data, c.args.handler);
 				c.$emit("saveProperties");
 			};
@@ -233,7 +259,7 @@ let IconsPickerComponent = {
 			};
 
 			c.$on("datachanged", function () {
-				//initOptions();
+				initOptions();
 			});
 		}]
 };

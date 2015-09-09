@@ -33,7 +33,7 @@ class Statistic extends React.Component {
 
 		let valueComponent = (
 		    <div className="value" style={valueStyles}>
-		      <i className={valueIcon}></i>
+		      <i className={valueIcon} style={{fontSize: '100%'}}></i>
 		      {this.props.item.value}
 		    </div>
 		);
