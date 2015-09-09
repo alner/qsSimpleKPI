@@ -17,7 +17,7 @@ class StatisticItem extends React.Component {
 		let valueIcon = this.props.item.valueIcon || "";
 		let iconOrderFirst = this.props.item.iconOrder === "first";
 		let iconSize = this.props.item.iconSize;
-		
+
 		if(iconSize)
 			valueIcon += ` ${iconSize}`;
 
@@ -32,7 +32,7 @@ class StatisticItem extends React.Component {
 		}).join(" ");
 
 		let labelComponent = (
-			<div className="label">
+			<div key="lbl" className="label">
 		      {this.props.item.label}
 		    </div>
 		);
@@ -40,14 +40,14 @@ class StatisticItem extends React.Component {
 		let valueComponent;
 		if(iconOrderFirst) {
 			valueComponent = (
-		    	<div className="value" style={valueStyles}>				
+		    	<div key="val" className="value" style={valueStyles}>				
 				  <i className={valueIcon}></i>
 				  {this.props.item.value}
 				</div>
 			);
 		} else {
 			valueComponent = (
-		    	<div className="value" style={valueStyles}>
+		    	<div key="val" className="value" style={valueStyles}>
 				  {this.props.item.value}
 				  <i className={valueIcon}></i>
 				</div>
@@ -76,19 +76,38 @@ class StatisticBlock extends React.Component {
 	render(){
 		let options = this.props.options;
 		let size = options.size || "";
-		let kpis = this.props.kpis.map(function(item){
-			return <StatisticItem key={item.cId} item={item} options={options} />
-		});
+		let kpis = this.props.kpis;
+		let items;
+		// this.props.kpis.qMeasureInfo.length > 0
+		// kpis.qDataPage.length > 0 && kpis.qDataPage[0].qMatrix.length > 0 && kpis.qDataPage[0].qMatrix[0]
+		if(kpis.qMeasureInfo.length > 0 && kpis.qDataPages.length > 0) {
+			let data = kpis.qDataPages[0].qMatrix.length > 0 && kpis.qDataPages[0].qMatrix[0];
+			items = kpis.qMeasureInfo.map(function(item, index){
+				let params = {
+					label: item.qFallbackTitle,
+					valueColor: item.valueColor,
+					valueIcon: item.valueIcon,
+					iconOrder: item.iconOrder,
+					iconSize: item.iconSize
+				};
 
-		/*<div className="ui segments">*/
+				if(index < data.length)
+					params.value = data[index].qText;
+				else 
+					params.value = '';
+
+				return <StatisticItem key={item.cId} item={params} options={options} />				
+			});
+		}
+
 		let divideBy = options.divideBy;
 		if(divideBy === "auto")
-			divideBy = DIVIDE_BY[Math.min(10, kpis.length)];
+			divideBy = DIVIDE_BY[Math.min(10, items.length)];
 
 		return (
 			<div className="qv-object-qsstatistic">
 				<div className={`ui ${divideBy} ${size} statistics`}>
-				{kpis}
+				{items}
 				</div>
 			</div>
 		);

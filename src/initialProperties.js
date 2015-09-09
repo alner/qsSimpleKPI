@@ -1,5 +1,13 @@
 export default {
 	version : 1.0,
-	kpis: [],
+	//kpis: [],
+	qHyperCubeDef: {
+		qDimensions: [],
+		qMeasures: [],
+		qInitialDataFetch: [{
+			qWidth: 256,
+			qHeight: 1
+		}]
+	},
 	options: {}
 }

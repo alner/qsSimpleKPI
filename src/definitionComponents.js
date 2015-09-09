@@ -206,11 +206,11 @@ let IconsPickerComponent = {
 								ng-change="checkIconStyles('disabled')">
 							<div class="check-wrap">
 								<span class="check"></span>
-								<span class="check-text">Disabled style</span>
+								<span class="check-text">Disabled</span>
 							</div>
 						</label>
 
-						<label class="qui-checkboxicon" 
+						<label class="qui-checkboxicon"
 							title="Loading icon style"
 							ng-class="{ \'qui-hover\': hover }" 
 							ng-mouseenter="hover = true" 
@@ -220,7 +220,7 @@ let IconsPickerComponent = {
 								ng-change="checkIconStyles('loading')">
 							<div class="check-wrap">
 								<span class="check"></span>
-								<span class="check-text">Loading style</span>
+								<span class="check-text">Loading</span>
 							</div>
 						</label>						
 					</div>
