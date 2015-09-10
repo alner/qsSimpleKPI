@@ -4,9 +4,6 @@ import paint from './paint';
 
 const define = (window && window.define) || define;
 
-// './semantic/dist/semantic.min.js'
-// 'css!./semantic/dist/semantic.min.css'
-
 define([
 	'css!./styles.css'
 	],

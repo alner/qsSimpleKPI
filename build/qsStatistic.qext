@@ -1,10 +1,9 @@
 {
-    "name" : "qsStatistic",
+    "name" : "Simple KPI",
     "description" : "Statistic block",
     "preview": "preview.png",
-    "icon" : "extension",
+    "icon" : "kpi",
     "type" : "visualization",
     "version": "0.1",
-    "preview" : "bar",
     "author": "Alexander Nerush"
 }

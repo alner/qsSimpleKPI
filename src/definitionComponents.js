@@ -22,7 +22,7 @@ function getRefValue(data, refName) {
 	return ref[name];
 }
 
-
+/*
 let ColorsComponent = {
 	template:
 		`<div class="pp-component pp-buttongroup-component" ng-if="visible" tcl="buttongroup">
@@ -79,7 +79,7 @@ let ColorsComponent = {
 			});
 		}]
 };
-
+*/
 
 let ColorsPickerComponent = {
 	template:
@@ -92,20 +92,20 @@ let ColorsPickerComponent = {
 						<div class="qv-object-qsstatistic" ng-if="!loading">
 							<div class="ui mini right labeled">
 								<input type="color" ng-model="t.value" ng-change="onColorChange()">
-								<a title="{{colorExpression}}" class="ui tag label" qva-activate="showPallete()" style="color: white; background-color: {{t.value}};">
-									<span ng-if="!isColorExpression" style="font-size: 18px;">{{t.value}}</span>
-									<i class="icon-expression" ng-if="isColorExpression" style="font-size: 18px;"></i>
+								<a title="{{colorExpression}}" class="ui tag label" qva-activate="showPallete()" style="color: #00; background-color: {{t.value}};">
+									<span ng-if="!isColorExpression" style="color: #ffffff; font-size: 16px;">{{t.value}}</span>
+									<i class="icon-expression" ng-if="isColorExpression" style="font-size: 16px;"></i>
 								</a>
 							</div>
 							<div ng-if="showColorPallete">
 								<button ng-repeat="option in options track by option.value" 
 									class="ui mini icon button"
 									ng-disabled="readOnly"
-									style="margin: 2px; background-color: {{option.value}};" 
+									style="margin: 1px; background-color: {{option.value}};" 
 									qva-activate="onColorChange(option.value)" tid="{{option.value}}" data-icon="{{definition.icon}}"
 									q-title-translation="{{option.tooltip || option.label}}">
-									<i class="checkmark icon" style="color: white; font-size:18px;" ng-if="option.value == t.value"></i>
-									<i class="icon" style="font-size:18px;" ng-if="option.value != t.value"></i>
+									<i class="checkmark icon" style="color: #ffffff; font-size:17px;" ng-if="option.value == t.value"></i>
+									<i class="icon" style="font-size:17px;" ng-if="option.value != t.value"></i>
 								</button>
 							</div>
 						</div>
