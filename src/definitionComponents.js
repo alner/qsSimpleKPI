@@ -119,11 +119,6 @@ let ColorsPickerComponent = {
 	,
 	controller: 
 		["$scope", "$element", function(c, e){
-			console.log('c.definition and c.data');
-				console.log(e);
-				console.log(c.definition);
-				console.log(c.data);
-
 			function initOptions() {
 				c.loading = true;
 				c.errorMessage = "";

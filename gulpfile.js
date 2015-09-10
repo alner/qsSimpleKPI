@@ -4,6 +4,8 @@ var gulpIgnore = require('gulp-ignore');
 var rename = require('gulp-rename');
 var watch = require('gulp-watch');
 var less = require('gulp-less');
+var rimraf = require('gulp-rimraf');
+var zip = require('gulp-zip');
 var minifyCSS = require('gulp-minify-css');
 //var gulpLoadPlugins = require('gulp-load-plugins');
 //plugins = gulpLoadPlugins();
@@ -61,7 +63,18 @@ gulp.task('watch', function(){
   gulp.watch(cssFiles, ['css']);
 });
 
+gulp.task('remove-build-zip', function(){
+  return gulp.src('build/' + name + '.zip', {read: false})
+    .pipe(rimraf({force: true}));
+});
+
+gulp.task('zip-build', function(){
+  return gulp.src('build/*')
+    .pipe(zip(name + '.zip'))
+    .pipe(gulp.dest('build'));
+});
+
 gulp.task('development', ['qext', 'less2css', 'css', 'watch', 'devServer']);
-gulp.task('production', ['qext', 'less2css', 'css', 'build']);
+gulp.task('production', ['qext', 'less2css', 'css', 'build', 'remove-build-zip', 'zip-build']);
 
 gulp.task('default', ['production']);
