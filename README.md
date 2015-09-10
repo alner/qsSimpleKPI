@@ -2,7 +2,7 @@
 
 Simple KPI component for Qlik Sense.
 
-![Simple KPI](blob/screenshots/screenshots/SimpleKPI.png)
+![Simple KPI](../../blob/screenshots/screenshots/SimpleKPI.png)
 
 ## Maintainers
 
