@@ -1,6 +1,6 @@
 {
     "name" : "Simple KPI",
-    "description" : "Statistic block",
+    "description" : "Simple KPI",
     "preview": "preview.png",
     "icon" : "kpi",
     "type" : "visualization",
