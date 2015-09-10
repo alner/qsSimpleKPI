@@ -13,18 +13,20 @@ Download **build/qsSimpleKPI.zip**, upload to qlik server or extract to appropri
 ## Configuration
 
 ![Measures](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Measures.png)
+
 ![Appearance](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Appearance2.png)
 
 **Conditional colors**
 
-![Colors] (https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Colors.png)
+![Colors](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Colors.png)
+
 ![Conditional colors](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/ConditionalColors.png)
 
 **Conditional icons**
 
-![Icons] (https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Icons.png)
-![Conditional icons] (https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/ConditionalIcons.png)
+![Icons](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Icons.png)
 
+![Conditional icons](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/ConditionalIcons.png)
 
 ## Maintainers
 
