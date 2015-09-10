@@ -322,7 +322,6 @@ let IconsPickerComponent = {
 
 
 export default {
-	ColorsComponent,
 	ColorsPickerComponent,
 	IconsPickerComponent	
 }

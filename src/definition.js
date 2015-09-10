@@ -1,4 +1,4 @@
-import {ColorsComponent, ColorsPickerComponent, IconsPickerComponent} from './definitionComponents';
+import {ColorsPickerComponent, IconsPickerComponent} from './definitionComponents';
 import {ALL_ICONS} from './iconsDefinitions';
 
 const COLOR_OPTIONS = [
@@ -171,7 +171,7 @@ let kpis = {
   	allowRemove: true,
   	allowMove: true,
   	items : {
-  			//uses: "items",
+  			uses: "items",
 			itemColor: {
 	        	type: "string",
 	        	ref: "qDef.valueColor",
