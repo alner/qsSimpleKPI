@@ -6,6 +6,10 @@ Supports adaptive design (SemanticUI), conditional css colors, conditional icons
 
 ![Simple KPI](../../blob/screenshots/screenshots/SimpleKPI.png)
 
+## Installation
+
+Download files from **build/** folder only.
+
 ## Configuration
 
 ![Measures](../../blob/screenshots/screenshots/Measures.png)
