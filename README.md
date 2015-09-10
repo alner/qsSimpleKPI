@@ -8,7 +8,7 @@ Supports adaptive design (SemanticUI), conditional css colors, conditional icons
 
 ## Installation
 
-Download files from **build/** folder only.
+Download **build/qsSimpleKPI.zip**, upload to qlik server or extract to appropriate folder.
 
 ## Configuration
 
