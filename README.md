@@ -9,17 +9,17 @@ Supports adaptive design (SemanticUI), conditional css colors, conditional icons
 ## Configuration
 
 ![Measures](../../blob/screenshots/screenshots/Measures.png)
-
 ![Appearance](../../blob/screenshots/screenshots/Appearance2.png)
 
-Conditional colors
+**Conditional colors**
 
 ![Colors] (../../blob/screenshots/screenshots/Colors.png)
 ![Conditional colors](../../blob/screenshots/screenshots/ConditionalColors.png)
 
-Conditional icons
+**Conditional icons**
 
-
+![Icons] (../../blob/screenshots/screenshots/Icons.png)
+![Conditional icons] (../../blob/screenshots/screenshots/ConditionalIcons.png)
 
 
 ## Maintainers
