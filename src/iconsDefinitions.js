@@ -115,6 +115,64 @@ const SHAPES_ICONS = [
   "square outline icon",
 ];
 
+const WEBCONTENT_ICONS = [
+  "adjust icon", 
+  "add user icon", 
+  "add to cart icon", 
+  "archive icon", 
+  "ban icon", 
+  "bookmark icon", 
+  "call icon", 
+  "call square icon", 
+  "cloud download icon", 
+  "cloud upload icon", 
+  "compress icon", 
+  "configure icon", 
+  "download icon", 
+  "edit icon", 
+  "erase icon", 
+  "exchange icon", 
+  "external share icon", 
+  "expand icon", 
+  "filter icon", 
+  "flag icon", 
+  "flag outline icon", 
+  "forward mail icon", 
+  "hide icon", 
+  "in cart icon", 
+  "lock icon", 
+  "pin icon", 
+  "print icon", 
+  "random icon", 
+  "recycle icon", 
+  "refresh icon", 
+  "remove bookmark icon", 
+  "remove user icon", 
+  "repeat icon", 
+  "reply all icon", 
+  "reply icon", 
+  "retweet icon", 
+  "send icon", 
+  "send outline icon", 
+  "share alternate icon", 
+  "share alternate square icon", 
+  "share icon", 
+  "share square icon", 
+  "sign in icon", 
+  "sign out icon", 
+  "theme icon", 
+  "translate icon", 
+  "undo icon", 
+  "unhide icon", 
+  "unlock alternate icon", 
+  "unlock icon", 
+  "upload icon", 
+  "wait icon", 
+  "wizard icon", 
+  "write icon", 
+  "write square icon", 
+];
+
 export default {
 	ALL_ICONS: []
 		.concat(MESSAGE_ICONS)
@@ -123,6 +181,7 @@ export default {
 		.concat(RATINGS_ICONS)
 		.concat(CURRENCY_ICONS)
 		.concat(SHAPES_ICONS)
+    .concat(WEBCONTENT_ICONS)
 		,
 	MESSAGE_ICONS,
 	ITEMSELECTIONS_ICONS,
