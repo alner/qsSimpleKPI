@@ -14,6 +14,8 @@ Download **build/qsSimpleKPI.zip**, upload to qlik server or extract to appropri
 
 ![Measures](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Measures.png)
 
+![Appearance](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Appearance.png)
+
 ![Appearance](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Appearance2.png)
 
 **Conditional colors**
