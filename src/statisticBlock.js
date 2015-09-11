@@ -1,8 +1,6 @@
 import React from 'react';
 import {DIVIDE_BY, SIZE_OPTIONS} from './options';
 
-
-
 class StatisticItem extends React.Component {
 	constructor(props) {
 		super(props);
@@ -111,15 +109,13 @@ class StatisticBlock extends React.Component {
 			let elementClientHeight = this.props.element.clientHeight;			
 			let clientWidth = this.state.clientWidth;
 			let clientHeight = this.state.clientHeight;
-			let autoSize = this.props.options.autoSize || false;
 			let element = this.props.element;
-			let scrollHeight = element.scrollHeight * 0.7;
+			let scrollHeight = element.scrollHeight * 0.8;
 			let childHeight = 0;
 
 			if(this.refs['child-0']) {
 				childHeight = React.findDOMNode(this.refs['child-0']).clientHeight;
 			}
-			console.log(element.clientHeight, scrollHeight, childHeight);
 			if(element &&
 				(
 				   (element.clientHeight < scrollHeight || element.clientHeight < childHeight) 
@@ -181,10 +177,6 @@ class StatisticBlock extends React.Component {
 		let labelOrientation = this.state.labelOrientation;
 		let kpis = this.props.kpis;
 		let items;
-
-		let autoSize = this.props.options.autoSize || false;
-		let element = this.props.element;
-
 		// this.props.kpis.qMeasureInfo.length > 0
 		// kpis.qDataPage.length > 0 && kpis.qDataPage[0].qMatrix.length > 0 && kpis.qDataPage[0].qMatrix[0]
 		if(kpis.qMeasureInfo.length > 0 && kpis.qDataPages.length > 0) {
