@@ -1,8 +1,7 @@
 import React from 'react';
+import {DIVIDE_BY, SIZE_OPTIONS} from './options';
 
-const DIVIDE_BY = [
-	'', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'
-];
+
 
 class StatisticItem extends React.Component {
 	constructor(props) {
@@ -10,8 +9,8 @@ class StatisticItem extends React.Component {
 	}
 
 	render(){
-		let size = this.props.options.size || "";
-		let labelOrientation = this.props.options.labelOrientation || "";
+		let size = this.props.item.size || "";
+		let labelOrientation = this.props.item.labelOrientation || "";
 		let labelOrderFirst = this.props.options.labelOrder === "first";
 		let valueColor = this.props.item.valueColor || "";
 		let valueIcon = this.props.item.valueIcon || "";
@@ -73,11 +72,119 @@ class StatisticItem extends React.Component {
 }
 
 class StatisticBlock extends React.Component {
+	constructor(props){
+		super(props);
+		this.state = {
+			size: props.options.size,
+			labelOrientation: props.options.labelOrientation,
+			clientWidth: props.element.clientWidth,			
+			clientHeight: props.element.clientHeight,
+		};
+	}
+
+	componentDidMount(){
+		this.checkRequiredSize();
+	}
+
+	componentDidUpdate() {
+		this.checkRequiredSize();
+	}
+
+	restoreSize(){
+		let elementClientWidth = this.props.element.clientWidth;
+		let elementClientHeight = this.props.element.clientHeight;		
+		let labelOrientation = this.props.options.labelOrientation;
+		let size = this.props.options.size;					
+		this.setState({
+			size: size, 
+			labelOrientation: labelOrientation,
+			clientWidth: elementClientWidth, 
+			clientHeight: elementClientHeight
+		});
+	}
+
+	checkRequiredSize(){
+		if(this.props.options.autoSize) {
+			let size = this.state.size;
+			let labelOrientation = this.state.labelOrientation;
+			let elementClientWidth = this.props.element.clientWidth;
+			let elementClientHeight = this.props.element.clientHeight;			
+			let clientWidth = this.state.clientWidth;
+			let clientHeight = this.state.clientHeight;
+			let autoSize = this.props.options.autoSize || false;
+			let element = this.props.element;
+			let scrollHeight = element.scrollHeight * 0.7;
+			let childHeight = 0;
+
+			if(this.refs['child-0']) {
+				childHeight = React.findDOMNode(this.refs['child-0']).clientHeight;
+			}
+			console.log(element.clientHeight, scrollHeight, childHeight);
+			if(element &&
+				(
+				   (element.clientHeight < scrollHeight || element.clientHeight < childHeight) 
+				|| ((clientWidth != element.clientWidth || clientHeight != element.clientHeight)
+					&& (size != this.props.options.size)
+					)
+				|| (size != SIZE_OPTIONS[0].value && labelOrientation != this.props.options.labelOrientation)
+				)
+			)
+			{
+				if(element.clientHeight < scrollHeight || element.clientHeight < childHeight) {
+					if(this.state.size == SIZE_OPTIONS[0].value && this.state.labelOrientation == 'horizontal')
+						return;
+
+					let index = SIZE_OPTIONS.map(function(item){
+						return item.value;
+					}).indexOf(size);
+
+					if(index > 0)
+						this.setState({
+							size: SIZE_OPTIONS[index - 1].value, 
+							clientWidth: elementClientWidth, 
+							clientHeight: elementClientHeight
+						});
+					else if(index == 0){
+						// set horizontal label (responsive design)
+						this.setState({
+							labelOrientation: 'horizontal',
+							size: SIZE_OPTIONS[0].value,
+							clientWidth: elementClientWidth, 
+							clientHeight: elementClientHeight
+						});						
+					}
+				}
+				else 
+				if(size != SIZE_OPTIONS[0].value 
+				&& labelOrientation != this.props.options.labelOrientation) {
+					// restore label orientation
+					this.setState({
+						labelOrientation: this.props.options.labelOrientation
+					});
+				}
+				else 
+				{
+					this.restoreSize();
+				}
+			}
+		} else {
+				if(this.state.labelOrientation != this.props.options.labelOrientation 
+				|| this.state.size != this.props.options.size) {
+					this.restoreSize();
+				}
+		}
+	}
+
 	render(){
 		let options = this.props.options;
-		let size = options.size || "";
+		let size = this.state.size; // || options.size || "";
+		let labelOrientation = this.state.labelOrientation;
 		let kpis = this.props.kpis;
 		let items;
+
+		let autoSize = this.props.options.autoSize || false;
+		let element = this.props.element;
+
 		// this.props.kpis.qMeasureInfo.length > 0
 		// kpis.qDataPage.length > 0 && kpis.qDataPage[0].qMatrix.length > 0 && kpis.qDataPage[0].qMatrix[0]
 		if(kpis.qMeasureInfo.length > 0 && kpis.qDataPages.length > 0) {
@@ -88,7 +195,9 @@ class StatisticBlock extends React.Component {
 					valueColor: item.valueColor,
 					valueIcon: item.valueIcon,
 					iconOrder: item.iconOrder,
-					iconSize: item.iconSize
+					iconSize: item.iconSize,
+					size: size,
+					labelOrientation: labelOrientation
 				};
 
 				if(index < data.length)
@@ -96,7 +205,7 @@ class StatisticBlock extends React.Component {
 				else 
 					params.value = '';
 
-				return <StatisticItem key={item.cId} item={params} options={options} />				
+				return <StatisticItem ref={"child-" + index} key={item.cId} item={params} options={options} />				
 			});
 		}
 
@@ -106,7 +215,7 @@ class StatisticBlock extends React.Component {
 
 		return (
 			<div className="qv-object-qsstatistic">
-				<div className={`ui ${divideBy} ${size} statistics`}>
+				<div ref="statistics" className={`ui ${divideBy} ${size} statistics`}>
 				{items}
 				</div>
 			</div>
