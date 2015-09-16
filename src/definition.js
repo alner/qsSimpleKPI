@@ -1,11 +1,10 @@
-import {ColorsPickerComponent, IconsPickerComponent} from './definitionComponents';
+import {ColorsPickerComponent, IconsPickerComponent, FontStylesComponent} from './definitionComponents';
 import {ALL_ICONS} from './iconsDefinitions';
 import {COLOR_OPTIONS, SIZE_OPTIONS} from './options';
 
 // Kpi array
 let kpis = {
-  	//type: "array",
-  	//component: "expandable-items",
+  	type: "items",
   	uses : "measures",
   	ref: "qHyperCubeDef.qMeasures",
   	disabledRef : "qHyperCubeDef.qLayoutExclude.qHyperCubeDef.qMeasures",
@@ -15,7 +14,6 @@ let kpis = {
   	allowRemove: true,
   	allowMove: true,
   	items : {
-  			uses: "items",
 			itemColor: {
 	        	type: "string",
 	        	ref: "qDef.valueColor",
@@ -30,6 +28,23 @@ let kpis = {
 		  		ref: "qDef.valueColor",
 		  		defaultValue: "#808080",
 		  		options: COLOR_OPTIONS        	
+	        },
+	        fontStyle: {
+	        	type: "string",
+	        	ref: "qDef.fontStyles",
+	        	label: "Font style",
+	        	expression: "always",
+	        	defaultValue: "",
+	        	show: true
+			},
+	        pickFontStyle: {
+		  		type: "string",
+		  		component: FontStylesComponent,
+		  		ref: "qDef.fontStyles",
+		  		defaultValue: "",
+				show : function (a) {
+				    return typeof a.qDef.fontStyles !== "object";
+				}
 	        },
 			itemIcon: {
 	        	type: "string",
@@ -84,6 +99,7 @@ let kpis = {
 
 // Additional settings
 let settings = {
+	type: "items",
 	uses: "settings",
 	items: {
 		additionalOptions: {

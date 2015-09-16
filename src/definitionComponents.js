@@ -239,7 +239,6 @@ let IconsPickerComponent = {
 	,	
 	controller: 
 		["$scope", function(c){
-
 			function initOptions() {
 				c.loading = true;
 				c.errorMessage = "";
@@ -252,7 +251,7 @@ let IconsPickerComponent = {
 				if(typeof c.value === "object"
 					&& c.value.qStringExpression) {
 					c.isExpression = true;
-					c.iconExpression = (c.value.qStringExpression.qExpr) || "";					
+					c.iconExpression = (c.value.qStringExpression.qExpr) || "";
 				}
 				c.opts = {};
 				c.opts.disabled = (c.getValueIndex('disabled') != -1);
@@ -315,8 +314,104 @@ let IconsPickerComponent = {
 		}]
 };
 
+let FontStylesComponent = {
+	template:
+		`<div class="pp-component pp-buttongroup-component qv-object-qsstatistic" ng-if="visible">
+			<div class="label" ng-if="label" ng-class="{ \'disabled\': readOnly }">
+				{{label}}
+			</div>
+			<div class="qui-buttongroup" ng-if="!loading && !isExpression">
+				<button
+					class="qui-button"
+					ng-class="{'qui-active':states.bold}"
+					ng-disabled="readOnly"
+					qva-activate="select('bold')"
+					q-title-translation="Bold">
+					<i class="icon bold" style="font-color: white; font-size:18px;"></i>
+				</button>
+				<button
+					class="qui-button"
+					ng-class="{'qui-active':states.italic}"
+					ng-disabled="readOnly"
+					qva-activate="select('italic')"
+					q-title-translation="Italic">
+					<i class="icon italic" style="font-color: white; font-size:18px;"></i>
+				</button>
+				<button
+					class="qui-button"
+					ng-class="{'qui-active':states.underline}"
+					ng-disabled="readOnly"
+					qva-activate="select('underline')"
+					q-title-translation="Underline">
+					<i class="icon underline" style="font-color: white; font-size:18px;"></i>
+				</button>				
+			</div>
+
+			<div class="pp-loading-container" ng-if="loading">
+				<div class="pp-loader qv-loader"></div>
+			</div>
+
+			<div ng-if="errorMessage" class="pp-invalid error">{{errorMessage}}</div>
+		</div>`
+	,	
+	controller:
+		["$scope", function(c){
+			function initOptions() {
+				c.loading = true;
+				c.errorMessage = "";
+				c.label = c.definition.label;
+				c.isExpression = false;
+				let value = getRefValue(c.data, c.definition.ref);
+				c.states = {};	
+				if(value) {
+					if(typeof value === "object"
+					&& value.qStringExpression) {
+						c.isExpression = true;
+						value = (value.qStringExpression.qExpr) || "";
+					}
+
+					let values = value.split(',');
+					values.forEach(function(value){
+						c.states[value] = value;
+					});
+				}
+				c.visible = true;
+				c.loading = false;
+			}
+
+			c.select = function (a) {
+				if(c.states[a])
+					delete c.states[a];
+				else
+					c.states[a] = a;
+
+				let value = Object.keys(c.states).join(',');
+
+				if(c.isExpression) {
+					let valueRef = getRefValue(c.data, c.definition.ref);
+					if(valueRef && valueRef.qStringExpression && valueRef.qStringExpression.qExpr){
+						valueRef.qStringExpression.qExpr += value;
+					} else
+						setRefValue(c.data, c.definition.ref, value);
+				}
+				else
+					setRefValue(c.data, c.definition.ref, value);
+
+				"function" == typeof c.definition.change && c.definition.change(c.data, c.args.handler);
+				c.$emit("saveProperties");
+			};
+
+			c.$on("datachanged", function () {
+				initOptions();
+			});
+
+			initOptions();
+		}]
+};
+
 
 export default {
 	ColorsPickerComponent,
-	IconsPickerComponent	
+	IconsPickerComponent,
+	FontStylesComponent
 }

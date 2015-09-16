@@ -14,11 +14,20 @@ class StatisticItem extends React.Component {
 		let valueIcon = this.props.item.valueIcon || "";
 		let iconOrderFirst = this.props.item.iconOrder === "first";
 		let iconSize = this.props.item.iconSize;
+		let fontStyles = this.props.item.fontStyles;
 
 		if(iconSize)
 			valueIcon += ` ${iconSize}`;
 
 		let valueStyles = {};
+		if(fontStyles.bold)
+			valueStyles.fontWeight = 'bold';
+
+		if(fontStyles.italic)
+			valueStyles.fontStyle = 'italic';
+
+		if(fontStyles.underline)
+			valueStyles.textDecoration = 'underline';
 
 		let classes = `ui ${labelOrientation} ${size} statistic`;
 
@@ -189,8 +198,14 @@ class StatisticBlock extends React.Component {
 					iconOrder: item.iconOrder,
 					iconSize: item.iconSize,
 					size: size,
-					labelOrientation: labelOrientation
+					labelOrientation: labelOrientation,
+					fontStyles: {}
 				};
+
+				let fontStyles = item.fontStyles && item.fontStyles.split(',');
+				fontStyles && fontStyles.forEach(function(value){
+					params.fontStyles[value] = value;
+				});
 
 				if(index < data.length)
 					params.value = data[index].qText;
