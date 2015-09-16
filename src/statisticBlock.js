@@ -10,6 +10,7 @@ class StatisticItem extends React.Component {
 		let size = this.props.item.size || "";
 		let labelOrientation = this.props.item.labelOrientation || "";
 		let labelOrderFirst = this.props.options.labelOrder === "first";
+		let labelColor = this.props.item.labelColor;
 		let valueColor = this.props.item.valueColor || "";
 		let valueIcon = this.props.item.valueIcon || "";
 		let iconOrderFirst = this.props.item.iconOrder === "first";
@@ -19,7 +20,12 @@ class StatisticItem extends React.Component {
 		if(iconSize)
 			valueIcon += ` ${iconSize}`;
 
+		let labelStyles = {};
 		let valueStyles = {};
+
+		if(labelColor)
+			labelStyles.color = labelColor;
+
 		if(fontStyles.bold)
 			valueStyles.fontWeight = 'bold';
 
@@ -38,7 +44,7 @@ class StatisticItem extends React.Component {
 		}).join(" ");
 
 		let labelComponent = (
-			<div key="lbl" className="label">
+			<div key="lbl" className="label" style={labelStyles}>
 		      {this.props.item.label}
 		    </div>
 		);
@@ -193,6 +199,7 @@ class StatisticBlock extends React.Component {
 			items = kpis.qMeasureInfo.map(function(item, index){
 				let params = {
 					label: item.qFallbackTitle,
+					labelColor: item.labelColor,
 					valueColor: item.valueColor,
 					valueIcon: item.valueIcon,
 					iconOrder: item.iconOrder,
