@@ -22,65 +22,6 @@ function getRefValue(data, refName) {
 	return ref[name];
 }
 
-/*
-let ColorsComponent = {
-	template:
-		`<div class="pp-component pp-buttongroup-component" ng-if="visible" tcl="buttongroup">
-			<div class="label" ng-if="label" ng-class="{ \'disabled\': readOnly }">
-				{{label}}
-			</div>
-			<div class="value">
-				<div class="qv-object-qsstatistic" ng-if="!loading">
-						<button ng-repeat="option in options track by option.value" 
-							class="ui mini icon {{option.value}} button"
-							ng-disabled="readOnly"
-							style="margin: 2px;" 
-							qva-activate="select(option.value)" tid="{{option.value}}" data-icon="{{definition.icon}}"
-							q-title-translation="{{option.tooltip || option.label}}">
-							<i class="checkmark icon" style="font-size:18px;" ng-if="option.value == value"></i>
-							<i class="icon" style="font-color: white; font-size:18px;" ng-if="option.value != value"></i>
-						</button>
-				</div>
-				<div class="pp-loading-container" ng-if="loading">
-					<div class="pp-loader qv-loader"></div>
-				</div>
-				<div ng-if="errorMessage" class="pp-invalid error">{{errorMessage}}</div>
-			</div>
-		</div>`
-	,	
-	controller: 
-		["$scope", function(c){
-			console.log('c.definition and c.data');
-			console.log(c.definition);
-			console.log(c.data);
-
-			function initOptions() {
-				c.loading = true;
-				c.errorMessage = "";
-				c.label = c.definition.label;
-				c.options = c.definition.options;
-				c.value = getRefValue(c.data, c.definition.ref);
-				c.visible = true;
-				c.loading = false;
-			}
-			initOptions();
-
-			// see template
-			c.select = function (a) {
-				console.log(a);
-				c.value = a;
-				setRefValue(c.data, c.definition.ref, a);
-				"function" == typeof c.definition.change && c.definition.change(c.data, c.args.handler);
-				c.$emit("saveProperties");
-			};
-
-			c.$on("datachanged", function () {
-				initOptions;
-			});
-		}]
-};
-*/
-
 let ColorsPickerComponent = {
 	template:
 		`
@@ -98,10 +39,10 @@ let ColorsPickerComponent = {
 								</a>
 							</div>
 							<div ng-if="showColorPallete">
-								<button ng-repeat="option in options track by option.value" 
+								<button ng-repeat="option in options track by option.value"
 									class="ui mini icon button"
 									ng-disabled="readOnly"
-									style="margin: 1px; background-color: {{option.value}};" 
+									style="margin: 1px; background-color: {{option.value}};"
 									qva-activate="onColorChange(option.value)" tid="{{option.value}}" data-icon="{{definition.icon}}"
 									q-title-translation="{{option.tooltip || option.label}}">
 									<i class="checkmark icon" style="color: #ffffff; font-size:17px;" ng-if="option.value == t.value"></i>
@@ -117,7 +58,7 @@ let ColorsPickerComponent = {
 		</div>
 		`
 	,
-	controller: 
+	controller:
 		["$scope", "$element", function(c, e){
 			function initOptions() {
 				c.loading = true;
@@ -131,10 +72,10 @@ let ColorsPickerComponent = {
 				if(typeof val === "object") {
 					c.isColorExpression = true;
 					c.colorExpression = (val && val.qStringExpression && val.qStringExpression.qExpr) || "";
-					val = c.definition.defaultValue;					
+					val = c.definition.defaultValue;
 				}
 
-				c.t = {	
+				c.t = {
 					value: val
 				};
 
@@ -143,7 +84,7 @@ let ColorsPickerComponent = {
 				c.loading = false;
 			}
 			initOptions();
-			c.onColorChange = function(color) {				
+			c.onColorChange = function(color) {
 				if(color) {
 					c.t.value = color;
 				}
@@ -180,7 +121,7 @@ let IconsPickerComponent = {
 			</div>
 			<div class="value">
 				<div class="qv-object-qsstatistic" ng-if="!loading">
-					<button 
+					<button
 						class="qui-button"
 						title="{{iconExpression}}"
 						ng-class="{'qui-active': isShowIcons}"
@@ -193,10 +134,10 @@ let IconsPickerComponent = {
 					<div style="margin-top: 5px;">
 						<label class="qui-checkboxicon"
 							title="Disabled icon style"
-							ng-class="{ \'qui-hover\': hover }" 
-							ng-mouseenter="hover = true" 
+							ng-class="{ \'qui-hover\': hover }"
+							ng-mouseenter="hover = true"
 							ng-mouseleave="hover = false">
-							<input type="checkbox" 
+							<input type="checkbox"
 								ng-model="opts.disabled"
 								ng-change="checkIconStyles('disabled')">
 							<div class="check-wrap">
@@ -207,17 +148,17 @@ let IconsPickerComponent = {
 
 						<label class="qui-checkboxicon"
 							title="Loading icon style"
-							ng-class="{ \'qui-hover\': hover }" 
-							ng-mouseenter="hover = true" 
+							ng-class="{ \'qui-hover\': hover }"
+							ng-mouseenter="hover = true"
 							ng-mouseleave="hover = false">
-							<input type="checkbox" 
+							<input type="checkbox"
 								ng-model="opts.loading"
 								ng-change="checkIconStyles('loading')">
 							<div class="check-wrap">
 								<span class="check"></span>
 								<span class="check-text">Loading</span>
 							</div>
-						</label>						
+						</label>
 					</div>
 
 					<div ng-if="isShowIcons">
@@ -236,8 +177,8 @@ let IconsPickerComponent = {
 				<div ng-if="errorMessage" class="pp-invalid error">{{errorMessage}}</div>
 			</div>
 		</div>`
-	,	
-	controller: 
+	,
+	controller:
 		["$scope", function(c){
 			function initOptions() {
 				c.loading = true;
@@ -258,7 +199,7 @@ let IconsPickerComponent = {
 				c.opts.loading = (c.getValueIndex('loading') != -1);
 				c.visible = true;
 				c.loading = false;
-			}			
+			}
 
 			c.getValueIndex = function(styleName){
 				let indx = -1;
@@ -308,9 +249,9 @@ let IconsPickerComponent = {
 
 			c.$on("datachanged", function () {
 				initOptions();
-			});			
+			});
 
-			initOptions();			
+			initOptions();
 		}]
 };
 
@@ -344,7 +285,7 @@ let FontStylesComponent = {
 					qva-activate="select('underline')"
 					q-title-translation="Underline">
 					<i class="icon underline" style="font-color: white; font-size:18px;"></i>
-				</button>				
+				</button>
 			</div>
 
 			<div class="pp-loading-container" ng-if="loading">
@@ -353,7 +294,7 @@ let FontStylesComponent = {
 
 			<div ng-if="errorMessage" class="pp-invalid error">{{errorMessage}}</div>
 		</div>`
-	,	
+	,
 	controller:
 		["$scope", function(c){
 			function initOptions() {
@@ -362,7 +303,7 @@ let FontStylesComponent = {
 				c.label = c.definition.label;
 				c.isExpression = false;
 				let value = getRefValue(c.data, c.definition.ref);
-				c.states = {};	
+				c.states = {};
 				if(value) {
 					if(typeof value === "object"
 					&& value.qStringExpression) {
