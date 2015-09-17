@@ -1,13 +1,18 @@
-import initialProperties from './initialProperties';
-import definition from './definition';
-import paint from './paint';
+const global = window;
+const define = global.define || define;
 
-const define = (window && window.define) || define;
+let dependencies = ['css!./styles.css'];
+if(!global.React)
+	dependencies.push('./vendors/react.min');
 
-define([
-	'css!./styles.css'
-	],
-	function () {
+define(dependencies,
+	function (styles, React) {
+		global.React = React;
+
+		let initialProperties = require('./initialProperties');
+		let definition = require('./definition');
+		let paint = require('./paint');
+
 		return {
 			initialProperties,
 			definition,
