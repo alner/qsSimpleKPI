@@ -1,9 +1,9 @@
 {
-    "name" : "Simple KPI",
-    "description" : "Simple KPI",
-    "preview": "preview.png",
-    "icon" : "kpi",
-    "type" : "visualization",
-    "version": "0.1",
-    "author": "Alexander Nerush"
+  "name" : "Simple KPI",
+  "description" : "Simple KPI",
+  "preview": "preview.png",
+  "icon" : "kpi",
+  "type" : "visualization",
+  "version": "0.2",
+  "author": "Alexander Nerush"
 }
