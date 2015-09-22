@@ -70,13 +70,13 @@ gulp.task('remove-build-zip', function(callback){
 });
 
 gulp.task('zip-build', function(){
-  return gulp.src('build/*')
+  return gulp.src('build/**/*')
     .pipe(zip(name + '.zip'))
     .pipe(gulp.dest('build'));
 });
 
 gulp.task('development', ['qext', 'less2css', 'css', 'watch', 'devServer']);
-gulp.task('production', function(callback) {  
+gulp.task('production', function(callback) {
   runSequence(['qext', 'less2css', 'css', 'remove-build-zip'],
     'build',
     'zip-build'
