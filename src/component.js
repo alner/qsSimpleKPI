@@ -7,7 +7,8 @@ if(!global.React)
 
 define(dependencies,
   function (styles, React) {
-    global.React = React;
+    if(React && !global.React)
+      global.React = React;
 
     let initialProperties = require('./initialProperties');
     let definition = require('./definition');
