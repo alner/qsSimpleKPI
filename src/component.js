@@ -1,12 +1,17 @@
+import loadCSS from './loadcss';
+
 const global = window;
 const define = global.define || define;
 
-let dependencies = ['css!./styles.css'];
+let dependencies = ['module']; // 'css!./styles.css'
 if(!global.React)
   dependencies.push('./vendors/react.min');
 
 define(dependencies,
-  function (styles, React) {
+  function (module, React) {
+    const ROOT_URI = module.uri.split('/').slice(0, -1).join('/');
+    loadCSS(`${ROOT_URI}/styles.css`);
+
     if(React && !global.React)
       global.React = React;
 
