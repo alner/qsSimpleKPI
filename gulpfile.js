@@ -8,6 +8,8 @@ var del = require('del');
 var zip = require('gulp-zip');
 var minifyCSS = require('gulp-minify-css');
 var runSequence = require('run-sequence');
+var LessPluginAutoPrefix = require('less-plugin-autoprefix');
+var autoprefix= new LessPluginAutoPrefix({ browsers: ["last 2 versions"] });
 //var gulpLoadPlugins = require('gulp-load-plugins');
 //plugins = gulpLoadPlugins();
 var path = require('path');
@@ -47,7 +49,9 @@ gulp.task('qext', function () {
 
 gulp.task('less2css', function(){
   return gulp.src(lessFiles)
-  .pipe(less())
+  .pipe(less({
+    plugins: [autoprefix]
+  }))
   .pipe(minifyCSS({keepSpecialComments : 0}))
   .pipe(gulp.dest(buildDest));
 });
