@@ -20,8 +20,8 @@ class StatisticItem extends React.Component {
     if(iconSize)
       valueIcon += ` ${iconSize}`;
 
-    let labelStyles = {};
-    let valueStyles = {};
+    let labelStyles = {padding: "0px 5px"};
+    let valueStyles = {padding: "0px 5px"};
 
     if(labelColor)
       labelStyles.color = labelColor;
@@ -91,6 +91,7 @@ class StatisticBlock extends React.Component {
       labelOrientation: props.options.labelOrientation,
       clientWidth: props.element.clientWidth,
       clientHeight: props.element.clientHeight,
+      overflow: null
     };
   }
 
@@ -112,6 +113,7 @@ class StatisticBlock extends React.Component {
     let size = this.props.options.size;
     this.setState({
       size: size,
+      overflow: null,
       labelOrientation: labelOrientation,
       clientWidth: elementClientWidth,
       clientHeight: elementClientHeight
@@ -128,11 +130,12 @@ class StatisticBlock extends React.Component {
       let clientWidth = this.state.clientWidth;
       let clientHeight = this.state.clientHeight;
       let element = this.props.element;
-      let scrollHeight = element.scrollHeight * 0.8;
+      let scrollHeight = element.scrollHeight * 0.95;
       let childHeight = 0;
 
       if(element.clientHeight == element.scrollHeight
-      && this.state.size == this.props.options.size) return;
+      && this.state.size == this.props.options.size
+      && !this.state.overflow) return;
 
       if(this.refs['child-0']) {
         childHeight = React.findDOMNode(this.refs['child-0']).clientHeight;
@@ -161,17 +164,18 @@ class StatisticBlock extends React.Component {
               clientWidth: elementClientWidth,
               clientHeight: elementClientHeight
             });
-          /*
           else if(index == 0){
-            // set horizontal label (responsive design)
+            if(this.state.overflow !== "auto")
+              this.setState({overflow: "auto"});
+            /*
             this.setState({
               //labelOrientation: 'horizontal',
               size: SIZE_OPTIONS[0].value,
               clientWidth: elementClientWidth,
               clientHeight: elementClientHeight
             });
+            */
           }
-          */
         }
         else
         if(size != SIZE_OPTIONS[0].value
@@ -188,6 +192,7 @@ class StatisticBlock extends React.Component {
       }
     } else {
         if(this.state.labelOrientation != this.props.options.labelOrientation
+        || this.state.overflow
         || this.state.size != this.props.options.size) {
           this.restoreSize();
         }
@@ -200,6 +205,10 @@ class StatisticBlock extends React.Component {
     let labelOrientation = this.state.labelOrientation;
     let kpis = this.props.kpis;
     let items;
+    let objectStyle = {};
+    if(this.state.overflow)
+      objectStyle.overflow = this.state.overflow;
+
     // this.props.kpis.qMeasureInfo.length > 0
     // kpis.qDataPage.length > 0 && kpis.qDataPage[0].qMatrix.length > 0 && kpis.qDataPage[0].qMatrix[0]
     if(kpis.qMeasureInfo.length > 0 && kpis.qDataPages.length > 0) {
@@ -236,7 +245,7 @@ class StatisticBlock extends React.Component {
       divideBy = DIVIDE_BY[Math.min(10, items.length)];
 
     return (
-      <div className="qv-object-qsstatistic">
+      <div className="qv-object-qsstatistic" style={objectStyle}>
         <div ref="statistics" className={`ui ${divideBy} ${size} statistics`}>
           {items}
         </div>
