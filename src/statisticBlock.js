@@ -95,7 +95,10 @@ class StatisticBlock extends React.Component {
   }
 
   componentDidMount(){
-    this.checkRequiredSize();
+    //this.checkRequiredSize();
+    var self = this;
+    setTimeout(function(){self.checkRequiredSize();}, 100);
+    //this.setState({isMounted: true}); // force update
   }
 
   componentDidUpdate() {
@@ -116,6 +119,7 @@ class StatisticBlock extends React.Component {
   }
 
   checkRequiredSize(){
+    //if(!this.state.isMounted) return;
     if(this.props.options.autoSize) {
       let size = this.state.size;
       let labelOrientation = this.state.labelOrientation;
@@ -126,6 +130,9 @@ class StatisticBlock extends React.Component {
       let element = this.props.element;
       let scrollHeight = element.scrollHeight * 0.8;
       let childHeight = 0;
+
+      if(element.clientHeight == element.scrollHeight
+      && this.state.size == this.props.options.size) return;
 
       if(this.refs['child-0']) {
         childHeight = React.findDOMNode(this.refs['child-0']).clientHeight;
@@ -154,15 +161,17 @@ class StatisticBlock extends React.Component {
               clientWidth: elementClientWidth,
               clientHeight: elementClientHeight
             });
+          /*
           else if(index == 0){
             // set horizontal label (responsive design)
             this.setState({
-              labelOrientation: 'horizontal',
+              //labelOrientation: 'horizontal',
               size: SIZE_OPTIONS[0].value,
               clientWidth: elementClientWidth,
               clientHeight: elementClientHeight
             });
           }
+          */
         }
         else
         if(size != SIZE_OPTIONS[0].value
