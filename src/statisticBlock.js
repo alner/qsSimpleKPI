@@ -204,6 +204,7 @@ class StatisticBlock extends React.Component {
     let size = this.state.size; // || options.size || "";
     let labelOrientation = this.state.labelOrientation;
     let kpis = this.props.kpis;
+    let numberFormatter = this.props.numberFormatter;
     let items;
     let objectStyle = {};
     if(this.state.overflow)
@@ -231,8 +232,15 @@ class StatisticBlock extends React.Component {
           params.fontStyles[value] = value;
         });
 
-        if(index < data.length)
+        if(index < data.length) {
           params.value = data[index].qText;
+          if(item.qIsAutoFormat && numberFormatter) {
+            let value = data[index].qNum;
+            if(!isNaN(value) && isFinite(value)) {
+              params.value = numberFormatter.formatValue(value);
+            }
+          }
+        }
         else
           params.value = '';
 
