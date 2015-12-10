@@ -1,7 +1,7 @@
 {
-  "name": "NewQlikSenseExtension",
-  "version": "0.0.1",
-  "description": "QlikView Extension template (ES2015 + WebPack + Babel + GulpJS)",
+  "name": "SimpleKPI",
+  "version": "0.3.0",
+  "description": "Simple KPI for Qlik Sense",
   "keywords": "qliksense extension",
   "main": "VisualizationTemplate.js",
   "private": true,
