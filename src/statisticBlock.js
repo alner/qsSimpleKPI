@@ -45,26 +45,19 @@ class StatisticItem extends React.Component {
 
     let labelComponent = (
       <div key="lbl" className="label" style={labelStyles}>
+        {iconOrderFirst && this.props.item.iconPosition === 'label' ? <i className={valueIcon}></i> : null}
         {this.props.item.label}
+        {!iconOrderFirst && this.props.item.iconPosition === 'label' ? <i className={valueIcon}></i> : null}
       </div>
     );
 
-    let valueComponent;
-    if(iconOrderFirst) {
-      valueComponent = (
+    let valueComponent = (
         <div key="val" className="value" style={valueStyles}>
-          <i className={valueIcon}></i>
+          {iconOrderFirst && this.props.item.iconPosition === 'value' ? <i className={valueIcon}></i> : null}
           {this.props.item.value}
+          {!iconOrderFirst && this.props.item.iconPosition === 'value' ? <i className={valueIcon}></i> : null}
         </div>
       );
-    } else {
-      valueComponent = (
-        <div key="val" className="value" style={valueStyles}>
-          {this.props.item.value}
-          <i className={valueIcon}></i>
-        </div>
-      );
-    }
 
     let content = [];
     if(labelOrderFirst) {
@@ -199,64 +192,101 @@ class StatisticBlock extends React.Component {
     }
   }
 
-  render(){
-    let options = this.props.options;
-    let size = this.state.size; // || options.size || "";
-    let labelOrientation = this.state.labelOrientation;
-    let kpis = this.props.kpis;
+  renderKpis(kpis, rowindex){
     let numberFormatter = this.props.numberFormatter;
+    let options = this.props.options;
+    let size = this.state.size;
+    let labelOrientation = this.state.labelOrientation;
+    const measuresShift = kpis.qDimensionInfo.length;
+    const qMeasureInfo = kpis.qMeasureInfo;
+    let data = kpis.qDataPages[0].qMatrix.length > 0 && kpis.qDataPages[0].qMatrix[rowindex];
+    return qMeasureInfo.map(function(item, mindex){
+      let index = measuresShift + mindex;
+      let params = {
+        label: item.qFallbackTitle,
+        labelColor: item.labelColor,
+        valueColor: item.valueColor,
+        valueIcon: item.valueIcon,
+        iconPosition: item.iconPosition,
+        iconOrder: item.iconOrder,
+        iconSize: item.iconSize,
+        size: size,
+        labelOrientation: labelOrientation,
+        fontStyles: {}
+      };
+
+      let fontStyles = item.fontStyles && item.fontStyles.split(',');
+      fontStyles && fontStyles.forEach(function(value){
+        params.fontStyles[value] = value;
+      });
+
+      if(index < data.length) {
+        params.value = data[index].qText;
+        if(item.qIsAutoFormat && numberFormatter) {
+          let value = data[index].qNum;
+          if(!isNaN(value) && isFinite(value)) {
+            params.value = numberFormatter.formatValue(value);
+          }
+        }
+      }
+      else
+        params.value = '';
+
+      return <StatisticItem ref={"child-" + index} key={item.cId} item={params} options={options} />
+    });
+  }
+
+  render(){
+    const self = this;
+    let options = this.props.options;
+    let dimLabelsOrientation = options.dimLabelOrientation;
+    let dimOrientation = options.dimensionsOrientation;
+    let size = this.state.size; // || options.size || "";
+    let kpis = this.props.kpis;
     let items;
     let objectStyle = {};
     if(this.state.overflow)
       objectStyle.overflow = this.state.overflow;
 
+    let divideBy = options.divideBy;
+
     // this.props.kpis.qMeasureInfo.length > 0
     // kpis.qDataPage.length > 0 && kpis.qDataPage[0].qMatrix.length > 0 && kpis.qDataPage[0].qMatrix[0]
     if(kpis.qMeasureInfo.length > 0 && kpis.qDataPages.length > 0) {
-      let data = kpis.qDataPages[0].qMatrix.length > 0 && kpis.qDataPages[0].qMatrix[0];
-      items = kpis.qMeasureInfo.map(function(item, index){
-        let params = {
-          label: item.qFallbackTitle,
-          labelColor: item.labelColor,
-          valueColor: item.valueColor,
-          valueIcon: item.valueIcon,
-          iconOrder: item.iconOrder,
-          iconSize: item.iconSize,
-          size: size,
-          labelOrientation: labelOrientation,
-          fontStyles: {}
-        };
 
-        let fontStyles = item.fontStyles && item.fontStyles.split(',');
-        fontStyles && fontStyles.forEach(function(value){
-          params.fontStyles[value] = value;
-        });
+      if(divideBy === "auto")
+        divideBy = DIVIDE_BY[Math.min(10, kpis.qDataPages[0].qMatrix[0].length - kpis.qDimensionInfo.length)];
 
-        if(index < data.length) {
-          params.value = data[index].qText;
-          if(item.qIsAutoFormat && numberFormatter) {
-            let value = data[index].qNum;
-            if(!isNaN(value) && isFinite(value)) {
-              params.value = numberFormatter.formatValue(value);
-            }
+      //let data = kpis.qDataPages[0].qMatrix.length > 0 && kpis.qDataPages[0].qMatrix[0];
+      if(kpis.qDimensionInfo.length > 0) {
+        items = (
+          <div className={`ui ${dimOrientation} segments`}>
+          {
+            kpis.qDataPages[0].qMatrix.map(function(dim, dindex){
+              const dimensionLabel = dim[0].qText; // could be only one dimension!
+              let measures = self.renderKpis(kpis, dindex);
+              return (
+              <div className={'ui segment'}>
+                <a className={`ui ${options.dimLabelSize} ${dimLabelsOrientation} label`}>{dimensionLabel}</a>
+                <div ref="statistics" className={`ui ${divideBy} ${size} statistics`}>
+                {measures}
+                </div>
+              </div>)
+            })
           }
-        }
-        else
-          params.value = '';
-
-        return <StatisticItem ref={"child-" + index} key={item.cId} item={params} options={options} />
-      });
+          </div>
+        );
+      } else {
+        items = (
+          <div ref="statistics" className={`ui ${divideBy} ${size} statistics`}>
+            {self.renderKpis(kpis, 0)}
+          </div>);
+      }
     }
-
-    let divideBy = options.divideBy;
-    if(divideBy === "auto")
-      divideBy = DIVIDE_BY[Math.min(10, items.length)];
 
     return (
       <div className="qv-object-qsstatistic" style={objectStyle}>
-        <div ref="statistics" className={`ui ${divideBy} ${size} statistics`}>
           {items}
-        </div>
       </div>
     );
   }

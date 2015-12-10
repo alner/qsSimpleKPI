@@ -8,7 +8,7 @@ export default function setupPaint(paramaters) {
     try {
       localeInfo = paramaters.qlik.currApp().model.layout.qLocaleInfo;
     } finally {
-      numberFormatter = new NumberFormatter(localeInfo, 'A', '', '', 'U');
+      numberFormatter = new NumberFormatter(localeInfo, '0A', '', '', 'U');
     }
   }
 

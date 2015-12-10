@@ -159,8 +159,36 @@ const DIVIDE_BY = [
   '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'
 ];
 
+const DIM_LABEL_OPTIONS = [
+  {
+    value: "top attached",
+    label: "top attached"
+  },
+  {
+    value: "bottom attached",
+    label: "bottom attached"
+  },
+  {
+    value: "top right attached",
+    label: "top right attached"
+  },
+  {
+    value: "top left attached",
+    label: "top left attached"
+  },
+  {
+    value: "bottom left attached",
+    label: "bottom left attached"
+  },
+  {
+    value: "bottom right attached",
+    label: "bottom right attached"
+  },
+];
+
 export default {
   COLOR_OPTIONS,
   SIZE_OPTIONS,
-  DIVIDE_BY
+  DIVIDE_BY,
+  DIM_LABEL_OPTIONS
 }

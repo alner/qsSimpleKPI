@@ -1,6 +1,17 @@
 import {ColorsPickerComponent, IconsPickerComponent, FontStylesComponent} from './definitionComponents';
 import {ALL_ICONS} from './iconsDefinitions';
-import {COLOR_OPTIONS, SIZE_OPTIONS} from './options';
+import {COLOR_OPTIONS, SIZE_OPTIONS, DIM_LABEL_OPTIONS} from './options';
+
+// Dimensions array
+let dims = {
+  type: 'items',
+  uses: 'dimensions',
+  ref: 'qHyperCubeDef.qDimensions',
+  min: 0,
+  max: 1,
+  allowAdd: true,
+  allowRemove: true
+};
 
 // Kpi array
 let kpis = {
@@ -76,6 +87,28 @@ let kpis = {
           return {label: item, value: item};
         })
       },
+      iconPosition: {
+        type: "string",
+        component: "buttongroup",
+        label: "Icon position",
+        ref: "qDef.iconPosition",
+        options: [
+          {
+            value: "value",
+            label: "Value",
+            tooltip: "Value"
+          },
+          {
+            value: "label",
+            label: "Label",
+            tooltip: "Label"
+          }
+        ],
+        defaultValue: "label",
+        show : function (a) {
+            return a.qDef.valueIcon;
+        }
+      },
       iconOrder: {
         type: "string",
         component: "buttongroup",
@@ -117,10 +150,52 @@ let settings = {
   type: "items",
   uses: "settings",
   items: {
-    additionalOptions: {
+    dimensionsOptions: {
       type: "items",
-      label: "Options",
-      translation: "properties.presentation",
+      label: "Dimensions",
+      translation: "Common.Dimensions",
+      items: {
+        dimensionsOrientation: {
+          type: "string",
+          component: "buttongroup",
+          label: "Orientation",
+          ref: "options.dimensionsOrientation",
+          options: [
+            {
+              value: "horizontal",
+              label: "Horizontal",
+              tooltip: "Horizontal"
+            },
+            {
+              value: "vertical",
+              label: "Vertical",
+              tooltip: "Vertical"
+            }
+          ],
+          defaultValue: "horizontal"
+        },
+        labelOrientation: {
+          type: "string",
+          component: "dropdown",
+          label: "Labels",
+          ref: "options.dimLabelOrientation",
+          options: DIM_LABEL_OPTIONS,
+          defaultValue: "top attached"
+        },
+        labelSize: {
+          type: "string",
+          component: "dropdown",
+          label: "Size",
+          ref: "options.dimLabelSize",
+          options: SIZE_OPTIONS,
+          defaultValue: ""
+        }
+      }
+    },
+    measuresOptions: {
+      type: "items",
+      label: "Measures",
+      translation: "Common.Measures", //"properties.presentation",
       items: {
         labelOrientation: {
           type: "string",
@@ -262,11 +337,17 @@ let settings = {
   }
 };
 
+let sorting = {
+  uses: "sorting"
+}
+
 export default {
   type: "items",
   component: "accordion",
   items: {
+    dims,
     kpis,
+    sorting,
     settings
   }
 };
