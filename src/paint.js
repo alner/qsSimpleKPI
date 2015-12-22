@@ -14,7 +14,11 @@ export default function setupPaint(paramaters) {
 
   return function paint($element, layout) {
     React.render(
-      <StatisticBlock kpis={layout.qHyperCube} numberFormatter={numberFormatter} options={layout.options} element={($element)[0]}/>
+      <StatisticBlock
+        kpis={layout.qHyperCube}
+        numberFormatter={numberFormatter}
+        options={layout.options}
+        element={($element)[0]}/>
       ,($element)[0]
     );
   }

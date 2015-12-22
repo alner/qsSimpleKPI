@@ -155,6 +155,12 @@ const SIZE_OPTIONS = [
   }
 ];
 
+function getSizeIndex(value) {
+  return SIZE_OPTIONS.map(function(item){
+    return item.value;
+  }).indexOf(value)
+}
+
 const DIVIDE_BY = [
   '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'
 ];
@@ -183,12 +189,13 @@ const DIM_LABEL_OPTIONS = [
   {
     value: "bottom right attached",
     label: "bottom right attached"
-  },
+  }
 ];
 
 export default {
   COLOR_OPTIONS,
   SIZE_OPTIONS,
   DIVIDE_BY,
-  DIM_LABEL_OPTIONS
+  DIM_LABEL_OPTIONS,
+  getSizeIndex
 }

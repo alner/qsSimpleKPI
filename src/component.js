@@ -18,7 +18,6 @@ define(dependencies,
     let initialProperties = require('./initialProperties');
     let definition = require('./definition');
     let paint = require('./paint')({qlik, NumberFormatter: global.NumberFormatter});
-
     return {
       initialProperties,
       definition,

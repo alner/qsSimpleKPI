@@ -53,6 +53,89 @@ let kpis = {
         defaultValue: "#808080",
         options: COLOR_OPTIONS
       },
+      groupByDimension: {
+        type: "boolean",
+        label: "Group by dimension",
+        ref: "qDef.groupByDimension",
+        defaultValue: false
+      },
+      groupByDimensionValue: {
+        type: "string",
+        ref: "qDef.groupByDimensionValue",
+        label: "Dimension Value",
+        expression: "always",
+        defaultValue: "",
+        show: function(a) {
+            return a.qDef.groupByDimension;
+        }
+      },
+      overrideParams: {
+        type: "boolean",
+        label: "Override parameters",
+        ref: "qDef.ovParams",
+        defaultValue: false
+      },
+      size: {
+        type: "string",
+        component: "dropdown",
+        label: "Size",
+        ref: "qDef.size",
+        options: SIZE_OPTIONS,
+        defaultValue: "",
+        show: function(a) {
+            return a.qDef.ovParams;
+        }
+      },
+      hideLabel: {
+        type: "boolean",
+        label: "Hide label",
+        ref: "qDef.hideLabel",
+        defaultValue: false
+      },
+      labelOrientation: {
+        type: "string",
+        component: "buttongroup",
+        label: "Labels orientation",
+        ref: "qDef.labelOrientation",
+        options: [
+          {
+            value: "horizontal",
+            label: "Horizontal",
+            tooltip: "Horizontal"
+          },
+          {
+            value: "",
+            label: "Vertical",
+            tooltip: "Vertical"
+          }
+        ],
+        defaultValue: "",
+        show: function(a) {
+            return a.qDef.ovParams && !a.qDef.hideLabel;
+        }
+      },
+      labelOrder: {
+        type: "string",
+        component: "buttongroup",
+        label: "Labels order",
+        ref: "qDef.labelOrder",
+        options: [
+          {
+            value: "first",
+            label: "Label, Value",
+            tooltip: "Label, Value"
+          },
+          {
+            value: "last",
+            label: "Value, Label",
+            tooltip: "Value, Label"
+          }
+        ],
+        defaultValue: "first",
+        show: function(a) {
+            return a.qDef.ovParams && !a.qDef.hideLabel;
+        }
+      },
       fontStyle: {
         type: "string",
         ref: "qDef.fontStyles",
@@ -189,6 +272,24 @@ let settings = {
           ref: "options.dimLabelSize",
           options: SIZE_OPTIONS,
           defaultValue: ""
+        },
+        hideLabel: {
+          type: "boolean",
+          label: "Hide labels",
+          ref: "options.dimHideLabels",
+          defaultValue: false
+        },
+        hideBorders: {
+          type: "boolean",
+          label: "Hide external borders",
+          ref: "options.dimHideBorders",
+          defaultValue: false
+        },
+        hideInternalBorders: {
+          type: "boolean",
+          label: "Hide internal borders",
+          ref: "options.dimHideInternalBorders",
+          defaultValue: false
         }
       }
     },

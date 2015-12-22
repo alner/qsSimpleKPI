@@ -1,82 +1,8 @@
-import React from 'react';
-import {DIVIDE_BY, SIZE_OPTIONS} from './options';
+import React, {Component} from 'react';
+import {DIVIDE_BY, SIZE_OPTIONS, getSizeIndex} from './options';
+import StatisticItem from './statisticItem';
 
-class StatisticItem extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render(){
-    let size = this.props.item.size || "";
-    let labelOrientation = this.props.item.labelOrientation || "";
-    let labelOrderFirst = this.props.options.labelOrder === "first";
-    let labelColor = this.props.item.labelColor;
-    let valueColor = this.props.item.valueColor || "";
-    let valueIcon = this.props.item.valueIcon || "";
-    let iconOrderFirst = this.props.item.iconOrder === "first";
-    let iconSize = this.props.item.iconSize;
-    let fontStyles = this.props.item.fontStyles;
-
-    if(iconSize)
-      valueIcon += ` ${iconSize}`;
-
-    let labelStyles = {padding: "0px 5px"};
-    let valueStyles = {padding: "0px 5px"};
-
-    if(labelColor)
-      labelStyles.color = labelColor;
-
-    if(fontStyles.bold)
-      valueStyles.fontWeight = 'bold';
-
-    if(fontStyles.italic)
-      valueStyles.fontStyle = 'italic';
-
-    if(fontStyles.underline)
-      valueStyles.textDecoration = 'underline';
-
-    let classes = `ui ${labelOrientation} ${size} statistic`;
-
-    valueStyles.color = valueColor;
-
-    classes = classes.split(" ").filter(function(item){
-      return item.trim().length > 0;
-    }).join(" ");
-
-    let labelComponent = (
-      <div key="lbl" className="label" style={labelStyles}>
-        {iconOrderFirst && this.props.item.iconPosition === 'label' ? <i className={valueIcon}></i> : null}
-        {this.props.item.label}
-        {!iconOrderFirst && this.props.item.iconPosition === 'label' ? <i className={valueIcon}></i> : null}
-      </div>
-    );
-
-    let valueComponent = (
-        <div key="val" className="value" style={valueStyles}>
-          {iconOrderFirst && this.props.item.iconPosition === 'value' ? <i className={valueIcon}></i> : null}
-          {this.props.item.value}
-          {!iconOrderFirst && this.props.item.iconPosition === 'value' ? <i className={valueIcon}></i> : null}
-        </div>
-      );
-
-    let content = [];
-    if(labelOrderFirst) {
-      content.push(labelComponent);
-      content.push(valueComponent);
-    } else {
-      content.push(valueComponent);
-      content.push(labelComponent);
-    }
-
-    return (
-      <div className={classes}>
-        {content}
-      </div>
-    );
-  }
-}
-
-class StatisticBlock extends React.Component {
+class StatisticBlock extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -123,6 +49,7 @@ class StatisticBlock extends React.Component {
       let clientWidth = this.state.clientWidth;
       let clientHeight = this.state.clientHeight;
       let element = this.props.element;
+      let scrollWidth = element.scrollWidth * 0.95;
       let scrollHeight = element.scrollHeight * 0.95;
       let childHeight = 0;
 
@@ -143,14 +70,12 @@ class StatisticBlock extends React.Component {
         )
       )
       {
-        if(element.clientHeight < scrollHeight || element.clientHeight < childHeight) {
+        if(element.clientHeight < scrollHeight || element.clientHeight < childHeight
+        || element.clientWidth < scrollWidth) {
           if(this.state.size == SIZE_OPTIONS[0].value && this.state.labelOrientation == 'horizontal')
             return;
 
-          let index = SIZE_OPTIONS.map(function(item){
-            return item.value;
-          }).indexOf(size);
-
+          let index = getSizeIndex(size);
           if(index > 0)
             this.setState({
               size: SIZE_OPTIONS[index - 1].value,
@@ -196,22 +121,41 @@ class StatisticBlock extends React.Component {
     let numberFormatter = this.props.numberFormatter;
     let options = this.props.options;
     let size = this.state.size;
+
+    const currentSizeIndex = getSizeIndex(size);
+    const originalSizeIndex = getSizeIndex(this.props.options.size);
+    let deltaSizeIndex = 0;
+    if(originalSizeIndex !== -1 && currentSizeIndex !== -1) {
+      deltaSizeIndex = originalSizeIndex - currentSizeIndex;
+    }
+
     let labelOrientation = this.state.labelOrientation;
     const measuresShift = kpis.qDimensionInfo.length;
     const qMeasureInfo = kpis.qMeasureInfo;
     let data = kpis.qDataPages[0].qMatrix.length > 0 && kpis.qDataPages[0].qMatrix[rowindex];
+    const dimensionValue = measuresShift > 0 && data[0].qText; // first dimension only
     return qMeasureInfo.map(function(item, mindex){
       let index = measuresShift + mindex;
+      let itemSize = item.size;
+      if(deltaSizeIndex > 0) {
+        let itemSizeIndex = getSizeIndex(itemSize);
+        itemSizeIndex = Math.max(0, deltaSizeIndex > 0 ? itemSizeIndex - deltaSizeIndex : itemSizeIndex);
+        itemSize = SIZE_OPTIONS[itemSizeIndex].value;
+      }
       let params = {
         label: item.qFallbackTitle,
+        hideLabel: item.hideLabel,
         labelColor: item.labelColor,
         valueColor: item.valueColor,
         valueIcon: item.valueIcon,
         iconPosition: item.iconPosition,
         iconOrder: item.iconOrder,
         iconSize: item.iconSize,
-        size: size,
-        labelOrientation: labelOrientation,
+        ovParams: item.ovParams,
+        size: item.ovParams ? itemSize : size,
+        //itemLabelOrientation: item.ovParams ? item.labelOrientation : labelOrientation,
+        labelOrder: item.ovParams ? item.labelOrder : options.labelOrder,
+        labelOrientation: item.ovParams ? item.labelOrientation : labelOrientation,
         fontStyles: {}
       };
 
@@ -232,7 +176,11 @@ class StatisticBlock extends React.Component {
       else
         params.value = '';
 
-      return <StatisticItem ref={"child-" + index} key={item.cId} item={params} options={options} />
+      if(!item.groupByDimension
+      || (item.groupByDimension && item.groupByDimensionValue === dimensionValue))
+        return <StatisticItem ref={"child-" + index} key={item.cId} item={params} options={options} />
+      else
+        return null;
     });
   }
 
@@ -241,6 +189,9 @@ class StatisticBlock extends React.Component {
     let options = this.props.options;
     let dimLabelsOrientation = options.dimLabelOrientation;
     let dimOrientation = options.dimensionsOrientation;
+    const dimHideLabel = options.dimHideLabels;
+    const dimHideBorders = options.dimHideBorders;
+    const dimHideInternalBorders = options.dimHideInternalBorders;
     let size = this.state.size; // || options.size || "";
     let kpis = this.props.kpis;
     let items;
@@ -250,7 +201,6 @@ class StatisticBlock extends React.Component {
 
     let divideBy = options.divideBy;
 
-    // this.props.kpis.qMeasureInfo.length > 0
     // kpis.qDataPage.length > 0 && kpis.qDataPage[0].qMatrix.length > 0 && kpis.qDataPage[0].qMatrix[0]
     if(kpis.qMeasureInfo.length > 0 && kpis.qDataPages.length > 0) {
 
@@ -259,16 +209,25 @@ class StatisticBlock extends React.Component {
 
       //let data = kpis.qDataPages[0].qMatrix.length > 0 && kpis.qDataPages[0].qMatrix[0];
       if(kpis.qDimensionInfo.length > 0) {
+        let segmentsStyle = {margin: 0};
+        if(dimHideBorders) {
+          segmentsStyle.border = "0";
+          segmentsStyle.boxShadow = "none";
+        }
+
+        let segmentStyle = {};
+        if(dimHideInternalBorders) segmentStyle.border = "0";
+
         items = (
-          <div className={`ui ${dimOrientation} segments`}>
+          <div className={`ui ${dimOrientation} segments`} style={segmentsStyle}>
           {
             kpis.qDataPages[0].qMatrix.map(function(dim, dindex){
               const dimensionLabel = dim[0].qText; // could be only one dimension!
               let measures = self.renderKpis(kpis, dindex);
               return (
-              <div className={'ui segment'}>
-                <a className={`ui ${options.dimLabelSize} ${dimLabelsOrientation} label`}>{dimensionLabel}</a>
-                <div ref="statistics" className={`ui ${divideBy} ${size} statistics`}>
+              <div className={'ui segment'} style={segmentStyle}>
+                {dimHideLabel ? null : <a className={`ui ${options.dimLabelSize} ${dimLabelsOrientation} label`}>{dimensionLabel}</a>}
+                <div ref="statistics" className={`ui ${divideBy} statistics`}>
                 {measures}
                 </div>
               </div>)
@@ -277,8 +236,9 @@ class StatisticBlock extends React.Component {
           </div>
         );
       } else {
+        // ${size}
         items = (
-          <div ref="statistics" className={`ui ${divideBy} ${size} statistics`}>
+          <div ref="statistics" className={`ui ${divideBy} statistics`}>
             {self.renderKpis(kpis, 0)}
           </div>);
       }
