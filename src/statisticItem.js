@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {getDivideByValue} from './options';
 
 export default class StatisticItem extends Component {
   constructor(props) {
@@ -69,8 +70,16 @@ export default class StatisticItem extends Component {
       content.push(labelComponent);
     }
 
+    // *** patch for ios devices ***
+    let divPercent = getDivideByValue(this.props.options.divideBy);
+    let statisticStyles = {};
+    if(divPercent) {
+      statisticStyles.width = divPercent + '%';
+    }
+    // *** patch for ios dev ***
+
     let statisticItem = statisticItem = (
-      <div className="statistic">
+      <div className="statistic" style={statisticStyles}>
         <div className={`ui one ${size} statistics`}>
           <div className={classes}>
             {content}

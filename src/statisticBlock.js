@@ -192,7 +192,7 @@ class StatisticBlock extends Component {
     const dimHideLabel = options.dimHideLabels;
     const dimHideBorders = options.dimHideBorders;
     const dimHideInternalBorders = options.dimHideInternalBorders;
-    let size = this.state.size; // || options.size || "";
+    //let size = this.state.size; // || options.size || "";
     let kpis = this.props.kpis;
     let items;
     let objectStyle = {};
@@ -209,7 +209,7 @@ class StatisticBlock extends Component {
 
       //let data = kpis.qDataPages[0].qMatrix.length > 0 && kpis.qDataPages[0].qMatrix[0];
       if(kpis.qDimensionInfo.length > 0) {
-        let segmentsStyle = {margin: 0};
+        let segmentsStyle = {margin: 0, height: '100%'};
         if(dimHideBorders) {
           segmentsStyle.border = "0";
           segmentsStyle.boxShadow = "none";

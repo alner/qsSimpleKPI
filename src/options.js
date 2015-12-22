@@ -165,6 +165,14 @@ const DIVIDE_BY = [
   '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'
 ];
 
+function getDivideByValue(value) {
+  var divs = DIVIDE_BY.indexOf(value);
+  if(divs !== -1)
+    return 100 / divs;
+  else
+    return null;
+}
+
 const DIM_LABEL_OPTIONS = [
   {
     value: "top attached",
@@ -197,5 +205,6 @@ export default {
   SIZE_OPTIONS,
   DIVIDE_BY,
   DIM_LABEL_OPTIONS,
-  getSizeIndex
+  getSizeIndex,
+  getDivideByValue
 }
