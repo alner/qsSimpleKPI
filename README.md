@@ -33,7 +33,32 @@ Download [build/qsSimpleKPI.zip](https://github.com/alner/qsSimpleKPI/raw/master
 **Custom styles**
 
  You can fully customize kpis using "Styles (CSS)" property.
+ For testing purpose just copy and paste the following styles into "Styles (CSS)" property.
 
+ ```
+@import url('https://fonts.googleapis.com/css?family=Indie Flower');
+@import url('https://fonts.googleapis.com/css?family=Fredoka One');
+
+& .label {
+  font-family: 'Fredoka One';
+  font-size:  300%;
+}
+
+& .statistic-1  .value {
+  background-color: green;
+  font-family: 'Indie Flower', sans-serif;
+  color: white !important;
+}
+
+& .value {
+  background-color: yellow;
+  font-family: 'Indie Flower', sans-serif;
+  font-size: 900%;
+  color: red !important;
+}
+ ```
+
+![Conditional icons](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Styles.png)
 
 ## Maintainers
 
