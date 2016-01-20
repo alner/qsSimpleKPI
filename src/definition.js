@@ -1,4 +1,4 @@
-import {ColorsPickerComponent, IconsPickerComponent, FontStylesComponent} from './definitionComponents';
+import {ColorsPickerComponent, IconsPickerComponent, FontStylesComponent, TextEditorComponent} from './definitionComponents';
 import {ALL_ICONS} from './iconsDefinitions';
 import {COLOR_OPTIONS, SIZE_OPTIONS, DIM_LABEL_OPTIONS} from './options';
 
@@ -432,6 +432,20 @@ let settings = {
                 tooltip: "Ten"
               }
             ]
+        }
+      }
+    },
+    stylingOptions: {
+      type: "items",
+      label: "Styles",
+      translation: "Styles",
+      items: {
+        styles: {
+          type: "string",
+          component: TextEditorComponent,
+          label: "Styles (CSS)",
+          ref: "options.styles",
+          defaultValue: ""
         }
       }
     }

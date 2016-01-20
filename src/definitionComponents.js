@@ -350,9 +350,55 @@ let FontStylesComponent = {
     }]
 };
 
+let TextEditorComponent = {
+  template:
+  `
+  <div class="pp-component" ng-if="visible">
+        <div class="label" ng-if="label" ng-class="{ \'disabled\': readOnly }">
+          {{label}}
+        </div>
+        <div class="value">
+          <div class="qv-object-qsstatistic" ng-if="!loading">
+            <textarea rows="5" ng-model="t.value" ng-change="onTextChange()" style="width: 100%; max-width: 100%;">
+            </textarea>
+          </div>
+        </div>
+        <div class="pp-loading-container" ng-if="loading">
+          <div class="pp-loader qv-loader"></div>
+        </div>
+        <div ng-if="errorMessage" class="pp-invalid error">{{errorMessage}}</div>
+  </div>
+  `,
+  controller:
+    ["$scope", function(c){
+      function initOptions() {
+        c.loading = true;
+        c.errorMessage = "";
+        c.label = c.definition.label;
+        c.t = {
+          value: getRefValue(c.data, c.definition.ref)
+        };
+        c.visible = true;
+        c.loading = false;
+      }
+
+      c.onTextChange = function() {
+        setRefValue(c.data, c.definition.ref, c.t.value);
+        "function" == typeof c.definition.change && c.definition.change(c.data, c.args.handler);
+        c.$emit("saveProperties");
+      };
+
+      c.$on("datachanged", function () {
+        initOptions();
+      });
+
+      initOptions();
+    }]
+};
 
 export default {
   ColorsPickerComponent,
   IconsPickerComponent,
-  FontStylesComponent
+  FontStylesComponent,
+  TextEditorComponent
 }

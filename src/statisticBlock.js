@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+//import styler from 'react-styling';
+import InlineCSS from 'react-inline-css';
 import {DIVIDE_BY, SIZE_OPTIONS, getSizeIndex} from './options';
 import StatisticItem from './statisticItem';
 
@@ -178,7 +180,7 @@ class StatisticBlock extends Component {
 
       if(!item.groupByDimension
       || (item.groupByDimension && item.groupByDimensionValue === dimensionValue))
-        return <StatisticItem ref={"child-" + index} key={item.cId} item={params} options={options} />
+        return <StatisticItem ref={"child-" + index} index={index} key={item.cId} item={params} options={options} />
       else
         return null;
     });
@@ -189,6 +191,7 @@ class StatisticBlock extends Component {
     let options = this.props.options;
     let dimLabelsOrientation = options.dimLabelOrientation;
     let dimOrientation = options.dimensionsOrientation;
+    const styles = this.props.options.styles || '';
     const dimHideLabel = options.dimHideLabels;
     const dimHideBorders = options.dimHideBorders;
     const dimHideInternalBorders = options.dimHideInternalBorders;
@@ -246,7 +249,9 @@ class StatisticBlock extends Component {
 
     return (
       <div className="qv-object-qsstatistic" style={objectStyle}>
+        <InlineCSS stylesheet={styles}>
           {items}
+        </InlineCSS>
       </div>
     );
   }

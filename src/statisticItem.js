@@ -8,6 +8,7 @@ export default class StatisticItem extends Component {
 
   render(){
     let size = this.props.item.size || "";
+    const index = this.props.index;
     const hideLabel = this.props.item.hideLabel;
     let labelOrientation = this.props.item.labelOrientation || "";
     let labelOrderFirst = this.props.item.labelOrder === "first";
@@ -77,9 +78,9 @@ export default class StatisticItem extends Component {
       statisticStyles.width = divPercent + '%';
     }
     // *** patch for ios dev ***
-
+    // statistic-${index} - allows to use custom style to each measures element
     let statisticItem = statisticItem = (
-      <div className="statistic" style={statisticStyles}>
+      <div className={`statistic statistic-${index+1}`} style={statisticStyles}>
         <div className={`ui one ${size} statistics`}>
           <div className={classes}>
             {content}
