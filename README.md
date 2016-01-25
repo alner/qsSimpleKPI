@@ -2,7 +2,7 @@
 
 Simple KPI component for Qlik Sense.
 It can show one or several KPI using measures and one dimension (optional).
-Supports adaptive design (SemanticUI), conditional css colors, conditional icons, configurable number of kpis per line, several predefined sizes, custom styles (CSS).
+Supports adaptive design (SemanticUI), conditional css colors, conditional icons, configurable number of kpis per line, several predefined sizes, custom styles (CSS), link to another sheet.
 
 ![Simple KPI](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/SimpleKPI.png)
 
