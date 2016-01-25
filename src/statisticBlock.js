@@ -120,6 +120,7 @@ class StatisticBlock extends Component {
   }
 
   renderKpis(kpis, rowindex){
+    const self = this;
     let numberFormatter = this.props.numberFormatter;
     let options = this.props.options;
     let size = this.state.size;
@@ -158,8 +159,12 @@ class StatisticBlock extends Component {
         //itemLabelOrientation: item.ovParams ? item.labelOrientation : labelOrientation,
         labelOrder: item.ovParams ? item.labelOrder : options.labelOrder,
         labelOrientation: item.ovParams ? item.labelOrientation : labelOrientation,
-        fontStyles: {}
+        fontStyles: {},
+        kpiLink: item.kpiLink,
+        useLink: item.useLink
       };
+      params.onClick = self.onKPIClick.bind(self, params);
+
 
       let fontStyles = item.fontStyles && item.fontStyles.split(',');
       fontStyles && fontStyles.forEach(function(value){
@@ -254,6 +259,16 @@ class StatisticBlock extends Component {
         </InlineCSS>
       </div>
     );
+  }
+
+  onKPIClick(kpi) {
+    const services = this.props.services;
+    const isAllowOpenSheet = (this.props.services.State
+      && !this.props.services.State.isInEditMode());
+    console.log(kpi);
+    if(kpi.useLink && isAllowOpenSheet && services.Routing) {
+      services.Routing.goToSheet(kpi.kpiLink && kpi.kpiLink.id, 'analysis');
+    }
   }
 }
 

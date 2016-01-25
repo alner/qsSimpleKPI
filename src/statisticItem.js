@@ -10,6 +10,7 @@ export default class StatisticItem extends Component {
     let size = this.props.item.size || "";
     const index = this.props.index;
     const hideLabel = this.props.item.hideLabel;
+    const onItemClick = this.props.item.onClick;
     let labelOrientation = this.props.item.labelOrientation || "";
     let labelOrderFirst = this.props.item.labelOrder === "first";
     let labelColor = this.props.item.labelColor;
@@ -71,16 +72,21 @@ export default class StatisticItem extends Component {
       content.push(labelComponent);
     }
 
+    let statisticStyles = {};
+    if (onItemClick) {
+      statisticStyles.cursor = "pointer";
+    }
     // *** patch for ios devices ***
     let divPercent = getDivideByValue(this.props.options.divideBy);
-    let statisticStyles = {};
     if(divPercent) {
       statisticStyles.width = divPercent + '%';
     }
     // *** patch for ios dev ***
     // statistic-${index} - allows to use custom style to each measures element
-    let statisticItem = statisticItem = (
-      <div className={`statistic statistic-${index+1}`} style={statisticStyles}>
+    let statisticItem = (
+      <div className={`statistic statistic-${index+1}`}
+          style={statisticStyles}
+          onClick={onItemClick}>
         <div className={`ui one ${size} statistics`}>
           <div className={classes}>
             {content}

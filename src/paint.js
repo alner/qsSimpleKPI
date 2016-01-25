@@ -13,11 +13,16 @@ export default function setupPaint(paramaters) {
   }
 
   return function paint($element, layout) {
+    console.log(layout);
     React.render(
       <StatisticBlock
         kpis={layout.qHyperCube}
         numberFormatter={numberFormatter}
         options={layout.options}
+        services={{
+          Routing: paramaters.Routing,
+          State: paramaters.State
+        }}
         element={($element)[0]}/>
       ,($element)[0]
     );

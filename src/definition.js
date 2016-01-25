@@ -53,6 +53,44 @@ let kpis = {
         defaultValue: "#808080",
         options: COLOR_OPTIONS
       },
+      linkToSheet : {
+        type : "items",
+        items : {
+          useLink : {
+            ref : "qDef.useLink",
+            type : "boolean",
+            component : "switch",
+            translation : "properties.kpi.linkToSheet",
+            defaultValue : !1,
+            options : [{
+                value : !0,
+                translation : "properties.on"
+              }, {
+                value : !1,
+                translation : "properties.off"
+              }
+            ]
+          },
+          kpiLink : {
+            ref : "qDef.kpiLink",
+            type : "items",
+            component : "sheet-dropdown",
+            items : {
+              id : {
+                ref : "qDef.kpiLink.id",
+                type : "string"
+              },
+              title : {
+                ref : "qDef.kpiLink.title",
+                type : "string"
+              }
+            },
+            show : function (data) {
+              return data.qDef.useLink //data.qDef.useLink
+            }
+          }
+        }
+      },
       groupByDimension: {
         type: "boolean",
         label: "Group by dimension",
