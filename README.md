@@ -70,7 +70,7 @@ For example, copy and paste the following into the "Icon" property.
 ```
 fa fa-calendar
 ```
-
+![Font awesome](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/fontawesome.png)
 
 ## Maintainers
 
