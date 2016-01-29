@@ -13,7 +13,6 @@ export default function setupPaint(paramaters) {
   }
 
   return function paint($element, layout) {
-    console.log(layout);
     React.render(
       <StatisticBlock
         kpis={layout.qHyperCube}

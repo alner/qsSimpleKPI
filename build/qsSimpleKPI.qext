@@ -4,6 +4,6 @@
   "preview": "preview.png",
   "icon" : "kpi",
   "type" : "visualization",
-  "version": "0.3",
+  "version": "0.5",
   "author": "Alexander Nerush"
 }

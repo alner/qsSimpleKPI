@@ -33,7 +33,7 @@ Download [build/qsSimpleKPI.zip](https://github.com/alner/qsSimpleKPI/raw/master
 **Custom styles**
 
  You can fully customize kpis using "Styles (CSS)" property.
- For testing purpose just copy and paste the following styles into "Styles (CSS)" property.
+ For testing purpose just copy and paste the following styles into the "Styles (CSS)" property.
 
  ```
 @import url('https://fonts.googleapis.com/css?family=Indie Flower');
@@ -58,7 +58,19 @@ Download [build/qsSimpleKPI.zip](https://github.com/alner/qsSimpleKPI/raw/master
 }
  ```
 
-![Conditional icons](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Styles.png)
+ ![Conditional icons](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Styles.png)
+
+For example, you can import "Font Awesome" and use it. Just copy and paste the following styles into "Styles (CSS)" property.
+```
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css');
+```
+
+Just copy and paste appropriate classes ([see icons](https://fortawesome.github.io/Font-Awesome/icons/)) into the "Icon" measure's property.
+For example, copy and paste the following into the "Icon" property.
+```
+fa fa-calendar
+```
+
 
 ## Maintainers
 
