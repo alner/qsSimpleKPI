@@ -1,76 +1,40 @@
-# Simple KPI
+# Statistic block
 
-Simple KPI component for Qlik Sense.
-It can show one or several KPI using measures and one dimension (optional).
-Supports adaptive design (SemanticUI), conditional css colors, conditional icons, configurable number of kpis per line, several predefined sizes, custom styles (CSS), link to another sheet.
-
-![Simple KPI](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/SimpleKPI.png)
+Statistic (KPI) block component for Qlik Sense (under development).
 
 ## Installation
 
-Download [build/qsSimpleKPI.zip](https://github.com/alner/qsSimpleKPI/raw/master/build/qsSimpleKPI.zip), upload to qlik server or extract to appropriate folder.
+Download and unzip template to appropriate folder.
+
+Hit
+
+```sh
+
+ npm install
+
+ ```
+ to install all required dependencies.
 
 ## Configuration
 
-![Appearance](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Appearance2.png)
+Modify *src/Template.qextmpl*.
 
-![Measures](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Measures.png)
+Set appropriate document **url** parameter in the *server.config.json*.
+Set appropriate local development server port (**devServerPort** parameter) in the *server.config.json*. Default value is 8080.
 
-![Appearance](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Appearance.png)
+## Usage
 
-**Conditional colors**
+```sh
 
-![Colors](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Colors.png)
+npm run dev # for development
 
-![Conditional colors](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/ConditionalColors.png)
+# or
 
-**Conditional icons**
+npm run build # for production
 
-![Icons](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Icons.png)
-
-![Conditional icons](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/ConditionalIcons.png)
-
-**Custom styles**
-
- You can fully customize kpis using "Styles (CSS)" property.
- For testing purpose just copy and paste the following styles into the "Styles (CSS)" property.
-
- ```
-@import url('https://fonts.googleapis.com/css?family=Indie Flower');
-@import url('https://fonts.googleapis.com/css?family=Fredoka One');
-
-& .label {
-  font-family: 'Fredoka One';
-  font-size:  300%;
-}
-
-& .statistic-1  .value {
-  background-color: green;
-  font-family: 'Indie Flower', sans-serif;
-  color: white !important;
-}
-
-& .value {
-  background-color: yellow;
-  font-family: 'Indie Flower', sans-serif;
-  font-size: 900%;
-  color: red !important;
-}
- ```
-
- ![Conditional icons](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Styles.png)
-
-For example, you can import "Font Awesome" and use it. Just copy and paste the following styles into "Styles (CSS)" property.
-```
-@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css');
 ```
 
-Just copy and paste appropriate classes ([see icons](https://fortawesome.github.io/Font-Awesome/icons/)) into the "Icon" measure's property.
-For example, copy and paste the following into the "Icon" property.
-```
-fa fa-calendar
-```
-![Font awesome](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/fontawesome.png)
+Open **http://localhost:8080** for development.
 
 ## Maintainers
 

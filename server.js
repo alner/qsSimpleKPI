@@ -38,7 +38,7 @@ module.exports.start = function start(callback) {
 
 module.exports.build = function build(callback){
 	compiler.run(function(err, stats) {
-		if(err) 
+		if(err)
 			console.error(stats);
 
 		if(stats) console.info(stats.toString());

@@ -27,6 +27,10 @@ class StatisticBlock extends Component {
     this.checkRequiredSize();
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.restoreSize();
+  }
+
   restoreSize(){
     let elementClientWidth = this.props.element.clientWidth;
     let elementClientHeight = this.props.element.clientHeight;
@@ -43,6 +47,10 @@ class StatisticBlock extends Component {
 
   checkRequiredSize(){
     //if(!this.state.isMounted) return;
+    let element = this.props.element;
+    let scrollWidth = element.scrollWidth * 0.95;
+    let scrollHeight = element.scrollHeight * 0.95;
+
     if(this.props.options.autoSize) {
       let size = this.state.size;
       let labelOrientation = this.state.labelOrientation;
@@ -50,9 +58,9 @@ class StatisticBlock extends Component {
       let elementClientHeight = this.props.element.clientHeight;
       let clientWidth = this.state.clientWidth;
       let clientHeight = this.state.clientHeight;
-      let element = this.props.element;
-      let scrollWidth = element.scrollWidth * 0.95;
-      let scrollHeight = element.scrollHeight * 0.95;
+      // let element = this.props.element;
+      // let scrollWidth = element.scrollWidth * 0.95;
+      // let scrollHeight = element.scrollHeight * 0.95;
       let childHeight = 0;
 
       if(element.clientHeight == element.scrollHeight
@@ -111,11 +119,16 @@ class StatisticBlock extends Component {
         }
       }
     } else {
-        if(this.state.labelOrientation != this.props.options.labelOrientation
-        || this.state.overflow
-        || this.state.size != this.props.options.size) {
-          this.restoreSize();
+        if(element.clientHeight < scrollHeight || element.clientWidth < scrollWidth) {
+          if(this.state.overflow !== "auto")
+            this.setState({overflow: "auto"});
         }
+        // else
+        // if(this.state.labelOrientation != this.props.options.labelOrientation
+        // || this.state.overflow
+        // || this.state.size != this.props.options.size) {
+        //   this.restoreSize();
+        // }
     }
   }
 
@@ -265,7 +278,6 @@ class StatisticBlock extends Component {
     const services = this.props.services;
     const isAllowOpenSheet = (this.props.services.State
       && !this.props.services.State.isInEditMode());
-    console.log(kpi);
     if(kpi.useLink && isAllowOpenSheet && services.Routing) {
       services.Routing.goToSheet(kpi.kpiLink && kpi.kpiLink.id, 'analysis');
     }
