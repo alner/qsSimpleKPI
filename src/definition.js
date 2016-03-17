@@ -1,6 +1,6 @@
 import {ColorsPickerComponent, IconsPickerComponent, FontStylesComponent, TextEditorComponent} from './definitionComponents';
 import {ALL_ICONS} from './iconsDefinitions';
-import {COLOR_OPTIONS, SIZE_OPTIONS, DIM_LABEL_OPTIONS} from './options';
+import {COLOR_OPTIONS, SIZE_OPTIONS, DIM_LABEL_OPTIONS, DIM_VIEW_OPTIONS} from './options';
 
 // Dimensions array
 let dims = {
@@ -276,6 +276,81 @@ let settings = {
       label: "Dimensions",
       translation: "Common.Dimensions",
       items: {
+        showAs: {
+          type: "string",
+          component: "dropdown",
+          label: "Show as",
+          ref: "options.dimShowAs",
+          options: DIM_VIEW_OPTIONS,
+          defaultValue: "segment"
+        },
+        divideBy: {
+          type: "string",
+          component: "dropdown",
+          label: "Items per row",
+          ref: "options.dimDivideBy",
+          defaultValue: "auto",
+          show: function(a) {
+            return a.options.dimShowAs === 'card'
+          },
+          options: [
+            {
+              value: "auto",
+              label: "Auto",
+              tooltip: "Auto"
+            },
+            {
+              value: "one",
+              label: "1",
+              tooltip: "One"
+            },
+            {
+              value: "two",
+              label: "2",
+              tooltip: "Two"
+            },
+            {
+              value: "three",
+              label: "3",
+              tooltip: "Three"
+            },
+            {
+              value: "four",
+              label: "4",
+              tooltip: "Four"
+            },
+            {
+              value: "five",
+              label: "5",
+              tooltip: "Four"
+            },
+            {
+              value: "six",
+              label: "6",
+              tooltip: "Six"
+            },
+            {
+              value: "seven",
+              label: "7",
+              tooltip: "Seven"
+            },
+            {
+              value: "eight",
+              label: "8",
+              tooltip: "Eight"
+            },
+            {
+              value: "nine",
+              label: "9",
+              tooltip: "Nine"
+            },
+            {
+              value: "ten",
+              label: "10",
+              tooltip: "Ten"
+            }
+          ]
+        },
         dimensionsOrientation: {
           type: "string",
           component: "buttongroup",
@@ -405,7 +480,7 @@ let settings = {
         divideBy: {
             type: "string",
             component: "dropdown",
-            label: "KPIs per row",
+            label: "Items per row",
             ref: "options.divideBy",
             defaultValue: "auto",
             options: [

@@ -200,11 +200,23 @@ const DIM_LABEL_OPTIONS = [
   }
 ];
 
+const DIM_VIEW_OPTIONS = [
+  {
+    value: "segment",
+    label: "Segment"
+  },
+  {
+    value: "card",
+    label: "Card"
+  }
+];
+
 export default {
   COLOR_OPTIONS,
   SIZE_OPTIONS,
   DIVIDE_BY,
   DIM_LABEL_OPTIONS,
+  DIM_VIEW_OPTIONS,
   getSizeIndex,
   getDivideByValue
 }

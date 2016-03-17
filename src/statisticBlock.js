@@ -206,21 +206,34 @@ class StatisticBlock extends Component {
 
   render(){
     const self = this;
-    let options = this.props.options;
-    let dimLabelsOrientation = options.dimLabelOrientation;
-    let dimOrientation = options.dimensionsOrientation;
-    const styles = this.props.options.styles || '';
-    const dimHideLabel = options.dimHideLabels;
-    const dimHideBorders = options.dimHideBorders;
-    const dimHideInternalBorders = options.dimHideInternalBorders;
+    const kpis = this.props.kpis;
+    let {
+      dimLabelOrientation,
+      dimLabelSize,
+      dimHideLabels,
+      dimensionsOrientation,
+      dimHideBorders,
+      dimHideInternalBorders,
+      dimShowAs = 'segment',
+      dimDivideBy = 'auto',
+      divideBy,
+      styles = ''
+    } = this.props.options;
+    // let options = this.props.options;
+    //let dimLabelsOrientation = options.dimLabelOrientation;
+    //let dimOrientation = options.dimensionsOrientation;
+    //const styles = this.props.options.styles || '';
+    //const dimHideLabel = options.dimHideLabels;
+    //const dimHideBorders = options.dimHideBorders;
+    //const dimHideInternalBorders = options.dimHideInternalBorders;
     //let size = this.state.size; // || options.size || "";
-    let kpis = this.props.kpis;
+
     let items;
     let objectStyle = {};
     if(this.state.overflow)
       objectStyle.overflow = this.state.overflow;
 
-    let divideBy = options.divideBy;
+    //let divideBy = options.divideBy;
 
     // kpis.qDataPage.length > 0 && kpis.qDataPage[0].qMatrix.length > 0 && kpis.qDataPage[0].qMatrix[0]
     if(kpis.qMeasureInfo.length > 0 && kpis.qDataPages.length > 0) {
@@ -228,8 +241,12 @@ class StatisticBlock extends Component {
       if(divideBy === "auto")
         divideBy = DIVIDE_BY[Math.min(10, kpis.qDataPages[0].qMatrix[0].length - kpis.qDimensionInfo.length)];
 
-      //let data = kpis.qDataPages[0].qMatrix.length > 0 && kpis.qDataPages[0].qMatrix[0];
+      // Dimension:
       if(kpis.qDimensionInfo.length > 0) {
+        if(dimDivideBy === "auto")
+          dimDivideBy = DIVIDE_BY[Math.min(10, kpis.qDimensionInfo[0].qCardinal)];
+
+        let dimShowAsContainer = dimShowAs === 'card' ? `${dimDivideBy} stackable cards`  : 'segments';
         let segmentsStyle = {margin: 0, height: '100%'};
         if(dimHideBorders) {
           segmentsStyle.border = "0";
@@ -240,14 +257,14 @@ class StatisticBlock extends Component {
         if(dimHideInternalBorders) segmentStyle.border = "0";
 
         items = (
-          <div className={`ui ${dimOrientation} segments`} style={segmentsStyle}>
+          <div className={`ui ${dimensionsOrientation} ${dimShowAsContainer}`} style={segmentsStyle}>
           {
             kpis.qDataPages[0].qMatrix.map(function(dim, dindex){
               const dimensionLabel = dim[0].qText; // could be only one dimension!
               let measures = self.renderKpis(kpis, dindex);
               return (
-              <div className={'ui segment'} style={segmentStyle}>
-                {dimHideLabel ? null : <a className={`ui ${options.dimLabelSize} ${dimLabelsOrientation} label`}>{dimensionLabel}</a>}
+              <div className={`ui ${dimShowAs}`} style={segmentStyle}>
+                {dimHideLabels ? null : <a className={`ui ${dimLabelSize} ${dimLabelOrientation} label`}>{dimensionLabel}</a>}
                 <div ref="statistics" className={`ui ${divideBy} statistics`}>
                 {measures}
                 </div>
