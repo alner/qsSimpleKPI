@@ -356,6 +356,9 @@ let settings = {
           component: "buttongroup",
           label: "Orientation",
           ref: "options.dimensionsOrientation",
+          show: function(a) {
+            return a.options.dimShowAs === 'segment'
+          },
           options: [
             {
               value: "horizontal",
@@ -392,17 +395,29 @@ let settings = {
           ref: "options.dimHideLabels",
           defaultValue: false
         },
+        centeredLabel: {
+          type: "boolean",
+          label: "Center aligned labels",
+          ref: "options.dimCenteredLabels",
+          defaultValue: false
+        },
         hideBorders: {
           type: "boolean",
           label: "Hide external borders",
           ref: "options.dimHideBorders",
-          defaultValue: false
+          defaultValue: false,
+          show: function(a) {
+            return a.options.dimShowAs === 'segment'
+          },
         },
         hideInternalBorders: {
           type: "boolean",
           label: "Hide internal borders",
           ref: "options.dimHideInternalBorders",
-          defaultValue: false
+          defaultValue: false,
+          show: function(a) {
+            return a.options.dimShowAs === 'segment'
+          },
         }
       }
     },

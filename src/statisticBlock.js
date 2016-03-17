@@ -211,6 +211,7 @@ class StatisticBlock extends Component {
       dimLabelOrientation,
       dimLabelSize,
       dimHideLabels,
+      dimCenteredLabels,
       dimensionsOrientation,
       dimHideBorders,
       dimHideInternalBorders,
@@ -247,6 +248,8 @@ class StatisticBlock extends Component {
           dimDivideBy = DIVIDE_BY[Math.min(10, kpis.qDimensionInfo[0].qCardinal)];
 
         let dimShowAsContainer = dimShowAs === 'card' ? `${dimDivideBy} stackable cards`  : 'segments';
+        let dimLabelsAlignment = '';
+        if(dimCenteredLabels) dimLabelsAlignment = 'center aligned';
         let segmentsStyle = {margin: 0, height: '100%'};
         if(dimHideBorders) {
           segmentsStyle.border = "0";
@@ -264,7 +267,7 @@ class StatisticBlock extends Component {
               let measures = self.renderKpis(kpis, dindex);
               return (
               <div className={`ui ${dimShowAs}`} style={segmentStyle}>
-                {dimHideLabels ? null : <a className={`ui ${dimLabelSize} ${dimLabelOrientation} label`}>{dimensionLabel}</a>}
+                {dimHideLabels ? null : <a className={`ui ${dimLabelSize} ${dimLabelOrientation} ${dimLabelsAlignment} label`}>{dimensionLabel}</a>}
                 <div ref="statistics" className={`ui ${divideBy} statistics`}>
                 {measures}
                 </div>
