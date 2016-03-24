@@ -2,13 +2,16 @@ import React from 'react';
 import StatisticBlock from './statisticBlock';
 
 export default function setupPaint(paramaters) {
+  const DEFAULT_AUTO_FORMAT = '0A';
   let numberFormatter;
   if(paramaters.NumberFormatter && paramaters.qlik) {
     let localeInfo;
     try {
       localeInfo = paramaters.qlik.currApp().model.layout.qLocaleInfo;
     } finally {
-      numberFormatter = new NumberFormatter(localeInfo, '0A', '', '', 'U');
+      let decimalSeparator = localeInfo.qDecimalSep || ".";
+      let thousandSep = localeInfo.qThousandSep || ",";
+      numberFormatter = new NumberFormatter(localeInfo, DEFAULT_AUTO_FORMAT, thousandSep, decimalSeparator, 'U'); // '', '', 'U'
     }
   }
 
@@ -16,8 +19,11 @@ export default function setupPaint(paramaters) {
     React.render(
       <StatisticBlock
         kpis={layout.qHyperCube}
-        numberFormatter={numberFormatter}
-        options={layout.options}
+        options={{
+          ...layout.options,
+          numberFormatter,
+          DEFAULT_AUTO_FORMAT
+        }}
         services={{
           Routing: paramaters.Routing,
           State: paramaters.State

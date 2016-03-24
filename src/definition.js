@@ -25,6 +25,16 @@ let kpis = {
     allowRemove: true,
     allowMove: true,
     items : {
+      autoFormatTemplate: {
+        type: "string",
+        label: "Auto format",
+        translation: "properties.numberFormatting.formatPattern",
+        ref: "qDef.autoFormatTemplate",
+        defaultValue: "0A",
+        show: function(a) {
+          return a.qDef.qNumFormat.qType === "U";
+        }
+      },
       labelColor: {
         type: "string",
         ref: "qDef.labelColor",
@@ -406,9 +416,9 @@ let settings = {
           label: "Hide external borders",
           ref: "options.dimHideBorders",
           defaultValue: false,
-          show: function(a) {
-            return a.options.dimShowAs === 'segment'
-          },
+          // show: function(a) {
+          //   return a.options.dimShowAs === 'segment'
+          // },
         },
         hideInternalBorders: {
           type: "boolean",

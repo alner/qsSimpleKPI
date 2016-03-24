@@ -1,19 +1,19 @@
 {
   "name": "SimpleKPI",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Simple KPI for Qlik Sense",
-  "keywords": "qliksense extension",
-  "main": "VisualizationTemplate.js",
+  "keywords": "kpi qliksense extension",
+  "main": "component.js",
   "private": true,
-  "homepage": "https://github.com/alner/NewQlikSenseVisualizationTemplate",
-  "bugs": "https://github.com/alner/NewQlikSenseVisualizationTemplate/issues",
+  "homepage": "https://github.com/alner/qsSimpleKPI",
+  "bugs": "https://github.com/alner/qsSimpleKPI/issues",
   "scripts": {
     "build": "set NODE_ENV=production&& gulp production",
     "dev": "set NODE_ENV=development&& gulp development"
   },
   "author": "Alexander Nerush <ale.nerush@gmail.com>",
   "license": "MIT",
-  "repository": "https://github.com/alner/NewQlikSenseVisualizationTemplate",
+  "repository": "https://github.com/alner/qsSimpleKPI",
   "dependencies": {
     "better-console": "^0.2.4",
     "del": "^2.0.0",

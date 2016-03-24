@@ -211,12 +211,23 @@ const DIM_VIEW_OPTIONS = [
   }
 ];
 
+const FONT_SIZE_OPTIONS = [
+//  'xx-small', // too small
+  's-small',
+  'small',
+  'medium',
+  'large',
+  'x-large',
+  'xx-large'
+];
+
 export default {
   COLOR_OPTIONS,
   SIZE_OPTIONS,
   DIVIDE_BY,
   DIM_LABEL_OPTIONS,
   DIM_VIEW_OPTIONS,
+  FONT_SIZE_OPTIONS,
   getSizeIndex,
   getDivideByValue
 }

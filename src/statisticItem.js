@@ -1,9 +1,33 @@
 import React, {Component} from 'react';
-import {getDivideByValue} from './options';
+import {getDivideByValue, SIZE_OPTIONS} from './options';
 
 export default class StatisticItem extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount(){
+    var self = this;
+    setTimeout(function(){self.checkRequiredSize();}, 100);
+  }
+
+  componentDidUpdate() {
+    this.checkRequiredSize();
+  }
+
+  checkRequiredSize(){
+    if(!this.props.onNeedResize)
+      return;
+
+    let value = React.findDOMNode(this.refs['value']);
+    if(value.firstChild) {
+      let valueChild = value.firstChild;
+      let childWidth = $(valueChild).width();
+      //let childHeight = $(valueChild).height();
+      if(childWidth > value.clientWidth) {
+          this.props.onNeedResize();
+      }
+    }
   }
 
   render(){
@@ -39,6 +63,9 @@ export default class StatisticItem extends Component {
     if(fontStyles.underline)
       valueStyles.textDecoration = 'underline';
 
+    if(fontStyles.fontSize)
+      valueStyles.fontSize = fontStyles.fontSize;
+
     let classes = `ui ${labelOrientation} ${size} statistic`;
 
     valueStyles.color = valueColor;
@@ -56,7 +83,7 @@ export default class StatisticItem extends Component {
     );
 
     let valueComponent = (
-        <div key="val" className="value" style={valueStyles}>
+        <div key="val" ref="value" className="value" style={valueStyles}>
           {iconOrderFirst && this.props.item.iconPosition === 'value' ? <i className={valueIcon}></i> : null}
           {this.props.item.value}
           {!iconOrderFirst && this.props.item.iconPosition === 'value' ? <i className={valueIcon}></i> : null}

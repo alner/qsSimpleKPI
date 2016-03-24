@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 //import styler from 'react-styling';
 import InlineCSS from 'react-inline-css';
-import {DIVIDE_BY, SIZE_OPTIONS, getSizeIndex} from './options';
+import {DIVIDE_BY, SIZE_OPTIONS, FONT_SIZE_OPTIONS, getSizeIndex} from './options';
 import StatisticItem from './statisticItem';
 
 class StatisticBlock extends Component {
@@ -9,10 +9,11 @@ class StatisticBlock extends Component {
     super(props);
     this.state = {
       size: props.options.size,
-      labelOrientation: props.options.labelOrientation,
+      //labelOrientation: props.options.labelOrientation,
       clientWidth: props.element.clientWidth,
       clientHeight: props.element.clientHeight,
-      overflow: null
+      overflow: null,
+      valueFontStyleIndex: null
     };
   }
 
@@ -20,7 +21,6 @@ class StatisticBlock extends Component {
     //this.checkRequiredSize();
     var self = this;
     setTimeout(function(){self.checkRequiredSize();}, 100);
-    //this.setState({isMounted: true}); // force update
   }
 
   componentDidUpdate() {
@@ -34,15 +34,34 @@ class StatisticBlock extends Component {
   restoreSize(){
     let elementClientWidth = this.props.element.clientWidth;
     let elementClientHeight = this.props.element.clientHeight;
-    let labelOrientation = this.props.options.labelOrientation;
+    //let labelOrientation = this.props.options.labelOrientation;
     let size = this.props.options.size;
     this.setState({
       size: size,
       overflow: null,
-      labelOrientation: labelOrientation,
+      //labelOrientation: labelOrientation,
       clientWidth: elementClientWidth,
-      clientHeight: elementClientHeight
+      clientHeight: elementClientHeight,
+      valueFontStyleIndex: null
     });
+  }
+
+  kpiItemResizeHandler() {
+    if(this.props.options.autoSize) {
+      let size = this.state.size;
+      let index = getSizeIndex(size);
+      if(index > 0) {
+        this.setState({
+          size: SIZE_OPTIONS[index - 1].value
+        });
+      } else {
+        if(this.state.valueFontStyleIndex)
+          this.setState({valueFontStyleIndex: this.state.valueFontStyleIndex - 1});
+        else
+        if(this.state.valueFontStyleIndex !== 0)
+          this.setState({valueFontStyleIndex: FONT_SIZE_OPTIONS.length - 1});
+      }
+    }
   }
 
   checkRequiredSize(){
@@ -53,7 +72,7 @@ class StatisticBlock extends Component {
 
     if(this.props.options.autoSize) {
       let size = this.state.size;
-      let labelOrientation = this.state.labelOrientation;
+      //let labelOrientation = this.state.labelOrientation;
       let elementClientWidth = this.props.element.clientWidth;
       let elementClientHeight = this.props.element.clientHeight;
       let clientWidth = this.state.clientWidth;
@@ -70,19 +89,22 @@ class StatisticBlock extends Component {
       if(this.refs['child-0']) {
         childHeight = React.findDOMNode(this.refs['child-0']).clientHeight;
       }
+
       if(element &&
-        (
-           (element.clientHeight < scrollHeight || element.clientHeight < childHeight)
-        || ((clientWidth != element.clientWidth || clientHeight != element.clientHeight)
-           && (size != this.props.options.size)
-           )
-        || (size != SIZE_OPTIONS[0].value && labelOrientation != this.props.options.labelOrientation)
-        )
-      )
+        ((element.clientHeight < scrollHeight
+          || childHeight && element.clientHeight < childHeight)
+        || ((clientWidth != element.clientWidth
+          || clientHeight != element.clientHeight)
+           && size != this.props.options.size)
+        //|| (size != SIZE_OPTIONS[0].value && labelOrientation != this.props.options.labelOrientation)
+        ))
       {
-        if(element.clientHeight < scrollHeight || element.clientHeight < childHeight
-        || element.clientWidth < scrollWidth) {
-          if(this.state.size == SIZE_OPTIONS[0].value && this.state.labelOrientation == 'horizontal')
+        if(element.clientHeight < scrollHeight
+          || element.clientHeight < childHeight
+          || element.clientWidth < scrollWidth) {
+          if(this.state.size == SIZE_OPTIONS[0].value
+          && this.state.overflow === "auto")
+          //&& this.state.labelOrientation == 'horizontal'
             return;
 
           let index = getSizeIndex(size);
@@ -90,7 +112,9 @@ class StatisticBlock extends Component {
             this.setState({
               size: SIZE_OPTIONS[index - 1].value,
               clientWidth: elementClientWidth,
-              clientHeight: elementClientHeight
+              clientHeight: elementClientHeight,
+              prevClientWidth: this.state.clientWidth,
+              prevClientHeight: this.state.clientHeight
             });
           else if(index == 0){
             if(this.state.overflow !== "auto")
@@ -106,6 +130,7 @@ class StatisticBlock extends Component {
           }
         }
         else
+        /*
         if(size != SIZE_OPTIONS[0].value
         && labelOrientation != this.props.options.labelOrientation) {
           // restore label orientation
@@ -114,8 +139,11 @@ class StatisticBlock extends Component {
           });
         }
         else
+        */
         {
-          this.restoreSize();
+          if(this.state.prevClientWidth > this.state.clientWidth
+          || this.state.prevClientHeight > this.state.clientHeight)
+            this.restoreSize();
         }
       }
     } else {
@@ -134,7 +162,7 @@ class StatisticBlock extends Component {
 
   renderKpis(kpis, rowindex){
     const self = this;
-    let numberFormatter = this.props.numberFormatter;
+    let numberFormatter = this.props.options.numberFormatter;
     let options = this.props.options;
     let size = this.state.size;
 
@@ -145,7 +173,7 @@ class StatisticBlock extends Component {
       deltaSizeIndex = originalSizeIndex - currentSizeIndex;
     }
 
-    let labelOrientation = this.state.labelOrientation;
+    let labelOrientation = this.props.options.labelOrientation; //this.state.labelOrientation;
     const measuresShift = kpis.qDimensionInfo.length;
     const qMeasureInfo = kpis.qMeasureInfo;
     let data = kpis.qDataPages[0].qMatrix.length > 0 && kpis.qDataPages[0].qMatrix[rowindex];
@@ -184,12 +212,19 @@ class StatisticBlock extends Component {
         params.fontStyles[value] = value;
       });
 
+      if(self.state.valueFontStyleIndex >= 0
+      && self.state.valueFontStyleIndex < FONT_SIZE_OPTIONS.length)
+        params.fontStyles.fontSize = FONT_SIZE_OPTIONS[self.state.valueFontStyleIndex];
+
       if(index < data.length) {
         params.value = data[index].qText;
         if(item.qIsAutoFormat && numberFormatter) {
           let value = data[index].qNum;
           if(!isNaN(value) && isFinite(value)) {
-            params.value = numberFormatter.formatValue(value);
+            if(item.autoFormatTemplate)
+              params.value = numberFormatter.format(value, item.autoFormatTemplate);
+            else
+              params.value = numberFormatter.format(value, options.DEFAULT_AUTO_FORMAT); //formatValue
           }
         }
       }
@@ -197,8 +232,15 @@ class StatisticBlock extends Component {
         params.value = '';
 
       if(!item.groupByDimension
-      || (item.groupByDimension && item.groupByDimensionValue === dimensionValue))
-        return <StatisticItem ref={"child-" + index} index={index} key={item.cId} item={params} options={options} />
+      || (item.groupByDimension && item.groupByDimensionValue === dimensionValue)) {
+        let itemIndex = rowindex * (measuresShift + qMeasureInfo.length) + mindex;
+        return <StatisticItem ref={"child-" + itemIndex}
+          index={itemIndex}
+          key={item.cId}
+          item={params}
+          options={options}
+          onNeedResize={self.kpiItemResizeHandler.bind(self)} />
+        }
       else
         return null;
     });
@@ -230,9 +272,6 @@ class StatisticBlock extends Component {
     //let size = this.state.size; // || options.size || "";
 
     let items;
-    let objectStyle = {};
-    if(this.state.overflow)
-      objectStyle.overflow = this.state.overflow;
 
     //let divideBy = options.divideBy;
 
@@ -250,15 +289,17 @@ class StatisticBlock extends Component {
         let dimShowAsContainer = dimShowAs === 'card' ? `${dimDivideBy} stackable cards`  : 'segments';
         let dimLabelsAlignment = '';
         if(dimCenteredLabels) dimLabelsAlignment = 'center aligned';
-        let segmentsStyle = {margin: 0, height: '100%'};
+        let segmentsStyle = {}; //{margin: 0, height: '100%'};
+        let segmentStyle = {};
+        if(dimHideInternalBorders) segmentStyle.border = "0";
         if(dimHideBorders) {
           segmentsStyle.border = "0";
           segmentsStyle.boxShadow = "none";
+          segmentStyle.boxShadow = "none";
+          if(dimShowAs === 'card') {
+            segmentStyle.border = "0";
+          }
         }
-
-        let segmentStyle = {};
-        if(dimHideInternalBorders) segmentStyle.border = "0";
-
         items = (
           <div className={`ui ${dimensionsOrientation} ${dimShowAsContainer}`} style={segmentsStyle}>
           {
@@ -284,6 +325,10 @@ class StatisticBlock extends Component {
           </div>);
       }
     }
+
+    let objectStyle = {};
+    if(this.state.overflow)
+      objectStyle.overflow = this.state.overflow;
 
     return (
       <div className="qv-object-qsstatistic" style={objectStyle}>
