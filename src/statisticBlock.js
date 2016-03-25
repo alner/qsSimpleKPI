@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-//import styler from 'react-styling';
 import InlineCSS from 'react-inline-css';
 import {DIVIDE_BY, SIZE_OPTIONS, FONT_SIZE_OPTIONS, getSizeIndex} from './options';
 import StatisticItem from './statisticItem';
@@ -9,7 +8,6 @@ class StatisticBlock extends Component {
     super(props);
     this.state = {
       size: props.options.size,
-      //labelOrientation: props.options.labelOrientation,
       clientWidth: props.element.clientWidth,
       clientHeight: props.element.clientHeight,
       overflow: null,
@@ -18,7 +16,6 @@ class StatisticBlock extends Component {
   }
 
   componentDidMount(){
-    //this.checkRequiredSize();
     var self = this;
     setTimeout(function(){self.checkRequiredSize();}, 100);
   }
@@ -34,12 +31,10 @@ class StatisticBlock extends Component {
   restoreSize(){
     let elementClientWidth = this.props.element.clientWidth;
     let elementClientHeight = this.props.element.clientHeight;
-    //let labelOrientation = this.props.options.labelOrientation;
     let size = this.props.options.size;
     this.setState({
       size: size,
       overflow: null,
-      //labelOrientation: labelOrientation,
       clientWidth: elementClientWidth,
       clientHeight: elementClientHeight,
       valueFontStyleIndex: null
@@ -65,21 +60,16 @@ class StatisticBlock extends Component {
   }
 
   checkRequiredSize(){
-    //if(!this.state.isMounted) return;
     let element = this.props.element;
     let scrollWidth = element.scrollWidth * 0.95;
     let scrollHeight = element.scrollHeight * 0.95;
 
     if(this.props.options.autoSize) {
       let size = this.state.size;
-      //let labelOrientation = this.state.labelOrientation;
       let elementClientWidth = this.props.element.clientWidth;
       let elementClientHeight = this.props.element.clientHeight;
       let clientWidth = this.state.clientWidth;
       let clientHeight = this.state.clientHeight;
-      // let element = this.props.element;
-      // let scrollWidth = element.scrollWidth * 0.95;
-      // let scrollHeight = element.scrollHeight * 0.95;
       let childHeight = 0;
 
       if(element.clientHeight == element.scrollHeight
@@ -96,7 +86,6 @@ class StatisticBlock extends Component {
         || ((clientWidth != element.clientWidth
           || clientHeight != element.clientHeight)
            && size != this.props.options.size)
-        //|| (size != SIZE_OPTIONS[0].value && labelOrientation != this.props.options.labelOrientation)
         ))
       {
         if(element.clientHeight < scrollHeight
@@ -104,7 +93,6 @@ class StatisticBlock extends Component {
           || element.clientWidth < scrollWidth) {
           if(this.state.size == SIZE_OPTIONS[0].value
           && this.state.overflow === "auto")
-          //&& this.state.labelOrientation == 'horizontal'
             return;
 
           let index = getSizeIndex(size);
@@ -119,27 +107,9 @@ class StatisticBlock extends Component {
           else if(index == 0){
             if(this.state.overflow !== "auto")
               this.setState({overflow: "auto"});
-            /*
-            this.setState({
-              //labelOrientation: 'horizontal',
-              size: SIZE_OPTIONS[0].value,
-              clientWidth: elementClientWidth,
-              clientHeight: elementClientHeight
-            });
-            */
           }
         }
         else
-        /*
-        if(size != SIZE_OPTIONS[0].value
-        && labelOrientation != this.props.options.labelOrientation) {
-          // restore label orientation
-          this.setState({
-            labelOrientation: this.props.options.labelOrientation
-          });
-        }
-        else
-        */
         {
           if(this.state.prevClientWidth > this.state.clientWidth
           || this.state.prevClientHeight > this.state.clientHeight)
@@ -147,22 +117,18 @@ class StatisticBlock extends Component {
         }
       }
     } else {
-        if(element.clientHeight < scrollHeight || element.clientWidth < scrollWidth) {
-          if(this.state.overflow !== "auto")
-            this.setState({overflow: "auto"});
-        }
-        // else
-        // if(this.state.labelOrientation != this.props.options.labelOrientation
-        // || this.state.overflow
-        // || this.state.size != this.props.options.size) {
-        //   this.restoreSize();
-        // }
+        if((this.state.overflow !== "auto")
+        && (element.clientHeight < scrollHeight
+          || element.clientWidth < scrollWidth))
+          this.setState({overflow: "auto"});
     }
   }
 
   renderKpis(kpis, rowindex){
     const self = this;
-    let numberFormatter = this.props.options.numberFormatter;
+    const numberFormatter = this.props.options.numberFormatter;
+    const labelOrientation = this.props.options.labelOrientation; //this.state.labelOrientation;
+
     let options = this.props.options;
     let size = this.state.size;
 
@@ -173,7 +139,6 @@ class StatisticBlock extends Component {
       deltaSizeIndex = originalSizeIndex - currentSizeIndex;
     }
 
-    let labelOrientation = this.props.options.labelOrientation; //this.state.labelOrientation;
     const measuresShift = kpis.qDimensionInfo.length;
     const qMeasureInfo = kpis.qMeasureInfo;
     let data = kpis.qDataPages[0].qMatrix.length > 0 && kpis.qDataPages[0].qMatrix[rowindex];
@@ -188,6 +153,7 @@ class StatisticBlock extends Component {
       }
       let params = {
         label: item.qFallbackTitle,
+        value: "",
         hideLabel: item.hideLabel,
         labelColor: item.labelColor,
         valueColor: item.valueColor,
@@ -197,7 +163,6 @@ class StatisticBlock extends Component {
         iconSize: item.iconSize,
         ovParams: item.ovParams,
         size: item.ovParams ? itemSize : size,
-        //itemLabelOrientation: item.ovParams ? item.labelOrientation : labelOrientation,
         labelOrder: item.ovParams ? item.labelOrder : options.labelOrder,
         labelOrientation: item.ovParams ? item.labelOrientation : labelOrientation,
         fontStyles: {},
@@ -228,8 +193,6 @@ class StatisticBlock extends Component {
           }
         }
       }
-      else
-        params.value = '';
 
       if(!item.groupByDimension
       || (item.groupByDimension && item.groupByDimensionValue === dimensionValue)) {
@@ -262,20 +225,9 @@ class StatisticBlock extends Component {
       divideBy,
       styles = ''
     } = this.props.options;
-    // let options = this.props.options;
-    //let dimLabelsOrientation = options.dimLabelOrientation;
-    //let dimOrientation = options.dimensionsOrientation;
-    //const styles = this.props.options.styles || '';
-    //const dimHideLabel = options.dimHideLabels;
-    //const dimHideBorders = options.dimHideBorders;
-    //const dimHideInternalBorders = options.dimHideInternalBorders;
-    //let size = this.state.size; // || options.size || "";
 
     let items;
 
-    //let divideBy = options.divideBy;
-
-    // kpis.qDataPage.length > 0 && kpis.qDataPage[0].qMatrix.length > 0 && kpis.qDataPage[0].qMatrix[0]
     if(kpis.qMeasureInfo.length > 0 && kpis.qDataPages.length > 0) {
 
       if(divideBy === "auto")
@@ -344,7 +296,14 @@ class StatisticBlock extends Component {
     const isAllowOpenSheet = (this.props.services.State
       && !this.props.services.State.isInEditMode());
     if(kpi.useLink && isAllowOpenSheet && services.Routing) {
-      services.Routing.goToSheet(kpi.kpiLink && kpi.kpiLink.id, 'analysis');
+      let linkId;
+      if (typeof(kpi.kpiLink) === "string")
+        linkId = kpi.kpiLink
+      else
+        linkId = kpi.kpiLink && kpi.kpiLink.id;
+
+      if(linkId)
+        services.Routing.goToSheet(linkId, 'analysis');
     }
   }
 }

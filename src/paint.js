@@ -9,8 +9,8 @@ export default function setupPaint(paramaters) {
     try {
       localeInfo = paramaters.qlik.currApp().model.layout.qLocaleInfo;
     } finally {
-      let decimalSeparator = localeInfo.qDecimalSep || ".";
-      let thousandSep = localeInfo.qThousandSep || ",";
+      let decimalSeparator = (localeInfo && localeInfo.qDecimalSep) || ".";
+      let thousandSep = (localeInfo && localeInfo.qThousandSep) || ",";
       numberFormatter = new NumberFormatter(localeInfo, DEFAULT_AUTO_FORMAT, thousandSep, decimalSeparator, 'U'); // '', '', 'U'
     }
   }
