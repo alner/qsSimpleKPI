@@ -1,6 +1,17 @@
-import {ColorsPickerComponent, IconsPickerComponent, FontStylesComponent, TextEditorComponent} from './definitionComponents';
-import {ALL_ICONS} from './iconsDefinitions';
+import {
+  ColorsPickerComponent,
+  FontStylesComponent,
+  TextEditorComponent,
+  SelectIconDialogComponent
+} from './definitionComponents';
+
+import { FULL_ICONS_SET } from './iconsDefinitions';
 import {COLOR_OPTIONS, SIZE_OPTIONS, DIM_LABEL_OPTIONS, DIM_VIEW_OPTIONS} from './options';
+
+export default function (options) {
+
+// let Dialog = options.Dialog;
+let ShowService = options.ShowService;
 
 // Dimensions array
 let dims = {
@@ -211,13 +222,23 @@ let kpis = {
       },
       pickItemIcon: {
         type: "string",
-        component: IconsPickerComponent,
+        component: SelectIconDialogComponent(ShowService), //IconsPickerComponent,
         ref: "qDef.valueIcon",
         defaultValue: "",
-        options: ALL_ICONS.map(function(item) {
-          return {label: item, value: item};
-        })
+        options: FULL_ICONS_SET
       },
+      /*
+      testItemIcon: {
+        type: "string",
+        ref: "qDef.testValueIcon",
+        icon(c, e) {
+          return c.value; // selected icon
+        }, // property or function
+        component: SelectIconDialogComponent(ShowService),
+        defaultValue: "",
+        options: FULL_ICONS_SET
+      },
+      */
       iconPosition: {
         type: "string",
         component: "buttongroup",
@@ -594,7 +615,7 @@ let sorting = {
   uses: "sorting"
 }
 
-export default {
+return {
   type: "items",
   component: "accordion",
   items: {
@@ -603,4 +624,6 @@ export default {
     sorting,
     settings
   }
-};
+}
+
+}

@@ -1,26 +1,5 @@
-function _getRefs(data, refName) {
-  let ref = data;
-  let name = refName;
-  let props = refName.split('.');
-  if(props.length > 0) {
-    for(let i = 0; i < props.length - 1; ++i) {
-      if(ref[props[i]])
-        ref = ref[props[i]];
-    }
-    name = props[props.length - 1];
-  }
-  return {ref, name};
-}
-
-function setRefValue(data, refName, value) {
-  let {ref, name} = _getRefs(data, refName);
-  ref[name] = value;
-}
-
-function getRefValue(data, refName) {
-  let {ref, name} = _getRefs(data, refName);
-  return ref[name];
-}
+import { getRefValue, setRefValue } from './utils';
+import DialogComponentFactory from './dialogComponent';
 
 let ColorsPickerComponent = {
   template:
@@ -113,6 +92,7 @@ let ColorsPickerComponent = {
     }]
 };
 
+/*
 let IconsPickerComponent = {
   template:
     `<div class="pp-component pp-buttongroup-component" ng-if="visible">
@@ -254,6 +234,7 @@ let IconsPickerComponent = {
       initOptions();
     }]
 };
+*/
 
 let FontStylesComponent = {
   template:
@@ -396,9 +377,143 @@ let TextEditorComponent = {
     }]
 };
 
+// Select icon dialog component
+let SelectIconDialogComponent = function(ShowService) {
+return DialogComponentFactory(ShowService, (() => {
+
+  function getValueIndex(c, styleName) {
+    let indx = -1;
+    if(!c.isExpression && typeof c.value === 'string')  {
+      // let styles = (c.value && c.value.split(' ')) || [];
+      indx = c.value.search(new RegExp(`\\s${styleName}`));
+    }
+    return indx;
+  }
+
+  let docWidth = $(document).width();
+  let docHeight = $(document).height();
+
+  return {
+    text: 'Icons',
+    icon: '', // dialog icon
+    initContext(c, e) { // component's context initialization
+      c.isExpression = false;
+      if(typeof c.value === "object"
+        && c.value.qStringExpression) {
+        c.isExpression = true;
+        c.iconExpression = (c.value.qStringExpression.qExpr) || "";
+      }
+    },
+    controlComponent: `
+    <button
+      class="qui-button"
+      title="{{iconExpression}}"
+      qva-activate="showDialog()"
+      ng-disabled="readOnly">
+      <i class="{{value}}" ng-if="!isExpression" style="font-size:18px;"></i>
+      <i class="icon-expression" ng-if="isExpression" style="font-size:18px;"></i>
+    </button>
+    <span ng-if="!isExpression">{{value}}</span>
+    `,
+    initDialogContext(c, dc) {
+      // c - component context (see initContext),
+      // dc - dialog context (see dialogContent)
+      dc.iconOptions = {
+        disabled: 'Disabled',
+        loading: 'Loading',
+        //circular: 'Circular',
+        //bordered: 'Bordered',
+        ['horizontally flipped']: 'Horizontally flipped',
+        ['vertically flipped']: 'Vertically flipped',
+        ['clockwise rotated']: 'Clockwise rotated',
+        ['counterclockwise rotated']: 'Counterclockwise rotated'
+      };
+      dc.opts = {};
+      for(let iconOption in dc.iconOptions) {
+        dc.opts[iconOption] = (getValueIndex(c, iconOption) != -1);
+      }
+
+      dc.isExpression = c.isExpression;
+      // Icons as options property:
+      dc.options = c.definition.options;
+    },
+    selectValue(c, newValue) {
+      c.isExpression = false;
+      if(c.iconOptions[newValue]) {
+        //let values = (c.value && c.value.split(' ')) || [];
+        let values = c.value || "";
+        let isDisabled = c.opts[newValue];
+        let searchRe = new RegExp(`\\s${newValue}`);
+        let indx = values.search(searchRe);
+        if(isDisabled && indx === -1) {
+          // add
+          //values.push(newValue);
+          values = values.concat(' ', newValue);
+          c.opts[newValue] = true;
+        }
+        else if(!isDisabled && (indx != -1)) {
+          // remove
+          // values.splice(indx, 1);
+          values = values.replace(searchRe, '');
+          c.opts[newValue] = false;
+        }
+        return values;
+      } else {
+        let returnValue = newValue;
+        for(let iconOption in c.iconOptions) {
+          if(c.opts[iconOption])
+            returnValue += ` ${iconOption}`;
+        }
+        return returnValue;
+      }
+    },
+    dialogContent: `
+    <div class="qv-object-qsstatistic">
+      <div style="height: auto; font-size:3em;">
+        <i class="{{value}}" ng-if="!isExpression"></i><span ng-if="!isExpression" style="font-size:0.5em;">{{value}}</span>
+        <i class="icon-expression" ng-if="isExpression" style="font-size:18px;"></i>
+      </div>
+      <div style="overflow:auto; height:${docHeight / 2}px; border: solid 1px #f2f2f2;border-radius:5px;padding:5px">
+      <div ng-repeat="(category, icons) in options">
+        <h1 style="margin-top:1em;">{{category}}</h1>
+        <button ng-repeat="icon in icons track by $index"
+          class="ui tiny icon button"
+          title="{{icon}}"
+          ng-disabled="readOnly"
+          qva-activate="select(icon)"
+          style="width: 40px; height: 40px; padding: 1px; margin: 2px;">
+          <div><i class="{{icon}}" style="margin: 0; font-size: 1.3em"></i></div>
+        </button>
+      </div>
+      </div>
+      <div style="margin-top: 10px;">
+        <span ng-repeat-start="(iconOption, iconOptLabel) in iconOptions track by iconOption" />
+        <label
+          class="qui-checkboxicon"
+          title="{{iconOptLabel}}"
+          ng-class="{ \'qui-hover\': hover }"
+          ng-mouseenter="hover = true"
+          ng-mouseleave="hover = false">
+          <input type="checkbox"
+            ng-model="opts[iconOption]"
+            ng-change="select(iconOption)">
+          <div class="check-wrap">
+            <span class="check"></span>
+            <span class="check-text" style="max-width: 200px">{{iconOptLabel}}</span>
+          </div>
+        </label>
+        <span ng-repeat-end>&nbsp;</span>
+      </div>
+    </div>
+    `,
+    width: `${docWidth - docWidth / 8}px`
+  }
+})());
+}; // SelectIconDialogComponent
+
 export default {
   ColorsPickerComponent,
-  IconsPickerComponent,
   FontStylesComponent,
-  TextEditorComponent
+  TextEditorComponent,
+  SelectIconDialogComponent
 }

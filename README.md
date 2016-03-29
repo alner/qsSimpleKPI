@@ -11,6 +11,10 @@ Each measure can have a link to another sheet.
 
 Download [build/qsSimpleKPI.zip](https://github.com/alner/qsSimpleKPI/raw/master/build/qsSimpleKPI.zip), upload to qlik server or extract to appropriate folder.
 
+Qlik Sense Desktop: unzip to a directory under [My Documents]/Qlik/Sense/Extensions.
+
+Qlik Sense Server: import the zip file in the QMC.
+
 ## Demo
 
 Download [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf)
