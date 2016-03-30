@@ -25,7 +25,11 @@ Download [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf)
 
 ![Appearance](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Appearance2.png)
 
+You can set icon for value or label (full icons set included).
+![Example](examples/IconDialog.png)
+
 ![Measures](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Measures.png)
+
 
 ![Appearance](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Appearance.png)
 

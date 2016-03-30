@@ -392,16 +392,23 @@ return DialogComponentFactory(ShowService, (() => {
 
   let docWidth = $(document).width();
   let docHeight = $(document).height();
+  let dWidth = '85%'; // dialog width
+  let dHeight = 'auto'; // dialog height
 
   return {
     text: 'Icons',
     icon: '', // dialog icon
     initContext(c, e) { // component's context initialization
       c.isExpression = false;
+      c.isNotSet = false;
       if(typeof c.value === "object"
         && c.value.qStringExpression) {
         c.isExpression = true;
         c.iconExpression = (c.value.qStringExpression.qExpr) || "";
+      } else if(typeof c.value === "string" && c.value.trim().length === 0) {
+        c.isNotSet = true;
+        c.iconExpression = 'Select icon';
+        c.value = "ellipsis horizontal icon";
       }
     },
     controlComponent: `
@@ -413,7 +420,8 @@ return DialogComponentFactory(ShowService, (() => {
       <i class="{{value}}" ng-if="!isExpression" style="font-size:18px;"></i>
       <i class="icon-expression" ng-if="isExpression" style="font-size:18px;"></i>
     </button>
-    <span ng-if="!isExpression">{{value}}</span>
+    <span ng-if="!isExpression && !isNotSet">{{value}}</span>
+    <span ng-if="isNotSet">{{iconExpression}}</span>
     `,
     initDialogContext(c, dc) {
       // c - component context (see initContext),
@@ -469,11 +477,17 @@ return DialogComponentFactory(ShowService, (() => {
     },
     dialogContent: `
     <div class="qv-object-qsstatistic">
+      <style scoped>
+        #my-confirm-dialog {
+          width: ${dWidth};
+          height: ${dHeight};
+        }
+      </style>
       <div style="height: auto; font-size:3em;">
         <i class="{{value}}" ng-if="!isExpression"></i><span ng-if="!isExpression" style="font-size:0.5em;">{{value}}</span>
         <i class="icon-expression" ng-if="isExpression" style="font-size:18px;"></i>
       </div>
-      <div style="overflow:auto; height:${docHeight / 2}px; border: solid 1px #f2f2f2;border-radius:5px;padding:5px">
+      <div style="overflow:auto; -webkit-overflow-scrolling:touch; height:${docHeight / 2}px; border: solid 1px #f2f2f2;border-radius:5px;padding:5px">
       <div ng-repeat="(category, icons) in options">
         <h1 style="margin-top:1em;">{{category}}</h1>
         <button ng-repeat="icon in icons track by $index"
@@ -506,7 +520,7 @@ return DialogComponentFactory(ShowService, (() => {
       </div>
     </div>
     `,
-    width: `${docWidth - docWidth / 8}px`
+    // width: '100%' //`${docWidth - docWidth / 8}px`
   }
 })());
 }; // SelectIconDialogComponent

@@ -227,18 +227,6 @@ let kpis = {
         defaultValue: "",
         options: FULL_ICONS_SET
       },
-      /*
-      testItemIcon: {
-        type: "string",
-        ref: "qDef.testValueIcon",
-        icon(c, e) {
-          return c.value; // selected icon
-        }, // property or function
-        component: SelectIconDialogComponent(ShowService),
-        defaultValue: "",
-        options: FULL_ICONS_SET
-      },
-      */
       iconPosition: {
         type: "string",
         component: "buttongroup",

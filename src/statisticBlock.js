@@ -279,8 +279,10 @@ class StatisticBlock extends Component {
     }
 
     let objectStyle = {};
-    if(this.state.overflow)
+    if(this.state.overflow) {
       objectStyle.overflow = this.state.overflow;
+      objectStyle.WebkitOverflowScrolling = 'touch'; // nice webkit scorll support
+    }
 
     return (
       <div className="qv-object-qsstatistic" style={objectStyle}>

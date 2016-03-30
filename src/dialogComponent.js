@@ -75,7 +75,7 @@ export default function DialogComponentFactory(ShowService, dialogOptions) {
           var text = options.text,
           icon = void 0 !== options.icon ? options.icon : "cogwheel",
           confirmLabel = options.confirm || "Common.OK",
-          width = options.width || "320px",
+          width = options.width || "100%",
           height = options.height || "auto",
           input = {
             text : text,

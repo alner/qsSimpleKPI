@@ -1,6 +1,6 @@
 {
   "name": "SimpleKPI",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Simple KPI for Qlik Sense",
   "keywords": "kpi qliksense extension",
   "main": "component.js",
