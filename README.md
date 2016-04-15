@@ -45,7 +45,7 @@ You can set icon for value or label (full icons set included).
 
 **Infographic mode**
 
-You can set "Infographic mode" option for each measure. In such case expression determines icons count.
+You can set "Infographic mode" option for each measure. In such case expression determines icons quantity.
 
 ![Example](examples/images/infographic_mode.png)
 
