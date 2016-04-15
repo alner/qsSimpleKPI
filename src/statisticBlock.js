@@ -154,6 +154,7 @@ class StatisticBlock extends Component {
       let params = {
         label: item.qFallbackTitle,
         value: "",
+        numericValue: null,
         hideLabel: item.hideLabel,
         labelColor: item.labelColor,
         valueColor: item.valueColor,
@@ -167,7 +168,9 @@ class StatisticBlock extends Component {
         labelOrientation: item.ovParams ? item.labelOrientation : labelOrientation,
         fontStyles: {},
         kpiLink: item.kpiLink,
-        useLink: item.useLink
+        useLink: item.useLink,
+        textAlignment: item.textAlignment,
+        infographic: item.infographic
       };
       params.onClick = self.onKPIClick.bind(self, params);
 
@@ -183,7 +186,10 @@ class StatisticBlock extends Component {
 
       if(index < data.length) {
         params.value = data[index].qText;
-        if(item.qIsAutoFormat && numberFormatter) {
+        params.numericValue = data[index].qNum;
+        if(item.qIsAutoFormat
+        &&  item.autoFormatTemplate && item.autoFormatTemplate.length > 0
+        && numberFormatter) {
           let value = data[index].qNum;
           if(!isNaN(value) && isFinite(value)) {
             if(item.autoFormatTemplate)

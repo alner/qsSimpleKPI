@@ -2,7 +2,7 @@
 
 Simple KPI component for Qlik Sense.
 It can show one or several KPI using measures and one dimension (optional, it can show up to 255 values).
-Supports adaptive design, conditional css colors, conditional icons, configurable number of kpis per line, several predefined sizes, custom styles (CSS).
+Supports adaptive design, conditional css colors, conditional icons, infographic, configurable number of kpis per line, several predefined sizes, custom styles (CSS).
 Each measure can have a link to another sheet.
 
 ![Simple KPI](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/SimpleKPI.png)
@@ -21,6 +21,8 @@ Download [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf)
 
 ![Example](examples/SimpleKPIDemo.png)
 
+![Example](examples/images/infographic.png)
+
 ## Configuration
 
 ![Appearance](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Appearance2.png)
@@ -31,8 +33,6 @@ You can set icon for value or label (full icons set included).
 ![Measures](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Measures.png)
 
 
-![Appearance](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Appearance.png)
-
 **Conditional colors**
 
 ![Colors](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Colors.png)
@@ -41,9 +41,17 @@ You can set icon for value or label (full icons set included).
 
 **Conditional icons**
 
-![Icons](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Icons.png)
-
 ![Conditional icons](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/ConditionalIcons.png)
+
+**Infographic mode**
+
+You can set "Infographic mode" option for each measure. In such case expression determines icons count.
+
+![Example](examples/images/infographic_mode.png)
+
+**Measure alignment**
+
+![Example](examples/images/alignment.png)
 
 **Custom styles**
 

@@ -212,6 +212,37 @@ let kpis = {
             return typeof a.qDef.fontStyles !== "object";
         }
       },
+      textAlignment: {
+        type: "string",
+        component: "item-selection-list", // buttongroup
+        icon: true,
+        horizontal: true,
+        label: "Alignment",
+        translation : "properties.Alignment",
+        ref: "qDef.textAlignment",
+        defaultValue: "center",
+        items : [
+          {
+            value: "left",
+            component : "icon-item",
+            icon:"M"
+          },
+          {
+            value: "center",
+            icon:"O",
+            component : "icon-item"
+          },
+          /*
+          label: "Center",
+          labelPlacement : "bottom",
+          */
+          {
+            value: "right",
+            icon:"N",
+            component : "icon-item"
+          }
+        ]
+      },
       itemIcon: {
         type: "string",
         ref: "qDef.valueIcon",
@@ -281,6 +312,12 @@ let kpis = {
         },
         options: SIZE_OPTIONS,
         defaultValue: ""
+      },
+      infographicMode: {
+        type: "boolean",
+        label: "Infographic mode",
+        ref: "qDef.infographic",
+        defaultValue: false
       }
     }
 };

@@ -1,6 +1,34 @@
 import React, {Component} from 'react';
 import {getDivideByValue} from './options';
 
+class Icon extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    let {
+      value,
+      valueIcon,
+      iconSize,
+      infographic
+    } = this.props;
+    if(infographic) {
+      let icons = [];
+      if(!isNaN(value) && isFinite(value))
+        for (let i = 0; i < value; ++i)
+          icons.push(<i key={i} className={`${valueIcon} ${iconSize}`}></i>);
+
+      return (
+        <span>
+          {icons}
+        </span>
+      )
+    }
+    else
+      return (<i className={`${valueIcon} ${iconSize}`}></i>);
+  }
+};
+
 export default class StatisticItem extends Component {
   constructor(props) {
     super(props);
@@ -39,26 +67,20 @@ export default class StatisticItem extends Component {
       labelOrder,
       iconOrder,
       labelColor,
+      value, // for Dual contains text repr
+      numericValue, // for Dual contains numeric repr
       valueColor = "",
       valueIcon,
       iconSize = "",
       size = "",
       fontStyles,
-      onClick
+      onClick,
+      textAlignment = "center",
+      infographic
     } = this.props.item;
 
-    //let labelOrderFirst = labelOrder === "first";
-    // const hideLabel = this.props.item.hideLabel;
-    // const onItemClick = this.props.item.onClick;
-    //let labelOrientation = this.props.item.labelOrientation || "";
-    //let labelColor = this.props.item.labelColor;
-    // let valueColor = this.props.item.valueColor || "";
-    //let valueIcon = this.props.item.valueIcon || "";
-    // let iconSize = this.props.item.iconSize;
-    // let fontStyles = this.props.item.fontStyles;
-
-    let labelStyles = {padding: "0px 5px"};
-    let valueStyles = {padding: "0px 5px", color: valueColor};
+    let labelStyles = {padding: "0px 5px", textAlign: textAlignment};
+    let valueStyles = {padding: "0px 5px", textAlign: textAlignment, color: valueColor};
 
     if(labelColor)
       labelStyles.color = labelColor;
@@ -80,21 +102,21 @@ export default class StatisticItem extends Component {
     classes = classes.split(" ").filter(function(item){
       return item.trim().length > 0;
     }).join(" ");
-
+    // <i className={`${valueIcon} ${iconSize}`}></i>
     let iconOrderFirst = iconOrder === "first";
     let labelComponent = hideLabel ? null : (
       <div key="lbl" className="label" style={labelStyles}>
-        {iconOrderFirst && this.props.item.iconPosition === 'label' ? <i className={`${valueIcon} ${iconSize}`}></i> : null}
+        {iconOrderFirst && this.props.item.iconPosition === 'label' ? <Icon valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
         {this.props.item.label}
-        {!iconOrderFirst && this.props.item.iconPosition === 'label' ? <i className={`${valueIcon} ${iconSize}`}></i> : null}
+        {!iconOrderFirst && this.props.item.iconPosition === 'label' ? <Icon valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
       </div>
     );
 
     let valueComponent = (
         <div key="val" ref="value" className="value" style={valueStyles}>
-          {iconOrderFirst && this.props.item.iconPosition === 'value' ? <i className={`${valueIcon} ${iconSize}`}></i> : null}
-          {this.props.item.value}
-          {!iconOrderFirst && this.props.item.iconPosition === 'value' ? <i className={`${valueIcon} ${iconSize}`}></i> : null}
+          {iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
+          {value /*!infographic ? value : null*/}
+          {!iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
         </div>
       );
 
