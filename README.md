@@ -19,6 +19,8 @@ Qlik Sense Server: import the zip file in the QMC.
 
 Download [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf)
 
+![Example](examples/images/using_styles.png)
+
 ![Example](examples/SimpleKPIDemo.png)
 
 ![Example](examples/images/infographic.png)
@@ -55,25 +57,25 @@ You can set "Infographic mode" option for each measure. In such case expression 
 
 **Custom styles**
 
- You can fully customize kpis using "Styles (CSS)" property.
+ You can fully customize kpis using "Styles (CSS)" property. For more details see [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf) ("Styles" sheet).
  For testing purpose just copy and paste the following styles into the "Styles (CSS)" property.
 
  ```
 @import url('https://fonts.googleapis.com/css?family=Indie Flower');
 @import url('https://fonts.googleapis.com/css?family=Fredoka One');
 
-& .label {
+& .label * {
   font-family: 'Fredoka One';
   font-size:  300%;
 }
 
-& .statistic-1  .value {
+& .statistic-1  .value * {
   background-color: green;
   font-family: 'Indie Flower', sans-serif;
   color: white !important;
 }
 
-& .value {
+& .value * {
   background-color: yellow;
   font-family: 'Indie Flower', sans-serif;
   font-size: 900%;
