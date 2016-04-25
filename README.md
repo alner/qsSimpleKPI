@@ -21,7 +21,11 @@ Download [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf)
 
 ![Example](examples/images/using_styles.png)
 
+You can easily add several kpis, group them accordingly and apply different ui settings (different font sizes, alignments, styles, icons, links to different sheets, responsive options).
+
 ![Example](examples/SimpleKPIDemo.png)
+
+Infographic mode allows you to show appropriate number of icons (depends on measure, with constraints, no more than 1000 icons per measure).
 
 ![Example](examples/images/infographic.png)
 
@@ -30,6 +34,7 @@ Download [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf)
 ![Appearance](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Appearance2.png)
 
 You can set icon for value or label (full icons set included).
+
 ![Example](examples/IconDialog.png)
 
 ![Measures](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Measures.png)
@@ -58,7 +63,10 @@ You can set "Infographic mode" option for each measure. In such case expression 
 **Custom styles**
 
  You can fully customize kpis using "Styles (CSS)" property. For more details see [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf) ("Styles" sheet).
- For testing purpose just copy and paste the following styles into the "Styles (CSS)" property.
+
+![Example](examples/images/google_fonts.png)
+
+ For example, you can change font-family, font-size, background color, text color and so on, using "Styles (CSS)" property for appropriate measure.
 
  ```
 @import url('https://fonts.googleapis.com/css?family=Indie Flower');
@@ -82,8 +90,6 @@ You can set "Infographic mode" option for each measure. In such case expression 
   color: red !important;
 }
  ```
-
- ![Conditional icons](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Styles.png)
 
 For example, you can import "Font Awesome" and use it. Just copy and paste the following styles into "Styles (CSS)" property.
 ```
