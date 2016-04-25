@@ -241,8 +241,9 @@ class StatisticBlock extends Component {
 
       // Dimension:
       if(kpis.qDimensionInfo.length > 0) {
+        const dimNo = 0; // only one dimension allowed!
         if(dimDivideBy === "auto")
-          dimDivideBy = DIVIDE_BY[Math.min(10, kpis.qDimensionInfo[0].qCardinal)];
+          dimDivideBy = DIVIDE_BY[Math.min(10, kpis.qDimensionInfo[dimNo].qCardinal)];
 
         let dimShowAsContainer = dimShowAs === 'card' ? `${dimDivideBy} stackable cards`  : 'segments';
         let dimLabelsAlignment = '';
@@ -262,11 +263,12 @@ class StatisticBlock extends Component {
           <div className={`ui ${dimensionsOrientation} ${dimShowAsContainer}`} style={segmentsStyle}>
           {
             kpis.qDataPages[0].qMatrix.map(function(dim, dindex){
-              const dimensionLabel = dim[0].qText; // could be only one dimension!
+              const dimensionLabel = dim[dimNo].qText;
+              const dimensionIndex = dim[dimNo].qElemNumber;
               let measures = self.renderKpis(kpis, dindex);
               return (
               <div className={`ui ${dimShowAs}`} style={segmentStyle}>
-                {dimHideLabels ? null : <a className={`ui ${dimLabelSize} ${dimLabelOrientation} ${dimLabelsAlignment} label`}>{dimensionLabel}</a>}
+                {dimHideLabels ? null : <a className={`ui ${dimLabelSize} ${dimLabelOrientation} ${dimLabelsAlignment} label`} onClick={self.onDimensionLabelClick.bind(self, dimNo, dimensionIndex)}>{dimensionLabel}</a>}
                 <div ref="statistics" className={`ui ${divideBy} statistics`}>
                 {measures}
                 </div>
@@ -313,6 +315,11 @@ class StatisticBlock extends Component {
       if(linkId)
         services.Routing.goToSheet(linkId, 'analysis');
     }
+  }
+
+  onDimensionLabelClick(dimNo, value) {
+    this.props.services && this.props.services.QlikComponent
+      && this.props.services.QlikComponent.selectValues(dimNo, [value], true);
   }
 }
 

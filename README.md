@@ -1,8 +1,8 @@
 # Simple KPI
 
 Simple KPI component for Qlik Sense.
-It can show one or several KPI using measures and one dimension (optional, it can show up to 255 values).
-Supports adaptive design, conditional css colors, conditional icons, infographic, configurable number of kpis per line, several predefined sizes, custom styles (CSS).
+It can show one or several KPI using measures and one dimension (selectable, optional, it can show up to 255 values).
+Supports adaptive design, conditional css colors, conditional icons, infographic (with constraints, no more than 1000 icons per measure), configurable number of kpis per line, several predefined sizes, custom styles (CSS).
 Each measure can have a link to another sheet.
 
 ![Simple KPI](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/SimpleKPI.png)
@@ -47,7 +47,7 @@ You can set icon for value or label (full icons set included).
 
 **Infographic mode**
 
-You can set "Infographic mode" option for each measure. In such case expression determines icons quantity.
+You can set "Infographic mode" option for each measure. In such case expression determines icons quantity (with constraints, no more than 1000 icons per measure).
 
 ![Example](examples/images/infographic_mode.png)
 

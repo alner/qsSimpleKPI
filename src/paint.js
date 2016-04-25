@@ -26,7 +26,8 @@ export default function setupPaint(paramaters) {
         }}
         services={{
           Routing: paramaters.Routing,
-          State: paramaters.State
+          State: paramaters.State,
+          QlikComponent: this
         }}
         element={($element)[0]}/>
       ,($element)[0]

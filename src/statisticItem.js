@@ -14,9 +14,11 @@ class Icon extends Component {
     } = this.props;
     if(infographic) {
       let icons = [];
-      if(!isNaN(value) && isFinite(value))
+      if(!isNaN(value) && isFinite(value)) {
+        value = Math.min(1000, value);
         for (let i = 0; i < value; ++i)
           icons.push(<i key={i} className={`${valueIcon} ${iconSize}`}></i>);
+      }
 
       return (
         <span>
