@@ -25,6 +25,14 @@ You can easily add several kpis, group them accordingly and apply different ui s
 
 ![Example](examples/SimpleKPIDemo.png)
 
+You can embedded Master Visualizations into the simple kpi object.
+
+![Example](examples/images/embedded_charts.png)
+
+You can add measure with some fake value (for example, empty string), then drag and drop master visualization into the value region or you can insert object id into the "Visualization" property for each measure.
+
+![Example](examples/images/drag_chart.png)
+
 Infographic mode allows you to show appropriate number of icons (depends on measure, with constraints, no more than 1000 icons per measure).
 
 ![Example](examples/images/infographic.png)

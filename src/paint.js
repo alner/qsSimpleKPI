@@ -27,6 +27,8 @@ export default function setupPaint(paramaters) {
         services={{
           Routing: paramaters.Routing,
           State: paramaters.State,
+          Qlik: paramaters.qlik,
+          DragDropService: paramaters.DragDropService,
           QlikComponent: this
         }}
         element={($element)[0]}/>

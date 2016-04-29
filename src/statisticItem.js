@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import {getDivideByValue} from './options';
+import senseDragDropSupport from './senseDragDropSupport';
+import ValueComponent from './ValueComponent';
+
 
 class Icon extends Component {
   constructor(props) {
@@ -46,7 +49,8 @@ export default class StatisticItem extends Component {
   }
 
   checkRequiredSize(){
-    if(!this.props.onNeedResize)
+    //let embeddedItem = this.props.item.embeddedItem;
+    if(!this.props.onNeedResize) // || (embeddedItem && embeddedItem.trim().length > 0)
       return;
 
     let valueElement = React.findDOMNode(this.refs['value']);
@@ -63,6 +67,7 @@ export default class StatisticItem extends Component {
   render(){
     //let size = this.props.item.size || "";
     const index = this.props.index;
+    const services = this.props.services;
     const {
       hideLabel,
       labelOrientation = "",
@@ -70,6 +75,7 @@ export default class StatisticItem extends Component {
       iconOrder,
       labelColor,
       value, // for Dual contains text repr
+      measureIndex,
       numericValue, // for Dual contains numeric repr
       valueColor = "",
       valueIcon,
@@ -78,11 +84,16 @@ export default class StatisticItem extends Component {
       fontStyles,
       onClick,
       textAlignment = "center",
-      infographic
+      infographic,
+      embeddedItem,
+      mainContainerElement,
+      kpisRows
     } = this.props.item;
 
     let labelStyles = {padding: "0px 5px", textAlign: textAlignment};
     let valueStyles = {padding: "0px 5px", textAlign: textAlignment, color: valueColor};
+    // if(embeddedItem && hideLabel)
+    //  valueStyles.marginTop = `${QLIK_COMP_TOOLBAR_HEIGHT}px`;
 
     if(labelColor)
       labelStyles.color = labelColor;
@@ -114,12 +125,22 @@ export default class StatisticItem extends Component {
       </div>
     );
 
+    let valueComponentProps = {
+        key: "val",
+        ref: "value",
+        measureIndex,
+        embeddedItem,
+        mainContainerElement,
+        valueStyles,
+        services,
+        kpisRows
+    };
     let valueComponent = (
-        <div key="val" ref="value" className="value" style={valueStyles}>
-          {iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
-          {value /*!infographic ? value : null*/}
-          {!iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
-        </div>
+        <ValueComponent {...valueComponentProps}>
+            {iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
+            {value /*!infographic ? value : null*/}
+            {!iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
+        </ValueComponent>
       );
 
     let content = [];

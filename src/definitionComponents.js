@@ -390,7 +390,7 @@ return DialogComponentFactory(ShowService, (() => {
     return indx;
   }
 
-  let docWidth = $(document).width();
+  //let docWidth = $(document).width();
   let docHeight = $(document).height();
   let dWidth = '85%'; // dialog width
   let dHeight = 'auto'; // dialog height

@@ -318,6 +318,16 @@ let kpis = {
         label: "Infographic mode",
         ref: "qDef.infographic",
         defaultValue: false
+      },
+      embeddedItem: {
+        type: "string",
+        ref: "qDef.embeddedItem", //  "qAttributeExpressions.0.qExpression"
+        label: "Visualization",
+        //component : "expression",
+        //expressionType : "measure",
+        expression: "always",
+        defaultValue: "",
+        show: true
       }
     }
 };

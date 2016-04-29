@@ -124,11 +124,12 @@ class StatisticBlock extends Component {
     }
   }
 
-  renderKpis(kpis, rowindex){
+  renderKpis(kpis, rowindex, itemsPerRow){
     const self = this;
+    const mainContainerElement = this.props.element;
     const numberFormatter = this.props.options.numberFormatter;
     const labelOrientation = this.props.options.labelOrientation; //this.state.labelOrientation;
-
+    const services = this.props.services;
     let options = this.props.options;
     let size = this.state.size;
 
@@ -143,6 +144,7 @@ class StatisticBlock extends Component {
     const qMeasureInfo = kpis.qMeasureInfo;
     let data = kpis.qDataPages[0].qMatrix.length > 0 && kpis.qDataPages[0].qMatrix[rowindex];
     const dimensionValue = measuresShift > 0 && data[0].qText; // first dimension only
+    let rows = Math.ceil(qMeasureInfo.length / itemsPerRow);
     return qMeasureInfo.map(function(item, mindex){
       let index = measuresShift + mindex;
       let itemSize = item.size;
@@ -154,6 +156,7 @@ class StatisticBlock extends Component {
       let params = {
         label: item.qFallbackTitle,
         value: "",
+        measureIndex: mindex,
         numericValue: null,
         hideLabel: item.hideLabel,
         labelColor: item.labelColor,
@@ -170,7 +173,10 @@ class StatisticBlock extends Component {
         kpiLink: item.kpiLink,
         useLink: item.useLink,
         textAlignment: item.textAlignment,
-        infographic: item.infographic
+        infographic: item.infographic,
+        embeddedItem: item.embeddedItem,
+        mainContainerElement: mainContainerElement,
+        kpisRows: rows
       };
       params.onClick = self.onKPIClick.bind(self, params);
 
@@ -208,6 +214,7 @@ class StatisticBlock extends Component {
           key={item.cId}
           item={params}
           options={options}
+          services={services}
           onNeedResize={self.kpiItemResizeHandler.bind(self)} />
         }
       else
@@ -237,7 +244,9 @@ class StatisticBlock extends Component {
     if(kpis.qMeasureInfo.length > 0 && kpis.qDataPages.length > 0) {
 
       if(divideBy === "auto")
-        divideBy = DIVIDE_BY[Math.min(10, kpis.qDataPages[0].qMatrix[0].length - kpis.qDimensionInfo.length)];
+        divideBy = DIVIDE_BY[ Math.min(10, kpis.qDataPages[0].qMatrix[0].length - kpis.qDimensionInfo.length)];
+
+      let divideByNumber = Math.max(1, DIVIDE_BY.indexOf(divideBy));
 
       // Dimension:
       if(kpis.qDimensionInfo.length > 0) {
@@ -265,7 +274,7 @@ class StatisticBlock extends Component {
             kpis.qDataPages[0].qMatrix.map(function(dim, dindex){
               const dimensionLabel = dim[dimNo].qText;
               const dimensionIndex = dim[dimNo].qElemNumber;
-              let measures = self.renderKpis(kpis, dindex);
+              let measures = self.renderKpis(kpis, dindex, divideByNumber);
               return (
               <div className={`ui ${dimShowAs}`} style={segmentStyle}>
                 {dimHideLabels ? null : <a className={`ui ${dimLabelSize} ${dimLabelOrientation} ${dimLabelsAlignment} label`} onClick={self.onDimensionLabelClick.bind(self, dimNo, dimensionIndex)}>{dimensionLabel}</a>}
@@ -281,7 +290,7 @@ class StatisticBlock extends Component {
         // ${size}
         items = (
           <div ref="statistics" className={`ui ${divideBy} statistics`}>
-            {self.renderKpis(kpis, 0)}
+            {self.renderKpis(kpis, 0, divideByNumber)}
           </div>);
       }
     }

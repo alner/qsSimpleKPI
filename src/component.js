@@ -9,14 +9,15 @@ let dependencies = [
   'client.utils/routing',
   'client.utils/state',
   'objects.utils/number-formatter',
-  'general.services/show-service/show-service'
+  'general.services/show-service/show-service',
+  'general.utils/drag-and-drop-service'
 ]; // 'css!./styles.css'
 
 if(!global.React)
   dependencies.push('./vendors/react.min');
 
 define(dependencies,
-  function (module, qlik, Routing, State, NumberFormatter, ShowService, React) {
+  function (module, qlik, Routing, State, NumberFormatter, ShowService, DragDropService, React) {
     const ROOT_URI = module.uri.split('/').slice(0, -1).join('/');
     loadCSS(`${ROOT_URI}/styles.css`);
 
@@ -25,7 +26,7 @@ define(dependencies,
 
     let initialProperties = require('./initialProperties');
     let definition = require('./definition')({ ShowService });
-    let paint = require('./paint')({qlik, Routing, State, NumberFormatter}); // NumberFormatter: global.NumberFormatter
+    let paint = require('./paint')({qlik, Routing, State, NumberFormatter, DragDropService}); // NumberFormatter: global.NumberFormatter
     return {
       initialProperties,
       definition,
