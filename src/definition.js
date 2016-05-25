@@ -48,7 +48,7 @@ let kpis = {
       },
       labelColor: {
         type: "string",
-        ref: "qDef.labelColor",
+        ref: "qDef.labelColor", //"qAttributeExpressions.0.qExpression",
         label: "Label color",
         expression: "always",
         defaultValue: "#545352"
@@ -56,7 +56,7 @@ let kpis = {
       pickLabelColor: {
         type: "string",
         component: ColorsPickerComponent,
-        ref: "qDef.labelColor",
+        ref: "qDef.labelColor", //"qAttributeExpressions.0.qExpression",
         defaultValue: "#545352",
         options: COLOR_OPTIONS
       },
@@ -321,7 +321,7 @@ let kpis = {
       },
       embeddedItem: {
         type: "string",
-        ref: "qDef.embeddedItem", //  "qAttributeExpressions.0.qExpression"
+        ref: "qDef.embeddedItem",
         label: "Visualization",
         //component : "expression",
         //expressionType : "measure",

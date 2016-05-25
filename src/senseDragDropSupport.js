@@ -164,7 +164,7 @@ export default function DragDropSupport(spec = DEFAULT_SPEC) {
 
       repaintObject(){
         let r = this.getRect();
-        if(!IsRectEqual(this.cellRect, r)) {
+        if(this.cellRect && !IsRectEqual(this.cellRect, r)) {
           this.setupDragDropRect();
         }
         let placeElement = this.getPlaceholderElement();

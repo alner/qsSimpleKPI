@@ -52,6 +52,11 @@ let ColorsPickerComponent = {
           c.isColorExpression = true;
           c.colorExpression = (val && val.qStringExpression && val.qStringExpression.qExpr) || "";
           val = c.definition.defaultValue;
+        } else
+        if(typeof val === "string") {
+          let isValidColor = /([#A-Fa-f0-9]{7}|[#A-Fa-f0-9]{4})/;
+          let colorMatch = isValidColor.exec(val);
+          if(colorMatch) val = colorMatch[0];
         }
 
         c.t = {
