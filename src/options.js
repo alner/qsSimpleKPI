@@ -111,6 +111,11 @@ const COLOR_OPTIONS = [
     tooltip: "brown"
   },
   {
+    value: "#a5673f",
+    label: "brown",
+    tooltip: "brown"
+  },
+  {
     value: "#767676",
     label: "grey",
     tooltip: "grey"

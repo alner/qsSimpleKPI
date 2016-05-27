@@ -634,6 +634,19 @@ let settings = {
       label: "Styles",
       translation: "Styles",
       items: {
+        backgroundColor: {
+          type: "string",
+          ref: "options.backgroundColor",
+          label: "Background color",
+          expression: "always",
+          defaultValue: ""
+        },
+        pickBackgroundColor: {
+          type: "string",
+          component: ColorsPickerComponent,
+          ref: "options.backgroundColor",
+          options: COLOR_OPTIONS
+        },
         styles: {
           type: "string",
           component: TextEditorComponent,

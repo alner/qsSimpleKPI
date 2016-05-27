@@ -14,7 +14,7 @@
 }
 .qv-object-qsstatistic {
   @import "../semantic/src/definitions/views/card.less";
-  @import "../semantic/src/definitions/elements/button.less";
+  //@import "../semantic/src/definitions/elements/button.less";
   @import "../semantic/src/definitions/elements/icon.less";
   @import "../semantic/src/definitions/elements/label.less";
   @import "../semantic/src/definitions/views/statistic.less";
@@ -29,13 +29,66 @@
     text-align: center;
   }
 
+  .ui.segments, .ui.segment {
+    background-color: transparent !important;
+  }
+
   .ui.statistics .statistic > .value,
   .ui.statistic > .value {
     text-transform: none;
   }
 
+  .ui.cards {
+    margin: 0 !important;
+  }
+
   .ui.cards > .card,
   .ui.card {
     padding: 0;
+    background-color: transparent !important;
+  }
+
+  .ui.button {
+    cursor: pointer;
+    display: inline-block;
+    min-height: 1em;
+    outline: 0;
+    border: none;
+    vertical-align: baseline;
+    background: #fff;
+    color: rgba(0,0,0,.87);
+    font-family: icons,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    margin: 0 0 1rem;
+    padding: 1em;
+    text-transform: none;
+    text-shadow: none;
+    font-weight: 700;
+    line-height: 1.4285em;
+    font-style: normal;
+    text-align: center;
+    text-decoration: none;
+    border-radius: .28571429rem;
+    box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: 'default';
+    will-change: '';
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .ui.mini.button, .ui.mini.buttons .button, .ui.mini.buttons {
+    font-size: .71428571em;
+  }
+
+  .ui.icon.button, .ui.icon.buttons .button {
+    padding: 1em;
+  }
+
+  .ui.icon.button>.icon, .ui.icon.buttons .button>.icon {
+    opacity: .9;
+    margin: 0;
+    vertical-align: top;
   }
 }

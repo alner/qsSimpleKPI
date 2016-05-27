@@ -17,7 +17,7 @@ let dependencies = [
   'general.services/show-service/show-service',
   'general.utils/drag-and-drop-service'
 ].map(function(path){
-  // check if dependencies was defined...
+  // check if dependency was defined...
   if(defined(path) || path === 'module')
     return path
   else

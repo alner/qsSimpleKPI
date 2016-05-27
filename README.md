@@ -29,7 +29,7 @@ You can embedded Master Visualizations into the simple kpi object.
 
 ![Example](examples/images/embedded_charts.png)
 
-You can add measure with some fake value (for example, empty string), then drag and drop master visualization into the value region or you can insert object id into the "Visualization" property for each measure.
+You can add measure with some fake value (for example, using the following expression: ='Drag and Drop here'), then drag and drop master visualization into the value region or you can insert object id into the "Visualization" property for each measure.
 
 ![Example](examples/images/drag_chart.png)
 
@@ -68,7 +68,11 @@ You can set "Infographic mode" option for each measure. In such case expression 
 
 ![Example](examples/images/alignment.png)
 
-**Custom styles**
+**Styles**
+
+ "Background color" property allows to set background color of the object using expression.
+
+ ![Example](examples/images/background_color.png)
 
  You can fully customize kpis using "Styles (CSS)" property. For more details see [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf) ("Styles" sheet).
 
