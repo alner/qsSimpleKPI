@@ -645,7 +645,33 @@ let settings = {
           type: "string",
           component: ColorsPickerComponent,
           ref: "options.backgroundColor",
-          options: COLOR_OPTIONS
+          options: COLOR_OPTIONS,
+          defaultValue: ""
+        },
+        iconSize: {
+          type: "string",
+          component: "dropdown",
+          label: "Vertical alignment",
+          ref: "options.verticalAlign",
+          options: [
+            {
+              value: "top-aligned-items",
+              label: "Top aligned"
+            },
+            {
+              value: "bottom-aligned-items",
+              label: "Bottom aligned"
+            },
+            {
+              value: "center-aligned-items",
+              label: "Center aligned"
+            },
+            {
+              value: "stretched-items",
+              label: "Stretched"
+            },
+          ],
+          defaultValue: "top-aligned-items"
         },
         styles: {
           type: "string",

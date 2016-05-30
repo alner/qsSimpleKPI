@@ -20,6 +20,44 @@
   @import "../semantic/src/definitions/views/statistic.less";
   @import "../semantic/src/definitions/elements/segment.less";
 
+  .top-aligned-items {
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .bottom-aligned-items {
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .center-aligned-items {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .stretched-items {
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .ui.statistics, .ui.cards, .ui.segments  {
+    width: 100%;
+  }
+
+  .ui.vertical.segments  {
+    height: 100%;
+  }
+
+  @media (max-width: 767px) {
+    .ui.cards {
+      height: 100%;
+    }
+  }
+
   .ui.statistics .statistic > .label,
   .ui.statistic > .label {
     text-transform: none;

@@ -237,10 +237,18 @@ class StatisticBlock extends Component {
       dimDivideBy = 'auto',
       divideBy,
       backgroundColor,
+      verticalAlign = "top-aligned-items",
       styles = ''
     } = this.props.options;
 
     let items;
+
+    // for vertical alignment
+    // const itemsContainerStyle = {
+    //   height: "100%",
+    //   display: "flex",
+    //   "align-items": verticalAlign
+    // };
 
     if(kpis.qMeasureInfo.length > 0 && kpis.qDataPages.length > 0) {
 
@@ -270,6 +278,7 @@ class StatisticBlock extends Component {
           }
         }
         items = (
+          <div className={`${verticalAlign}`}>
           <div className={`ui ${dimensionsOrientation} ${dimShowAsContainer}`} style={segmentsStyle}>
           {
             kpis.qDataPages[0].qMatrix.map(function(dim, dindex){
@@ -279,19 +288,22 @@ class StatisticBlock extends Component {
               return (
               <div className={`ui ${dimShowAs}`} style={segmentStyle}>
                 {dimHideLabels ? null : <a className={`ui ${dimLabelSize} ${dimLabelOrientation} ${dimLabelsAlignment} label`} onClick={self.onDimensionLabelClick.bind(self, dimNo, dimensionIndex)}>{dimensionLabel}</a>}
-                <div ref="statistics" className={`ui ${divideBy} statistics`}>
-                {measures}
-                </div>
+                  <div ref="statistics" className={`ui ${divideBy} statistics`}>
+                  {measures}
+                  </div>
               </div>)
             })
           }
+          </div>
           </div>
         );
       } else {
         // ${size}
         items = (
-          <div ref="statistics" className={`ui ${divideBy} statistics`}>
-            {self.renderKpis(kpis, 0, divideByNumber)}
+          <div className={`${verticalAlign}`}>
+            <div ref="statistics" className={`ui ${divideBy} statistics`}>
+              {self.renderKpis(kpis, 0, divideByNumber)}
+            </div>
           </div>);
       }
     }
@@ -306,7 +318,7 @@ class StatisticBlock extends Component {
 
     return (
       <div className="qv-object-qsstatistic" style={objectStyle}>
-        <InlineCSS stylesheet={styles}>
+        <InlineCSS stylesheet={styles} style={{height: "100%"}}>
           {items}
         </InlineCSS>
       </div>

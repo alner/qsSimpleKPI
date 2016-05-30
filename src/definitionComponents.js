@@ -60,7 +60,7 @@ let ColorsPickerComponent = {
         }
 
         c.t = {
-          value: val
+          value: val || "..."
         };
 
         c.visible = true;
