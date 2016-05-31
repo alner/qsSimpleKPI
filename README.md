@@ -74,6 +74,10 @@ You can set "Infographic mode" option for each measure. In such case expression 
 
  ![Example](examples/images/background_color.png)
 
+ All KPIs can be vertically aligned.
+
+ ![Example](examples/images/vertical_alignment.png)
+
  You can fully customize kpis using "Styles (CSS)" property. For more details see [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf) ("Styles" sheet).
 
 ![Example](examples/images/google_fonts.png)
