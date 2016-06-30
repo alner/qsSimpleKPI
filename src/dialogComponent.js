@@ -4,7 +4,7 @@ export default function DialogComponentFactory(ShowService, dialogOptions) {
   let defaultComponentView = dialogOptions.controlComponent ||
   `
   <button
-    class="qui-button"
+    class="lui-button qui-button"
     title="Show dialog"
     qva-activate="showDialog()">
     <i class="{{icon}}" style="font-size:18px;"></i>
@@ -103,7 +103,7 @@ export default function DialogComponentFactory(ShowService, dialogOptions) {
                   </div>
                   <div style="width:{{width}};height:{{height}}">${dialogOptions.dialogContent || ""}</div>
                 </main>
-                <qv-confirm-cancel-footer qv-confirm="confirm()" qv-cancel="cancel()" qv-confirm-label="{{$parent.confirmLabel}}"></qv-confirm-cancel-footer>
+                <qv-confirm-cancel-footer qv-confirm="confirm()" qv-cancel="cancel()" qv-confirm-label="{{confirmLabel || $parent.confirmLabel}}"></qv-confirm-cancel-footer>
               </qv-modal-dialog>`,
               scope : {
                 text : "=",

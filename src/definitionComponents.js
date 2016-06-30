@@ -247,26 +247,26 @@ let FontStylesComponent = {
       <div class="label" ng-if="label" ng-class="{ \'disabled\': readOnly }">
         {{label}}
       </div>
-      <div class="qui-buttongroup" ng-if="!loading && !isExpression">
+      <div class="lui-buttongroup qui-buttongroup" ng-if="!loading && !isExpression">
         <button
-          class="qui-button"
-          ng-class="{'qui-active':states.bold}"
+          class="lui-button qui-button"
+          ng-class="{'lui-active qui-active':states.bold}"
           ng-disabled="readOnly"
           qva-activate="select('bold')"
           q-title-translation="Bold">
           <i class="icon bold" style="font-color: white; font-size:18px;"></i>
         </button>
         <button
-          class="qui-button"
-          ng-class="{'qui-active':states.italic}"
+          class="lui-button qui-button"
+          ng-class="{'lui-active qui-active':states.italic}"
           ng-disabled="readOnly"
           qva-activate="select('italic')"
           q-title-translation="Italic">
           <i class="icon italic" style="font-color: white; font-size:18px;"></i>
         </button>
         <button
-          class="qui-button"
-          ng-class="{'qui-active':states.underline}"
+          class="lui-button qui-button"
+          ng-class="{'lui-active qui-active':states.underline}"
           ng-disabled="readOnly"
           qva-activate="select('underline')"
           q-title-translation="Underline">
@@ -418,7 +418,7 @@ return DialogComponentFactory(ShowService, (() => {
     },
     controlComponent: `
     <button
-      class="qui-button"
+      class="lui-button qui-button"
       title="{{iconExpression}}"
       qva-activate="showDialog()"
       ng-disabled="readOnly">
@@ -508,17 +508,19 @@ return DialogComponentFactory(ShowService, (() => {
       <div style="margin-top: 10px;">
         <span ng-repeat-start="(iconOption, iconOptLabel) in iconOptions track by iconOption" />
         <label
-          class="qui-checkboxicon"
+          class="lui-checkbox qui-checkboxicon"
+          style="display: inline-block"
           title="{{iconOptLabel}}"
-          ng-class="{ \'qui-hover\': hover }"
+          ng-class="{ \'lui-hovered qui-hover\': hover }"
           ng-mouseenter="hover = true"
           ng-mouseleave="hover = false">
           <input type="checkbox"
+            class="lui-checkbox__input"
             ng-model="opts[iconOption]"
             ng-change="select(iconOption)">
-          <div class="check-wrap">
-            <span class="check"></span>
-            <span class="check-text" style="max-width: 200px">{{iconOptLabel}}</span>
+          <div class="lui-checkbox__check-wrap check-wrap">
+            <span class="lui-checkbox__check check"></span>
+            <span class="lui-checkbox__check-text check-text" style="max-width: 200px">{{iconOptLabel}}</span>
           </div>
         </label>
         <span ng-repeat-end>&nbsp;</span>

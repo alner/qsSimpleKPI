@@ -46,6 +46,11 @@ define(dependencies,
       initialProperties,
       definition,
       paint,
+      support: {
+        snapshot: true,
+        export: true,
+        exportData: true
+      },
       snapshot: {
         canTakeSnapshot : true
       }

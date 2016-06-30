@@ -4,8 +4,8 @@ export default {
     qDimensions: [],
     qMeasures: [],
     qInitialDataFetch: [{
-      qWidth: 25,
-      qHeight: 255
+      qWidth: 40,
+      qHeight: 250
     }]
   },
   options: {}
