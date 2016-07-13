@@ -27,13 +27,14 @@ let dependencies = [
 });
 // 'css!./styles.css'
 
+dependencies.push('css!./styles.css');
 if(!global.React)
   dependencies.push('./vendors/react.min');
 
 define(dependencies,
-  function (module, qlik, Routing, State, NumberFormatter, ShowService, DragDropService, React) {
+  function (module, qlik, Routing, State, NumberFormatter, ShowService, DragDropService, styles, React) {
     const ROOT_URI = module && module.uri.split('/').slice(0, -1).join('/');
-    if(ROOT_URI)
+    if(!styles && ROOT_URI)
       loadCSS(`${ROOT_URI}/styles.css`);
 
     if(React && !global.React)

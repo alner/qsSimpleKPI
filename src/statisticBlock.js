@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import InlineCSS from 'react-inline-css';
-import {DIVIDE_BY, SIZE_OPTIONS, FONT_SIZE_OPTIONS, getSizeIndex} from './options';
+import {DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex} from './options';
 import StatisticItem from './statisticItem';
+import ATTRIBUTES from './definitionAttributes';
 
 class StatisticBlock extends Component {
   constructor(props){
     super(props);
     this.state = {
+      is_show: false, // initial resize should not be visible
       size: props.options.size,
       clientWidth: props.element.clientWidth,
       clientHeight: props.element.clientHeight,
@@ -17,7 +19,9 @@ class StatisticBlock extends Component {
 
   componentDidMount(){
     var self = this;
-    setTimeout(function(){self.checkRequiredSize();}, 100);
+    setTimeout(function(){self.checkRequiredSize();}, 50);
+    // initial resize should not be visible
+    setTimeout(function(){self.setState({is_show: true});}, 150);
   }
 
   componentDidUpdate() {
@@ -25,14 +29,16 @@ class StatisticBlock extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.restoreSize();
+    this.restoreSize(nextProps);
   }
 
-  restoreSize(){
-    let elementClientWidth = this.props.element.clientWidth;
-    let elementClientHeight = this.props.element.clientHeight;
-    let size = this.props.options.size;
+  restoreSize(props){
+    const from_props = props || this.props;
+    const elementClientWidth = from_props.element.clientWidth;
+    const elementClientHeight = from_props.element.clientHeight;
+    const size = from_props.options.size;
     this.setState({
+      is_show: true,
       size: size,
       overflow: null,
       clientWidth: elementClientWidth,
@@ -41,8 +47,13 @@ class StatisticBlock extends Component {
     });
   }
 
-  kpiItemResizeHandler() {
-    if(this.props.options.autoSize) {
+  kpiItemResizeHandler(isNeedResize) {
+    if(!isNeedResize && !this.state.is_show) {
+      this.setState({
+        is_show: true
+      });
+    } else
+    if(isNeedResize && this.props.options.autoSize) {
       let size = this.state.size;
       let index = getSizeIndex(size);
       if(index > 0) {
@@ -96,7 +107,8 @@ class StatisticBlock extends Component {
             return;
 
           let index = getSizeIndex(size);
-          if(index > 0)
+          if(index > 0) {
+            // trying to reduce size ...
             this.setState({
               size: SIZE_OPTIONS[index - 1].value,
               clientWidth: elementClientWidth,
@@ -104,9 +116,14 @@ class StatisticBlock extends Component {
               prevClientWidth: this.state.clientWidth,
               prevClientHeight: this.state.clientHeight
             });
+          }
           else if(index == 0){
+            if(this.state.valueFontStyleIndex !== 0) {
+              // trying to reduce font size ...
+              this.kpiItemResizeHandler(true);
+            } else
             if(this.state.overflow !== "auto")
-              this.setState({overflow: "auto"});
+              this.setState({overflow: "auto"}); // ...show scrollbars
           }
         }
         else
@@ -134,7 +151,7 @@ class StatisticBlock extends Component {
     let size = this.state.size;
 
     const currentSizeIndex = getSizeIndex(size);
-    const originalSizeIndex = getSizeIndex(this.props.options.size);
+    const originalSizeIndex = getSizeIndex(options.size);
     let deltaSizeIndex = 0;
     if(originalSizeIndex !== -1 && currentSizeIndex !== -1) {
       deltaSizeIndex = originalSizeIndex - currentSizeIndex;
@@ -147,14 +164,19 @@ class StatisticBlock extends Component {
     let rows = Math.ceil(qMeasureInfo.length / itemsPerRow);
     return qMeasureInfo.map(function(item, mindex){
       let index = measuresShift + mindex;
-      let itemSize = item.size;
+      let itemSize = item.ovParams && item.size !== DEFAULT_SIZE ? item.size : options.size;
       if(deltaSizeIndex > 0) {
         let itemSizeIndex = getSizeIndex(itemSize);
-        itemSizeIndex = Math.max(0, deltaSizeIndex > 0 ? itemSizeIndex - deltaSizeIndex : itemSizeIndex);
+        itemSizeIndex = Math.max(0, options.autoSize && deltaSizeIndex > 0 ? itemSizeIndex - deltaSizeIndex + 1 : itemSizeIndex);
+        //if(itemSizeIndex >= SIZE_OPTIONS.length)
         itemSize = SIZE_OPTIONS[itemSizeIndex].value;
       }
+      const isAttrExps = data[index].qAttrExps && data[index].qAttrExps.qValues.length;
+      let overridedLabel;
+      if(isAttrExps)
+        overridedLabel = data[index].qAttrExps.qValues[ATTRIBUTES.overridedLabel.index].qText;
       let params = {
-        label: item.qFallbackTitle,
+        label: item.ovParams && overridedLabel ? overridedLabel : item.qFallbackTitle,
         value: "",
         measureIndex: mindex,
         numericValue: null,
@@ -166,7 +188,7 @@ class StatisticBlock extends Component {
         iconOrder: item.iconOrder,
         iconSize: item.iconSize,
         ovParams: item.ovParams,
-        size: item.ovParams ? itemSize : size,
+        size: itemSize,
         labelOrder: item.ovParams ? item.labelOrder : options.labelOrder,
         labelOrientation: item.ovParams ? item.labelOrientation : labelOrientation,
         fontStyles: {},
@@ -314,6 +336,10 @@ class StatisticBlock extends Component {
     if(this.state.overflow) {
       objectStyle.overflow = this.state.overflow;
       objectStyle.WebkitOverflowScrolling = 'touch'; // nice webkit scorll support
+    }
+
+    if(!this.state.is_show) {
+      objectStyle.visibility = 'hidden';
     }
 
     return (

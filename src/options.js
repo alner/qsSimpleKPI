@@ -127,6 +127,9 @@ const COLOR_OPTIONS = [
   }
 ];
 
+// in case of overrided parametes. see definition.js
+const DEFAULT_SIZE = ' ';
+
 const SIZE_OPTIONS = [
   {
     value: "mini",
@@ -228,6 +231,7 @@ const FONT_SIZE_OPTIONS = [
 
 export default {
   COLOR_OPTIONS,
+  DEFAULT_SIZE,
   SIZE_OPTIONS,
   DIVIDE_BY,
   DIM_LABEL_OPTIONS,

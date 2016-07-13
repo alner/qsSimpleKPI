@@ -6,12 +6,13 @@ import {
 } from './definitionComponents';
 
 import { FULL_ICONS_SET } from './iconsDefinitions';
-import {COLOR_OPTIONS, SIZE_OPTIONS, DIM_LABEL_OPTIONS, DIM_VIEW_OPTIONS} from './options';
+import {COLOR_OPTIONS, SIZE_OPTIONS, DEFAULT_SIZE, DIM_LABEL_OPTIONS, DIM_VIEW_OPTIONS} from './options';
+import ATTRIBUTES from './definitionAttributes';
 
-export default function (options) {
+export default function ({ ShowService }) {
 
 // let Dialog = options.Dialog;
-let ShowService = options.ShowService;
+//let ShowService = options.ShowService;
 
 // Dimensions array
 let dims = {
@@ -26,7 +27,7 @@ let dims = {
 
 // Kpi array
 let kpis = {
-    type: "items",
+//    type: "items",
     uses : "measures",
     ref: "qHyperCubeDef.qMeasures",
     disabledRef : "qHyperCubeDef.qLayoutExclude.qHyperCubeDef.qMeasures",
@@ -134,13 +135,38 @@ let kpis = {
         ref: "qDef.ovParams",
         defaultValue: false
       },
+      overridedLabel: {
+        type: "string",
+        label: "Label",
+        expression: "optional",
+        ref: ATTRIBUTES.overridedLabel.ref,
+        translation : "Common.Label",
+        show: function(a) {
+          return a.qDef.ovParams;
+        },
+        // change: function(obj) {
+        //   const isExpr = /^=/;
+        //   const isString = /^'(.+)'$/;
+        //   const value = obj.qAttributeExpressions[ATTRIBUTES.overridedLabel.index].qExpression;
+        //   if(!isExpr.exec(value) && !isString.exec(value)) {
+        //     obj.qAttributeExpressions[ ATTRIBUTES.overridedLabel.index] = `'${value}'`;
+        //   }
+        // },
+      },
       size: {
         type: "string",
         component: "dropdown",
         label: "Size",
         ref: "qDef.size",
-        options: SIZE_OPTIONS,
-        defaultValue: "",
+        options:
+        [...SIZE_OPTIONS,
+          {
+            value: DEFAULT_SIZE,
+            label: DEFAULT_SIZE,
+            tooltip: DEFAULT_SIZE
+          }
+        ],
+        defaultValue: DEFAULT_SIZE,
         show: function(a) {
             return a.qDef.ovParams;
         }
