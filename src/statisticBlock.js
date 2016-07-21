@@ -15,21 +15,30 @@ class StatisticBlock extends Component {
       overflow: null,
       valueFontStyleIndex: null
     };
+    this.componentReady.bind(this);
   }
 
   componentDidMount(){
     var self = this;
     setTimeout(function(){self.checkRequiredSize();}, 50);
     // initial resize should not be visible
-    setTimeout(function(){self.setState({is_show: true});}, 150);
+    setTimeout(function(){self.componentReady(); }, 500);
+    //this.componentReady();
   }
 
   componentDidUpdate() {
+    var self = this;
     this.checkRequiredSize();
   }
 
   componentWillReceiveProps(nextProps) {
     this.restoreSize(nextProps);
+  }
+
+  componentReady() {
+    // initial resize should not be visible
+    this.setState({is_show: true});
+    this.props.services.PrintResolver(); // we are ready... can be printed!
   }
 
   restoreSize(props){
@@ -49,9 +58,10 @@ class StatisticBlock extends Component {
 
   kpiItemResizeHandler(isNeedResize) {
     if(!isNeedResize && !this.state.is_show) {
-      this.setState({
-        is_show: true
-      });
+      // this.setState({
+      //   is_show: true
+      // });
+      this.componentReady();
     } else
     if(isNeedResize && this.props.options.autoSize) {
       let size = this.state.size;
@@ -343,11 +353,11 @@ class StatisticBlock extends Component {
     }
 
     return (
+      <InlineCSS stylesheet={styles} style={{height: "100%"}}>
       <div className="qv-object-qsstatistic" style={objectStyle}>
-        <InlineCSS stylesheet={styles} style={{height: "100%"}}>
           {items}
-        </InlineCSS>
       </div>
+      </InlineCSS>
     );
   }
 

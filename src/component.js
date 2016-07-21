@@ -18,7 +18,9 @@ let dependencies = [
   'general.utils/drag-and-drop-service'
 ].map(function(path){
   // check if dependency was defined...
-  if(defined(path) || path === 'module')
+  if(defined(path)
+  || path === 'module'
+  || path === 'objects.utils/number-formatter')
     return path
   else
   if(path === 'qlik' && defined('js/qlik'))
@@ -27,17 +29,19 @@ let dependencies = [
 });
 // 'css!./styles.css'
 
-dependencies.push('css!./styles.css');
+//dependencies.push('css!./styles.css');
+//dependencies.push('text!./styles.css');
 if(!global.React)
   dependencies.push('./vendors/react.min');
 
 define(dependencies,
-  function (module, qlik, Routing, State, NumberFormatter, ShowService, DragDropService, styles, React) {
+  function (module, qlik, Routing, State, NumberFormatter, ShowService, DragDropService, /*styles,*/ React) {
     const ROOT_URI = module && module.uri.split('/').slice(0, -1).join('/');
-    if(!styles && ROOT_URI)
+    //if(!styles && ROOT_URI)
+    if(ROOT_URI)
       loadCSS(`${ROOT_URI}/styles.css`);
 
-    if(React && !global.React)
+     if(React && !global.React)
       global.React = React;
 
     let initialProperties = require('./initialProperties');
