@@ -22,7 +22,7 @@ class StatisticBlock extends Component {
     var self = this;
     setTimeout(function(){self.checkRequiredSize();}, 50);
     // initial resize should not be visible
-    setTimeout(function(){self.componentReady(); }, 500);
+    setTimeout(function(){self.componentReady(); }, 1500);
     //this.componentReady();
   }
 
@@ -38,7 +38,7 @@ class StatisticBlock extends Component {
   componentReady() {
     // initial resize should not be visible
     this.setState({is_show: true});
-    this.props.services.PrintResolver(); // we are ready... can be printed!
+    this.props.services.PrintResolver && this.props.services.PrintResolver(); // we are ready... can be printed!
   }
 
   restoreSize(props){

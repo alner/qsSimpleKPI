@@ -12,7 +12,7 @@ let dependencies = [
   'module',
   'qlik',
   'client.utils/routing',
-  'client.utils/state',
+//  'client.utils/state',
   'objects.utils/number-formatter',
   'general.services/show-service/show-service',
   'general.utils/drag-and-drop-service'
@@ -27,15 +27,12 @@ let dependencies = [
     return 'js/qlik'
   else return 'resource-not-defined'
 });
-// 'css!./styles.css'
 
-//dependencies.push('css!./styles.css');
-//dependencies.push('text!./styles.css');
 if(!global.React)
   dependencies.push('./vendors/react.min');
 
 define(dependencies,
-  function (module, qlik, Routing, State, NumberFormatter, ShowService, DragDropService, /*styles,*/ React) {
+  function (module, qlik, Routing, NumberFormatter, /* State,*/ ShowService, DragDropService, /*styles,*/ React) {
     const ROOT_URI = module && module.uri.split('/').slice(0, -1).join('/');
     //if(!styles && ROOT_URI)
     if(ROOT_URI)
@@ -46,7 +43,8 @@ define(dependencies,
 
     let initialProperties = require('./initialProperties');
     let definition = require('./definition')({ ShowService });
-    let paint = require('./paint')({qlik, Routing, State, NumberFormatter, DragDropService}); // NumberFormatter: global.NumberFormatter
+    let paint = require('./paint')({qlik, Routing, NumberFormatter, DragDropService}); // State, NumberFormatter
+
     return {
       initialProperties,
       definition,
@@ -56,8 +54,8 @@ define(dependencies,
         export: true,
         exportData: true
       },
-      snapshot: {
-        canTakeSnapshot : true
-      }
+      // snapshot: {
+      //   canTakeSnapshot : true
+      // }
     }
 });
