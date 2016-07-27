@@ -59,7 +59,9 @@ export default function setupPaint({qlik, Routing, NumberFormatter, DragDropServ
       isInAnalysisMode: self.inAnalysisState && self.inAnalysisState.bind(self)
     };
 
-    return new qlik.Promise(function(resolve, reject){
+    const PromiseClass = qlik.Promise || Promise; // for backward compatibility
+
+    return new PromiseClass(function(resolve, reject){
 
       unmountIfZoomed($element, layout, self);
       // if((self.options && self.options.isZoomed)
