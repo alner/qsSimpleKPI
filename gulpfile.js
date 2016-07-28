@@ -7,6 +7,7 @@ var less = require('gulp-less');
 var del = require('del');
 var zip = require('gulp-zip');
 var minifyCSS = require('gulp-clean-css'); // gulp-minify-css
+var purify = require('gulp-purifycss');
 var runSequence = require('run-sequence');
 var LessPluginAutoPrefix = require('less-plugin-autoprefix');
 var autoprefix= new LessPluginAutoPrefix({ browsers: ["last 2 versions"] });
@@ -22,6 +23,7 @@ var deployDest = require('./server').deployPathDestination;
 var templateFile = './src/Template.qextmpl';
 var lessFiles = './src/**/*.less';
 var cssFiles = './src/**/*.css';
+var jsFiles = './**/*.js';
 
 var name = path.basename(__dirname);
 
@@ -58,6 +60,12 @@ gulp.task('less2css', function(){
   .pipe(gulp.dest(buildDest));
 });
 
+gulp.task('purifycss', function(){
+  return gulp.src('./build/*.css')
+    .pipe(purify(['./src/**/*.js']))
+    .pipe(gulp.dest(buildDest));
+});
+
 gulp.task('css', function(){
   return gulp.src(cssFiles)
   .pipe(minifyCSS({keepSpecialComments : 0}))
@@ -89,9 +97,9 @@ gulp.task('deploy', function(){
   return gulp.src(buildDest + "/**/*").pipe(gulp.dest(deployDest));
 });
 
-gulp.task('development', ['qext', 'less2css', 'css', 'deploy-assets', 'watch', 'devServer']);
+gulp.task('development', ['qext', 'less2css', /*'css',*/ 'deploy-assets', 'watch', 'devServer']);
 gulp.task('production', function(callback) {
-  runSequence(['qext', 'less2css', 'css', 'remove-build-zip'],
+  runSequence(['qext', 'less2css', /*'css',*/ 'purifycss', 'remove-build-zip'],
     'build',
     'zip-build',
     'deploy-assets',

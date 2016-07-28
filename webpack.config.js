@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
+//var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var serverConfig = require('./server.config.json');
 
 var node_modules_dir = path.join(__dirname, 'node_modules');
@@ -36,6 +37,7 @@ var config = {
   plugins: [
     //new webpack.optimize.CommonsChunkPlugin('React', 'react.js'),
     //new webpack.IgnorePlugin(/react/)
+    //new ExtractTextPlugin("style.css")
   ],
   module: {
     noParse: ["react"],
@@ -45,16 +47,33 @@ var config = {
         exclude: [/node_modules/, /semantic/],
         loaders: ['react-hot', 'babel']
       },
+      /*
       {
         test:  /\.css$/,
         loader: "style-loader!css-loader"
       },
       {
+          test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
+          loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]'
+      },
+      {
         test: /\.less$/,
         loader: "style!css!less"
       }
+      {
+        test: /\.less$/,
+        loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader!less-loader")
+      },
+      {
+          test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
+          loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]'
+      }
+      */
     ]
-  }
+  },
+  // postcss: [
+  //   autoprefixer
+  // ]
 };
 
 /*

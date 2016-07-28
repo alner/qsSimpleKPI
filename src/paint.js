@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { render } from 'react';
 import StatisticBlock from './statisticBlock';
 //import NumberFormatter from './numberFormatter';
 
@@ -30,19 +30,25 @@ function unmountIfZoomed($element, layout, { options }) {
 }
 
 // {qlik, Routing, State, NumberFormatter, DragDropService, Deffered}
-export default function setupPaint({qlik, Routing, NumberFormatter, DragDropService}) {
-  let numberFormatter;
-  let localeInfo;
-  // if(NumberFormatter && qlik) { // NumberFormatter && qlik
-  //   let localeInfo;
-  //   try {
-  //     //localeInfo = qlik.currApp().model.layout.qLocaleInfo;
-  //   } finally {
-  //     let decimalSeparator = (localeInfo && localeInfo.qDecimalSep) || ".";
-  //     let thousandSep = (localeInfo && localeInfo.qThousandSep) || ",";
-  //     //numberFormatter = new NumberFormatter(localeInfo, DEFAULT_AUTO_FORMAT, thousandSep, decimalSeparator, 'U'); // '', '', 'U'
-  //   }
-  // }
+export default function setupPaint({
+  qlik,
+  Routing,
+  NumberFormatter,
+  DragDropService,
+  LoadedPromise
+}) {
+    let numberFormatter;
+    let localeInfo;
+    // if(NumberFormatter && qlik) { // NumberFormatter && qlik
+    //   let localeInfo;
+    //   try {
+    //     //localeInfo = qlik.currApp().model.layout.qLocaleInfo;
+    //   } finally {
+    //     let decimalSeparator = (localeInfo && localeInfo.qDecimalSep) || ".";
+    //     let thousandSep = (localeInfo && localeInfo.qThousandSep) || ",";
+    //     //numberFormatter = new NumberFormatter(localeInfo, DEFAULT_AUTO_FORMAT, thousandSep, decimalSeparator, 'U'); // '', '', 'U'
+    //   }
+    // }
 
   return function paint($element, layout) {
     let self = this;
@@ -60,20 +66,12 @@ export default function setupPaint({qlik, Routing, NumberFormatter, DragDropServ
     };
 
     const PromiseClass = qlik.Promise || Promise; // for backward compatibility
-
-    return new PromiseClass(function(resolve, reject){
+    // It waits for all promises before "print" (after the styles has been loaded, see. component.js)
+    return PromiseClass.all([LoadedPromise, new PromiseClass(function(resolve, reject){
 
       unmountIfZoomed($element, layout, self);
-      // if((self.options && self.options.isZoomed)
-      // || (wasZoomedId && wasZoomedId === layout.qInfo.qId)){
-      //   // qs 3.0 patch
-      //   //$element.empty();
-      //   React.unmountComponentAtNode(($element)[0]);
-      //   if(self.options.isZoomed) wasZoomedId = layout.qInfo.qId;
-      //   else wasZoomedId = undefined;
-      // }
 
-      React.render(
+      render(
         <StatisticBlock
           kpis={layout.qHyperCube}
           options={{
@@ -93,8 +91,8 @@ export default function setupPaint({qlik, Routing, NumberFormatter, DragDropServ
         ,($element)[0]
       );
 
-      //setTimeout(function(){ resolve(); }, 8000);
+      //setTimeout(function(){ resolve(); }, 18000);
       //resolve();
-    });
+    })]);
   }
 }

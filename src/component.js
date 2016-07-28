@@ -33,29 +33,37 @@ if(!global.React)
 
 define(dependencies,
   function (module, qlik, Routing, NumberFormatter, /* State,*/ ShowService, DragDropService, /*styles,*/ React) {
-    const ROOT_URI = module && module.uri.split('/').slice(0, -1).join('/');
-    //if(!styles && ROOT_URI)
-    if(ROOT_URI)
-      loadCSS(`${ROOT_URI}/styles.css`);
+    const ROOT_URI = (module && module.uri && module.uri.split('/').slice(0, -1).join('/')) ||
+      '/extensions/qsSimpleKPI';
 
-     if(React && !global.React)
+    const PromiseClass = qlik.Promise || Promise;
+    let LoadedPromise = new PromiseClass(function(resolve, reject){
+      //if(ROOT_URI)
+      loadCSS(`${ROOT_URI}/qsSimpleKPI.css`,
+            function onLoaded() {
+              resolve()
+            },
+            function onError() {
+              resolve()
+            }
+      );
+    });
+
+    if(React && !global.React)
       global.React = React;
 
     let initialProperties = require('./initialProperties');
     let definition = require('./definition')({ ShowService });
-    let paint = require('./paint')({qlik, Routing, NumberFormatter, DragDropService}); // State, NumberFormatter
+    let paint = require('./paint')({qlik, Routing, NumberFormatter, DragDropService, LoadedPromise});
 
     return {
-      initialProperties,
-      definition,
-      paint,
-      support: {
-        snapshot: true,
-        export: true,
-        exportData: true
-      },
-      // snapshot: {
-      //   canTakeSnapshot : true
-      // }
+        initialProperties,
+        definition,
+        paint,
+        support: {
+          snapshot: true,
+          export: true,
+          exportData: true
+        },
     }
 });
