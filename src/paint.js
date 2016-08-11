@@ -84,7 +84,7 @@ export default function setupPaint({
             State,
             Qlik: qlik,
             DragDropService,
-            QlikComponent: this,
+            QlikComponent: self,
             PrintResolver: resolve
           }}
           element={($element)[0]}/>
