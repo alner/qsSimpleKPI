@@ -1,5 +1,6 @@
 import React, { render } from 'react';
 import StatisticBlock from './statisticBlock';
+import "promise-polyfill";
 //import NumberFormatter from './numberFormatter';
 
 const DEFAULT_AUTO_FORMAT = '0A';
