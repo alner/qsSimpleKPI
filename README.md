@@ -68,6 +68,10 @@ You can set "Infographic mode" option for each measure. In such case expression 
 
 ![Example](examples/images/alignment.png)
 
+**Calculation condition**
+
+![Example](examples/images/CalcCondition.png)
+
 **Styles**
 
  "Background color" property allows to set background color of the object using expression.

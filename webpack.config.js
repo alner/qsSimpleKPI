@@ -109,7 +109,12 @@ if(process.env.NODE_ENV !== 'production') {
     output: {
       comments: false,
     },
+    mangle: true,
+    sourcemap: false,
+    beautify: false,
+    dead_code: true
   }));
+  config.plugins.push(new webpack.optimize.DedupePlugin());
   config.plugins.push(new webpack.optimize.OccurenceOrderPlugin());
 }
 

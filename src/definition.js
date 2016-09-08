@@ -711,6 +711,41 @@ let settings = {
   }
 };
 
+let dataHandling = {
+  type: "items",
+  translation : "properties.dataHandling",
+  grouped: true,
+  items: {
+    calcCond: {
+      type: "items",
+      translation : "properties.hyperCube.calcCond",
+      items: {
+        expr: {
+          ref: "qHyperCubeDef.qCalcCond",
+          type: "string",
+          component : "expression",
+          expressionType : "ValueExpr",
+          label: "Calculation condition",
+          translation : "properties.hyperCube.calcCond"
+        },
+        customErrorMessage : {
+          ref : "qHyperCubeDef.customErrorMessage.calcCond",
+          component : "textarea",
+          defaultValue : "",
+          type : "string",
+          placeholderTranslation : "Object.ErrorMessage.CalculationCondition",
+          translation : "properties.hyperCube.calcCondMessage",
+          show : function (data) {
+            //var val = propertyResolver.getValue(data, "qHyperCubeDef.qCalcCond");
+            var cond = data.qHyperCubeDef.qCalcCond;
+            return cond && cond.qv && "" !== cond.qv;
+          }
+        }
+      }
+    }
+  }
+};
+
 let sorting = {
   uses: "sorting"
 }
@@ -722,6 +757,7 @@ return {
     dims,
     kpis,
     sorting,
+    dataHandling,
     settings
   }
 }
