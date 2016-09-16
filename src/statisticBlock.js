@@ -181,6 +181,7 @@ class StatisticBlock extends Component {
         //if(itemSizeIndex >= SIZE_OPTIONS.length)
         itemSize = SIZE_OPTIONS[itemSizeIndex].value;
       }
+      if(index >= data.length) return;
       const isAttrExps = data[index].qAttrExps && data[index].qAttrExps.qValues.length;
       let overridedLabel;
       if(isAttrExps)
