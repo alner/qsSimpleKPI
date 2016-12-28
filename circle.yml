@@ -1,3 +1,5 @@
 dependencies:
   override:
-    - npm install --ignore-scripts
+    - npm install --ignore-script
+  post:
+    - npm run build
