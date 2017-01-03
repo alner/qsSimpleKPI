@@ -26,6 +26,7 @@ const config = extend( true, baseConfig, {
 	}
 } );
 
+
 module.exports = {
 	config: config
 };

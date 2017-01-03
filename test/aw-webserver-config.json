@@ -7,6 +7,6 @@
 			"/playground": "./node_modules/playground-js-api/dist",
 			"/build": "./build/",
 			"/main": "./test/fixtures/main.html"
-			}
 		}
+	}
 }

@@ -5,7 +5,7 @@ var config={
 	port:"443",
 	isSecure:true,
 	rejectUnauthorized:false,
-	apiKey: sessionStorage.getItem("apiKey"),
+	apiKey: sessionStorage.getItem( "apiKey" ),
 	appname:"d7ad663d-2413-4088-a3c9-e5ed0283c788"
 };
 
