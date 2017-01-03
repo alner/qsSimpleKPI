@@ -16,4 +16,4 @@ dependencies:
 test:
   override:
     - npm run test:setup-webdriver
-    - npm run test:integration
+    - npm run test:integration -s
