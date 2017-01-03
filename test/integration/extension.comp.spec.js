@@ -2,7 +2,7 @@
 
 describe( "Extension rendering", function () {
 	var EC = protractor.ExpectedConditions;
-	var timeoutTime = 60000;
+	var timeoutTime = 20000;
 
 	//Should be fixed in default conf file
 	browser.baseUrl = browser.getProcessedConfig().value_.baseUrl;
@@ -11,8 +11,13 @@ describe( "Extension rendering", function () {
 	var renderedSelector = element( by.css( ".rendered" ) );
 
 	before( function () {
-		// Loading login page and waiting for Url to change
+		//Saving apiKey to sessionStorage
+		browser.get( "/" );
+		browser.executeScript( "sessionStorage.setItem( \"apiKey\", arguments[arguments.length - 1] )", process.env.apiKey );
+
+		//authenticate against palyground
 		browser.get( "/index.html" );
+		browser.executeScript( "authenticate()" );
 		waitForUrlToChangeTo( /main/ );
 	} );
 
@@ -33,6 +38,7 @@ describe( "Extension rendering", function () {
 		const dataDef = [{ qDef: { qFieldDefs: ['Season']}
 					},
 					'=Avg([Rating 1])'];
+		const options = {showTitles: false};
 
 		browser.get( "/main.html"  );
 		browser.executeScript( "main(arguments)", JSON.stringify(dataDef) );

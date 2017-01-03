@@ -5,7 +5,7 @@ var config={
 	port:"443",
 	isSecure:true,
 	rejectUnauthorized:false,
-	apiKey:"<your apiKey>",
+	apiKey: sessionStorage.getItem("apiKey"),
 	appname:"d7ad663d-2413-4088-a3c9-e5ed0283c788"
 };
 
@@ -16,8 +16,9 @@ function authenticate() {
 require.config({
 	baseUrl: ( config.isSecure ? "https://" : "http://" ) + config.host + (config.port ? ":" + config.port: "") + config.prefix + "resources",
 	paths: {
-		"<scope>": "http://localhost:8000/<route from aw-webserver-config.json>/"
+		"local": "http://localhost:8000/build/"
 	}
+
 });
 
 function main( arguments ) {
@@ -26,14 +27,14 @@ function main( arguments ) {
 
 	require( ["js/qlik"], function ( qlik  ) {
 
-		require(['<scope>/<extension filename>'], function( extension ) {
+		require(['local/qsSimpleKPI'], function( SimpleKPI ) {
 			// Suppress Qlik error dialogs and handle errors how you like.
 			 qlik.setOnError( function ( error ) {
 				console.log( error );
 			});
 
 			// Register the extension
-			qlik.registerExtension( "extension", extension );
+			qlik.registerExtension( "SimpleKPI", SimpleKPI );
 
 			// Open a dataset on the server.
 			var app = qlik.openApp( config.appname, config );
@@ -47,7 +48,7 @@ function main( arguments ) {
 
 				// Creating the visualization
 				app.visualization.create(
-					"extension",
+					"SimpleKPI",
 					dataDef
 				).then( function ( vis ) {
 					vis.show( "extension", {

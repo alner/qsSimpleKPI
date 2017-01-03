@@ -5,7 +5,7 @@
 		"baseDir": "./test/fixtures/",
 		"routes": {
 			"/playground": "./node_modules/playground-js-api/dist",
-			"/<'any' routename to be used in require (script.js)>": "./<path to extension code on filesystem>/",
+			"/build": "./build/",
 			"/main": "./test/fixtures/main.html"
 			}
 		}
