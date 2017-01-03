@@ -10,6 +10,11 @@ const config = extend( true, baseConfig, {
 	capabilities: {
 		browserName: "chrome"
 	},
+	mochaOpts: {
+		reporterOptions: {
+			xunit: true
+		}
+	},
 	beforeLaunch() {
 		return httpServer( {
 			"logLevel": "info",
