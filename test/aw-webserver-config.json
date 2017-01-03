@@ -1,0 +1,12 @@
+{
+	"logLevel": "debug",
+	"port": 8000,
+	"server": {
+		"baseDir": "./test/fixtures/",
+		"routes": {
+			"/playground": "./node_modules/playground-js-api/dist",
+			"/<'any' routename to be used in require (script.js)>": "./<path to extension code on filesystem>/",
+			"/main": "./test/fixtures/main.html"
+			}
+		}
+}
