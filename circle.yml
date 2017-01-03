@@ -17,3 +17,4 @@ test:
   override:
     - npm run test:setup-webdriver
     - npm run test:integration -s
+    - cp -r ~/qsSimpleKPI/test/integration/artifacts/*.xml $CIRCLE_TEST_REPORTS
