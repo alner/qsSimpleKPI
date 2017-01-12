@@ -18,38 +18,47 @@ require.config({
 	paths: {
 		"local": "http://localhost:8000/build/"
 	}
-
 });
 
-function main( arguments ) {
-	dataDef = JSON.parse( arguments[0] );	//Since Webdriver protocol can only send string
+function main() {
+	require( ["js/qlik"], function ( qlik  ) {
+		// Suppress Qlik error dialogs and handle errors how you like.
+		 qlik.setOnError( function ( error ) {
+			console.log( error );
+		});
 
+		// Open a dataset on the server.
+		var app = qlik.openApp( config.appname, config );
+		window.app = app;
+
+		app.model.waitForOpen.promise.then( function() {
+			// Logging app info
+			app.model.enigmaModel.getAppProperties().then( function( prop ) {
+				console.log( "Connecting to app: %s (%s)", prop.qTitle, config.appname  );
+				document.body.classList.add("appAvailable")
+			} );
+		});
+	} );
+};
+
+function addExtension( arguments ) {
+	dataDef = arguments[0] && JSON.parse( arguments[0] ) || [];
+	options = arguments[1] && JSON.parse( arguments[1] ) || {};
+
+	console.log( "Extension is using:\nDatadef - ", dataDef, "\nOptions - ", options  );
 
 	require( ["js/qlik"], function ( qlik  ) {
 
 		require(['local/qsSimpleKPI'], function( SimpleKPI ) {
-			// Suppress Qlik error dialogs and handle errors how you like.
-			 qlik.setOnError( function ( error ) {
-				console.log( error );
-			});
-
 			// Register the extension
 			qlik.registerExtension( "SimpleKPI", SimpleKPI );
 
-			// Open a dataset on the server.
-			var app = qlik.openApp( config.appname, config );
-			window.app = app;
-
 			app.model.waitForOpen.promise.then( function() {
-				// Logging app info
-				app.model.enigmaModel.getAppProperties().then( function( prop ) {
-					console.log( "Connecting to app: %s (%s)", prop.qTitle, config.appname  );
-				} );
-
 				// Creating the visualization
 				app.visualization.create(
 					"SimpleKPI",
-					dataDef
+					dataDef,
+					options
 				).then( function ( vis ) {
 					vis.show( "extension", {
 						onRendered: function(){
