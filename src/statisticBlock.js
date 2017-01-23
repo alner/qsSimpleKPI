@@ -22,7 +22,7 @@ class StatisticBlock extends Component {
     var self = this;
     setTimeout(function(){self.checkRequiredSize();}, 50);
     // initial resize should not be visible
-    setTimeout(function(){self.componentReady(); }, 1500);
+    setTimeout(function(){self.componentReady(); }, 10000);
     //this.componentReady();
   }
 
@@ -157,6 +157,7 @@ class StatisticBlock extends Component {
     const numberFormatter = this.props.options.numberFormatter;
     const labelOrientation = this.props.options.labelOrientation; //this.state.labelOrientation;
     const services = this.props.services;
+    const isShow = this.state.is_show;
     let options = this.props.options;
     let size = this.state.size;
 
@@ -209,7 +210,8 @@ class StatisticBlock extends Component {
         infographic: item.infographic,
         embeddedItem: item.embeddedItem,
         mainContainerElement: mainContainerElement,
-        kpisRows: rows
+        kpisRows: rows,
+        isShow
       };
       params.onClick = self.onKPIClick.bind(self, params);
 

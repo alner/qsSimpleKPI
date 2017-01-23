@@ -98,7 +98,8 @@ export default function DragDropSupport(spec = DEFAULT_SPEC) {
           this.setupDragDropRect();
           this.qlikDragDropService.registerDropTarget(this);
         }
-        this.injectObject();
+        if(this.props.isShow) // if already resized ...
+          this.injectObject();
       }
 
       componentWillUnmount() {
@@ -113,8 +114,11 @@ export default function DragDropSupport(spec = DEFAULT_SPEC) {
       }
 
       componentDidUpdate() {
-        this.injectObject();
-        this.repaintObject();
+        if(this.props.isShow) {
+          // if already resized ...
+          this.injectObject();
+          this.repaintObject();
+        }
       }
 
       render() {

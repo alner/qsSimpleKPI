@@ -18,8 +18,8 @@ function getNumberFormatter(localeInfo, NumberFormatter) {
 
 let wasZoomedId;
 function unmountIfZoomed($element, layout, { options }) {
-  if((options && options.isZoomed)
-  || (wasZoomedId && wasZoomedId === layout.qInfo.qId)){
+  if((options && options.isZoomed && wasZoomedId !== layout.qInfo.qId)
+  || (options && !options.isZoomed && wasZoomedId === layout.qInfo.qId)){
     // qs 3.0 patch
     //$element.empty();
     React.unmountComponentAtNode(($element)[0]);

@@ -88,7 +88,8 @@ export default class StatisticItem extends Component {
       infographic,
       embeddedItem,
       mainContainerElement,
-      kpisRows
+      kpisRows,
+      isShow
     } = this.props.item;
 
     let labelStyles = {padding: "0px 5px", textAlign: textAlignment};
@@ -134,7 +135,8 @@ export default class StatisticItem extends Component {
         mainContainerElement,
         valueStyles,
         services,
-        kpisRows
+        kpisRows,
+        isShow
     };
     let valueComponent = (
         <ValueComponent {...valueComponentProps}>

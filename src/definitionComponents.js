@@ -12,7 +12,7 @@ let ColorsPickerComponent = {
             <div class="qv-object-qsstatistic" ng-if="!loading">
               <div class="ui mini right labeled">
                 <input type="color" ng-model="t.value" ng-change="onColorChange()">
-                <a title="{{colorExpression}}" class="ui tag label" qva-activate="showPallete()" style="color: #00; background-color: {{t.value}};">
+                <a title="{{colorExpression}}" class="ui statistic tag label" qva-activate="showPallete()" style="color: #00; overflow: visible; background-color: {{t.value}};">
                   <span ng-if="!isColorExpression" style="color: #ffffff; font-size: 16px;">{{t.value}}</span>
                   <i class="icon-expression" ng-if="isColorExpression" style="font-size: 16px;"></i>
                 </a>
