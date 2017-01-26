@@ -532,9 +532,67 @@ return DialogComponentFactory(ShowService, (() => {
 })());
 }; // SelectIconDialogComponent
 
+// Detect changes in property "propertyName" and propagate it to referenced property... 
+let DetectChangesInComponent = function(propertyName) {
+  return {    
+        template: '<span></span>', // Non visible component 
+        controller: ["$scope", function(scope) {  
+          scope.$watch(`data.${propertyName}`, function(newValue) {
+            scope.data[scope.definition.ref] = newValue; 
+            scope.$emit("saveProperties");
+          });
+        }]
+      };
+};
+
+/*
+let ExpressionEditorComponent = {
+  template:
+  `
+<div class="pp-component" ng-if="visible">
+  <div class="lui-input-group">
+      <input class="lui-input-group__item  lui-input-group__input  lui-input"/>
+      <button class="lui-input-group__item  lui-input-group__button  lui-button">
+          <span class="lui-button__icon  lui-icon  lui-icon--expression"></span>
+      </button>
+      <button class="lui-input-group__item  lui-input-group__button  lui-button">
+          <span class="lui-button__icon  lui-icon  lui-icon--expression"></span>
+      </button>
+  </div>
+</div>
+
+  `,
+  controller:
+    ["$scope", function(c){
+      function initOptions() {
+        c.loading = true;
+        c.errorMessage = "";
+        c.label = c.definition.label;
+        c.value = getRefValue(c.data, c.definition.ref)
+        c.visible = true;
+        c.loading = false;
+      }
+
+      c.onTextChange = function() {
+        setRefValue(c.data, c.definition.ref, c.value);
+        "function" == typeof c.definition.change && c.definition.change(c.data, c.args.handler);
+        c.$emit("saveProperties");
+      };
+
+      c.$on("datachanged", function () {
+        initOptions();
+      });
+
+      initOptions();
+    }]
+};
+*/
+
 export default {
   ColorsPickerComponent,
   FontStylesComponent,
   TextEditorComponent,
-  SelectIconDialogComponent
+  SelectIconDialogComponent,
+//  ExpressionEditorComponent,
+  DetectChangesInComponent
 }

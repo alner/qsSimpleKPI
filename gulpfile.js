@@ -7,6 +7,7 @@ var less = require('gulp-less');
 var del = require('del');
 var zip = require('gulp-zip');
 var minifyCSS = require('gulp-clean-css'); // gulp-minify-css
+var cssnano = require('gulp-cssnano');
 var purify = require('gulp-purifycss');
 var runSequence = require('run-sequence');
 var LessPluginAutoPrefix = require('less-plugin-autoprefix');
@@ -26,6 +27,16 @@ var cssFiles = './src/**/*.css';
 var jsFiles = './**/*.js';
 
 var name = path.basename(__dirname);
+
+var ccsnanoConfig = {
+  discardComments: {
+        removeAll: true
+    },
+  discardUnused: true,
+  discardEmpty: true,
+//  mergeLonghand: true,
+//  reduceIdents: true
+};
 
 gulp.task('build', function(callback){
     build(function(err, stats){
@@ -56,7 +67,8 @@ gulp.task('less2css', function(){
   .pipe(less({
     plugins: [autoprefix]
   }))
-  .pipe(minifyCSS({keepSpecialComments : 0}))
+  //.pipe(minifyCSS({keepSpecialComments : 0}))
+  .pipe(cssnano(ccsnanoConfig))
   .pipe(gulp.dest(buildDest));
 });
 
@@ -68,7 +80,8 @@ gulp.task('purifycss', function(){
 
 gulp.task('css', function(){
   return gulp.src(cssFiles)
-  .pipe(minifyCSS({keepSpecialComments : 0}))
+  //.pipe(minifyCSS({keepSpecialComments : 0}))
+  .pipe(cssnano(ccsnanoConfig))
   .pipe(gulp.dest(buildDest));
 });
 

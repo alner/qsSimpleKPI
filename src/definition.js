@@ -2,7 +2,9 @@ import {
   ColorsPickerComponent,
   FontStylesComponent,
   TextEditorComponent,
-  SelectIconDialogComponent
+  SelectIconDialogComponent,
+  DetectChangesInComponent
+//  ExpressionEditorComponent
 } from './definitionComponents';
 
 import { FULL_ICONS_SET } from './iconsDefinitions';
@@ -36,7 +38,7 @@ let kpis = {
     allowAdd: true,
     allowRemove: true,
     allowMove: true,
-    items : {
+    items: {
       autoFormatTemplate: {
         type: "string",
         label: "Auto format",
@@ -93,22 +95,21 @@ let kpis = {
               }
             ]
           },
-          kpiLink : {
-            ref : "qDef.kpiLink",
-            type : "items",
-            component : "sheet-dropdown",
-            items : {
-              id : {
-                ref : "qDef.kpiLink.id",
-                type : "string"
-              },
-              title : {
-                ref : "qDef.kpiLink.title",
-                type : "string"
-              }
-            },
+          sheetLink: { 
+            ref: "sheetLink", // 'sheet-dropdown' need it!!! See bellow.
+            type: "string",
+             // Non visible property, detect changes in "qDef.kpiLink". It needs because of 'sheet-dropdown' component.
+            component: DetectChangesInComponent('qDef.kpiLink'), 
             show : function (data) {
-              return data.qDef.useLink //data.qDef.useLink
+              return data.qDef.useLink;
+            }
+          },
+          kpiLink : {
+            ref: "qDef.kpiLink",
+            type : "string",
+            component : 'sheet-dropdown',            
+            show : function (data) {
+              return data.qDef.useLink;
             }
           }
         }
@@ -737,7 +738,7 @@ let dataHandling = {
           translation : "properties.hyperCube.calcCondMessage",
           show : function (data) {
             //var val = propertyResolver.getValue(data, "qHyperCubeDef.qCalcCond");
-            var cond = data.qHyperCubeDef.qCalcCond;
+            var cond = data.qHyperCubeDef && data.qHyperCubeDef.qCalcCond;
             return cond && cond.qv && "" !== cond.qv;
           }
         }

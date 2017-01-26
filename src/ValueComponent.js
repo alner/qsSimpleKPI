@@ -93,7 +93,8 @@ let DragDropSpec = {
   onRepaintObjectHandler: function(placeElement){
     if(this.state.object) {
       let topMargin = 0;
-      if(this.state.object.layout.qSelectionInfo.qInSelections) {
+      if(this.state.object.layout 
+      && this.state.object.layout.qSelectionInfo.qInSelections) {
         // add extra space at top for selection toolbar
         topMargin = QLIK_COMP_TOOLBAR_HEIGHT;
       }

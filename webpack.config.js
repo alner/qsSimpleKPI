@@ -45,7 +45,7 @@ var config = {
       {
         test: /\.jsx?$/,
         exclude: [/node_modules/, /semantic/],
-        loaders: ['react-hot', 'babel']
+        loaders: ['babel']
       },
       /*
       {
@@ -106,6 +106,8 @@ if(process.env.NODE_ENV !== 'production') {
       // Drop `console` statements
       drop_console: true
     },
+    beautify: false,
+    comments: false,
     output: {
       comments: false,
     },
