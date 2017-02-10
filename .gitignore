@@ -3,3 +3,6 @@ semantic/dist/
 semantic/tasks/
 *.map
 *.log
+
+test/integration/artifacts/*
+!test/integration/artifacts/baseline/
