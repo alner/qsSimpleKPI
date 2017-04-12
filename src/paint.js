@@ -1,7 +1,6 @@
 import React, { render } from 'react';
 import StatisticBlock from './statisticBlock';
-import "promise-polyfill";
-//import NumberFormatter from './numberFormatter';
+import NumberFormatter from './numberFormatter';
 
 const DEFAULT_AUTO_FORMAT = '0A';
 
@@ -34,7 +33,7 @@ function unmountIfZoomed($element, layout, { options }) {
 export default function setupPaint({
   qlik,
   Routing,
-  NumberFormatter,
+//  NumberFormatter,
   DragDropService,
   LoadedPromise
 }) {
@@ -66,8 +65,9 @@ export default function setupPaint({
       isInAnalysisMode: self.inAnalysisState && self.inAnalysisState.bind(self)
     };
 
-    const PromiseClass = qlik.Promise || Promise; // for backward compatibility
+    const PromiseClass = qlik.Promise || window.Promise; // for backward compatibility
     // It waits for all promises before "print" (after the styles has been loaded, see. component.js)
+    // LoadedPromise, 
     return PromiseClass.all([LoadedPromise, new PromiseClass(function(resolve, reject){
 
       unmountIfZoomed($element, layout, self);
@@ -91,9 +91,6 @@ export default function setupPaint({
           element={($element)[0]}/>
         ,($element)[0]
       );
-
-      //setTimeout(function(){ resolve(); }, 18000);
-      //resolve();
     })]);
-  }
+  }  
 }

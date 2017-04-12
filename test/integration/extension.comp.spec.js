@@ -10,23 +10,27 @@ describe( "Extension rendering", function () {
 	//Selectors
 	var renderedSelector = element( by.css( ".rendered" ) );
 	var appAvailableSelector = element( by.css( ".appAvailable" ) );
+	var logger = element( by.css( "#log" ) );
 
 	before( function () {
+		browser.get( "/main.html" );
+		browser.sleep(5000); // Delay to open app		
+
 		//Saving apiKey to sessionStorage
-		browser.get( "/" );
-		browser.executeScript( "sessionStorage.setItem( \"apiKey\", arguments[arguments.length - 1] )", process.env.apiKey );
+		//browser.get( "/" );
+		//browser.executeScript( "sessionStorage.setItem( \"apiKey\", arguments[arguments.length - 1] )", process.env.apiKey );
 
 		//authenticate against palyground
-		browser.get( "/index.html" );
-		browser.executeScript( "authenticate()" );
-		waitForUrlToChangeTo( /main/ );
-		browser.sleep(5000); //Delay to preFetch font
+		//browser.get( "/index.html" );
+		//browser.executeScript( "authenticate()" );
+		//waitForUrlToChangeTo( /main/ );
+		//browser.sleep(5000); //Delay to preFetch font
 	} );
 
 	it( "should render default settings correctly", function() {
 		const dataDef = [
-			{ "qDef": { "qFieldDefs": ["Characters"]}, "qOtherTotalSpec": { "qOtherMode": "OTHER_COUNTED", "qOtherCounted": "5", "qSuppressOther": true }},
-			{ "qDef" : { "qDef": "Count([Kills])", "qLabel": "Kills", "valueIcon": "remove user icon"}}
+			{ "qDef": { "qFieldDefs": ["Priority"]}, "qOtherTotalSpec": { "qOtherMode": "OTHER_COUNTED", "qOtherCounted": "5", "qSuppressOther": true }},
+			{ "qDef" : { "qDef": "Count( Distinct %CaseId )", "qLabel": "Cases", "valueIcon": "cube icon"}}
 		];
 
 		const options = {
@@ -49,8 +53,8 @@ describe( "Extension rendering", function () {
 
 	it( "should render in card view", function() {
 		const dataDef = [
-			{"qDef": { "qFieldDefs": ["Season"], "qFieldLabels": ["Field Label"] }, "qNullSuppression": true },
-			{"qDef" : { "qDef": "Avg( [Rating 1] )", "qLabel": "Measure Label", "valueColor": "#FF0000", "hideLabel": true, "valueIcon": "checkmark box icon" }}
+			{"qDef": { "qFieldDefs": ["Priority"], "qFieldLabels": ["Field Label"] }, "qNullSuppression": true },
+			{"qDef" : { "qDef": "Avg( [Case Duration Time] )", "qLabel": "Measure Label", "valueColor": "#FF0000", "hideLabel": true, "valueIcon": "checkmark box icon" }}
 		];
 
 		const options = {
@@ -70,26 +74,37 @@ describe( "Extension rendering", function () {
 		browser.get( "/main.html"  );
 		browser.wait( EC.visibilityOf( appAvailableSelector ), timeoutTime );
 
-		browser.executeAsyncScript( function() {
-			var callback = arguments[arguments.length - 1];
-
-			app.model.waitForOpen.promise.then( function() {
-				app.visualization.create( 'piechart', ['Episode', '=Avg( [Rating 1] )' ] ).then( function( vis ){ callback( vis.id ) });
-			});
-		}).then( function( value ) {
+		function render( value ) {
+			// {"qDef": { "qFieldDefs": ["Date.autoCalendar.Year"], "qFieldLabels": ["Field Label"] }, "qNullSuppression": true, "qOtherTotalSpec": { "qOtherMode": "OTHER_COUNTED", "qOtherCounted": "3", "qSuppressOther": true }},
 			const dataDef = [
-				{"qDef": { "qFieldDefs": ["Season"], "qFieldLabels": ["Field Label"] }, "qNullSuppression": true, "qOtherTotalSpec": { "qOtherMode": "OTHER_COUNTED", "qOtherCounted": "3", "qSuppressOther": true }},
-				{"qDef" : { "qDef": "=1", "qLabel": "simple KPI", "embeddedItem": value, "fontStyles": "bold", "iconPosition": "label", "valueColor": "#21ba45", "valueIcon": "map icon"}}
+				{"qDef" : { "qDef": "=1", "qLabel": "Simple KPI", "embeddedItem": value, "fontStyles": "bold", "iconPosition": "label", "valueColor": "#808080", "valueIcon": "pie chart icon"}}
 			];
 
 			const options = {
 				options: {
-					dimDivideBy: "three",
-					dimShowAs: "card"
+					autoSize: true
 				}
 			};
 
 			browser.executeScript( "addExtension(arguments)", JSON.stringify( dataDef ), JSON.stringify( options ) );
+		}
+
+		browser.executeScript( function() {
+			//var callback = arguments[arguments.length - 1];
+			//app.model.waitForOpen.promise.then( function() {
+			return app.visualization.create( 'piechart', ['Priority', '=Avg( [Case Duration Time] )' ] );
+			// .then( function( vis ){
+			// 	render( vis.id );
+			// });
+			//});
+		}).then(function(vis) {
+			//browser.debugger();
+			vis.show("logger");
+			render(vis.id);
+			console.log(vis);
+			browser.pause();						
+		}).catch(function(err){
+			console.error(err);
 		});
 
 		browser.wait( EC.visibilityOf( renderedSelector ), timeoutTime );

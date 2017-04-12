@@ -20,9 +20,15 @@ class StatisticBlock extends Component {
 
   componentDidMount(){
     var self = this;
-    setTimeout(function(){self.checkRequiredSize();}, 50);
+
+    // 3.2 SR2 Printing service patch (timeout strange behaviour, 10 equals to 10 sec (instead of 10 msec) in setTimeout)
+    const isPrinting = this.isPrinting();
+    const checkRequiredSizeDelay = isPrinting ? 1 : 50;
+    const readyDelay = isPrinting ? 10 : 10000;
+    
+    setTimeout(function(){self.checkRequiredSize();}, checkRequiredSizeDelay);
     // initial resize should not be visible
-    setTimeout(function(){self.componentReady(); }, 10000);
+    setTimeout(function(){ self.componentReady(); }, readyDelay);
     //this.componentReady();
   }
 
@@ -39,6 +45,12 @@ class StatisticBlock extends Component {
     // initial resize should not be visible
     this.setState({is_show: true});
     this.props.services.PrintResolver && this.props.services.PrintResolver(); // we are ready... can be printed!
+  }
+
+  isPrinting() {
+    return this.props.services.QlikComponent.backendApi.isSnapshot && 
+      this.props.services.Qlik.navigation && 
+      !this.props.services.Qlik.navigation.inClient;
   }
 
   restoreSize(props){

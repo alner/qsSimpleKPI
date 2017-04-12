@@ -1,4 +1,5 @@
 // Input your config
+/*
 var config={
 	host:"playground.qlik.com",
 	prefix:"/playground/",
@@ -8,9 +9,19 @@ var config={
 	apiKey: sessionStorage.getItem( "apiKey" ),
 	appname:"d7ad663d-2413-4088-a3c9-e5ed0283c788"
 };
+*/
+var config={
+	host:"localhost",
+	prefix:"/",
+	port:4848,
+	isSecure:false,
+	rejectUnauthorized:false,
+//	apiKey: sessionStorage.getItem( "apiKey" ),
+	appname: "C:/Users/nerush/Documents/Qlik/Sense/Apps/Helpdesk Management.qvf" //"3dd4b687-dd73-4760-9567-07ebbc9e5852"
+};
 
 function authenticate() {
-	Playground.authenticate(config);
+	//Playground.authenticate(config);
 };
 
 require.config({
@@ -42,8 +53,8 @@ function main() {
 };
 
 function addExtension( arguments ) {
-	dataDef = arguments[0] && JSON.parse( arguments[0] ) || [];
-	options = arguments[1] && JSON.parse( arguments[1] ) || {};
+	var dataDef = arguments[0] && JSON.parse( arguments[0] ) || [];
+	var options = arguments[1] && JSON.parse( arguments[1] ) || {};
 
 	console.log( "Extension is using:\nDatadef - ", dataDef, "\nOptions - ", options  );
 
