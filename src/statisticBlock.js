@@ -205,6 +205,7 @@ class StatisticBlock extends Component {
         measureIndex: mindex,
         numericValue: null,
         hideLabel: item.hideLabel,
+        hideValue: item.hideValue,
         labelColor: item.labelColor,
         valueColor: item.valueColor,
         valueIcon: item.valueIcon,
@@ -273,6 +274,7 @@ class StatisticBlock extends Component {
     const self = this;
     const kpis = this.props.kpis;
     let {
+      qId,
       dimLabelOrientation,
       dimLabelSize,
       dimHideLabels,
@@ -368,7 +370,7 @@ class StatisticBlock extends Component {
     }
 
     return (
-      <InlineCSS stylesheet={styles} style={{height: "100%"}}>
+      <InlineCSS namespace={`css-${qId}`} stylesheet={styles} style={{height: "100%"}}>
       <div className="qv-object-qsstatistic" style={objectStyle}>
           {items}
       </div>

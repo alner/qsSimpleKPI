@@ -76,6 +76,7 @@ export default function setupPaint({
         <StatisticBlock
           kpis={layout.qHyperCube}
           options={{
+            ...layout.qInfo,
             ...layout.options,
             numberFormatter,
             DEFAULT_AUTO_FORMAT

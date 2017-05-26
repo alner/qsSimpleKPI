@@ -114,6 +114,18 @@ let kpis = {
           }
         }
       },
+      hideLabel: {
+        type: "boolean",
+        label: "Hide label",
+        ref: "qDef.hideLabel",
+        defaultValue: false
+      },
+      hideValue: {
+        type: "boolean",
+        label: "Hide value",
+        ref: "qDef.hideValue",
+        defaultValue: false
+      },      
       groupByDimension: {
         type: "boolean",
         label: "Group by dimension",
@@ -171,12 +183,6 @@ let kpis = {
         show: function(a) {
             return a.qDef.ovParams;
         }
-      },
-      hideLabel: {
-        type: "boolean",
-        label: "Hide label",
-        ref: "qDef.hideLabel",
-        defaultValue: false
       },
       labelOrientation: {
         type: "string",

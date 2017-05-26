@@ -54,7 +54,7 @@ export default class StatisticItem extends Component {
       return;
 
     let valueElement = React.findDOMNode(this.refs['value']);
-    if(valueElement.firstChild) {
+    if(valueElement && valueElement.firstChild) {
       let valueChild = valueElement.firstChild;
       let childWidth = $(valueChild).width();
       //let childHeight = $(valueChild).height();
@@ -71,6 +71,7 @@ export default class StatisticItem extends Component {
     const services = this.props.services;
     const {
       hideLabel,
+      hideValue,
       labelOrientation = "",
       labelOrder,
       iconOrder,
@@ -138,7 +139,7 @@ export default class StatisticItem extends Component {
         kpisRows,
         isShow
     };
-    let valueComponent = (
+    let valueComponent = hideValue ? null : (
         <ValueComponent {...valueComponentProps}>
             {iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
             {value /*!infographic ? value : null*/}
