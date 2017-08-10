@@ -10,7 +10,7 @@ Each measure can have a link to another sheet.
 
 ### Video: Using the simple KPI extension in Qlik Sense - Qlik Tuesday Tips and Tricks
 
-[![Using the simple KPI](https://i.ytimg.com/vi/vubli1Icp68/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLBQnCS4wNgkNtB7TLFDbOVqGW5GXg)](https://www.youtube.com/watch?v=vubli1Icp68)
+[![Using the simple KPI](https://i.ytimg.com/vi/vubli1Icp68/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLBQnCS4wNgkNtB7TLFDbOVqGW5GXg)](https://youtu.be/vubli1Icp68)
 
 ## Installation
 
@@ -36,9 +36,9 @@ You can embedded Master Visualizations into the simple kpi object.
 
 You can add measure with some fake value (for example, using the following expression: ='Drag and Drop here'), then drag and drop master visualization into the value region or you can insert object id into the "Visualization" property for each measure.
 
-See video tutorial.
+### Video: SimpleKPI plus Line Chart Tutorial.
 
-[![Simple KPI plus Line Chart Tutorial](https://i.ytimg.com/vi/gJxUUnJi5Vc/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLDho5IkTXSDn-lJjx8kekuALsn3Yw)](https://www.youtube.com/watch?v=gJxUUnJi5Vc)
+[![Simple KPI plus Line Chart Tutorial](https://i.ytimg.com/vi/gJxUUnJi5Vc/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLDho5IkTXSDn-lJjx8kekuALsn3Yw)](https://youtu.be/gJxUUnJi5Vc)
 
 ![Example](examples/images/drag_chart.png)
 
