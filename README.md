@@ -7,6 +7,11 @@ Each measure can have a link to another sheet.
 
 ![Simple KPI](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/SimpleKPI.png)
 
+
+### Video: Using the simple KPI extension in Qlik Sense - Qlik Tuesday Tips and Tricks
+
+[![Using the simple KPI](https://i.ytimg.com/vi/vubli1Icp68/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLBQnCS4wNgkNtB7TLFDbOVqGW5GXg)](https://www.youtube.com/watch?v=vubli1Icp68)
+
 ## Installation
 
 Download [build/qsSimpleKPI.zip](https://github.com/alner/qsSimpleKPI/raw/master/build/qsSimpleKPI.zip), upload to qlik server or extract to appropriate folder.
@@ -30,6 +35,10 @@ You can embedded Master Visualizations into the simple kpi object.
 ![Example](examples/images/embedded_charts.png)
 
 You can add measure with some fake value (for example, using the following expression: ='Drag and Drop here'), then drag and drop master visualization into the value region or you can insert object id into the "Visualization" property for each measure.
+
+See video tutorial.
+
+[![Simple KPI plus Line Chart Tutorial](https://i.ytimg.com/vi/gJxUUnJi5Vc/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLDho5IkTXSDn-lJjx8kekuALsn3Yw)](https://www.youtube.com/watch?v=gJxUUnJi5Vc)
 
 ![Example](examples/images/drag_chart.png)
 
