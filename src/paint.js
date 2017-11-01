@@ -54,7 +54,15 @@ export default function setupPaint({
     let self = this;
 
     if(!localeInfo) { // && self.backendApi && self.backendApi.localeInfo
-      localeInfo = qlik.currApp().model.layout.qLocaleInfo; //self.backendApi && self.backendApi.localeInfo;
+      localeInfo = (self.backendApi && self.backendApi.localeInfo);
+      if(!localeInfo)
+        try {
+          const app = qlik.currApp();
+          if(app)
+            localeInfo = app.model.layout.qLocaleInfo
+        } catch(err) {
+        }
+        //self.backendApi && self.backendApi.localeInfo;
     }
     if(!numberFormatter) {
       numberFormatter = getNumberFormatter(localeInfo, NumberFormatter);

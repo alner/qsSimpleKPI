@@ -220,8 +220,8 @@ const DIM_VIEW_OPTIONS = [
 ];
 
 const FONT_SIZE_OPTIONS = [
-//  'xx-small', // too small
-  's-small',
+  'xx-small', // xx-small too small
+  'x-small',
   'small',
   'medium',
   'large',

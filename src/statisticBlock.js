@@ -15,7 +15,8 @@ class StatisticBlock extends Component {
       overflow: null,
       valueFontStyleIndex: null
     };
-    this.componentReady.bind(this);
+    this.componentReady = this.componentReady.bind(this);
+    this.kpiItemResizeHandler = this.kpiItemResizeHandler.bind(this);
   }
 
   componentDidMount(){
@@ -23,8 +24,8 @@ class StatisticBlock extends Component {
 
     // 3.2 SR2 Printing service patch (timeout strange behaviour, 10 equals to 10 sec (instead of 10 msec) in setTimeout)
     const isPrinting = this.isPrinting();
-    const checkRequiredSizeDelay = isPrinting ? 1 : 50;
-    const readyDelay = isPrinting ? 10 : 10000;
+    const checkRequiredSizeDelay = isPrinting ? 1 : 50; //1
+    const readyDelay = isPrinting ? 10 : 10000; // 10
     
     setTimeout(function(){self.checkRequiredSize();}, checkRequiredSizeDelay);
     // initial resize should not be visible
@@ -94,6 +95,7 @@ class StatisticBlock extends Component {
 
   checkRequiredSize(){
     let element = this.props.element;
+
     let scrollWidth = element.scrollWidth * 0.95;
     let scrollHeight = element.scrollHeight * 0.95;
 
@@ -263,7 +265,7 @@ class StatisticBlock extends Component {
           item={params}
           options={options}
           services={services}
-          onNeedResize={self.kpiItemResizeHandler.bind(self)} />
+          onNeedResize={self.kpiItemResizeHandler} />
         }
       else
         return null;

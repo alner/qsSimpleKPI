@@ -59,7 +59,7 @@ export default class StatisticItem extends Component {
       let childWidth = $(valueChild).width();
       //let childHeight = $(valueChild).height();
       if(childWidth > valueElement.clientWidth) {
-          this.props.onNeedResize(true);
+        this.props.onNeedResize(true);
       } else
         this.props.onNeedResize(false);
     }
