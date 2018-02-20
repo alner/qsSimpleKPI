@@ -53,6 +53,10 @@ export default class StatisticItem extends Component {
     if(!this.props.onNeedResize) // || (embeddedItem && embeddedItem.trim().length > 0)
       return;
 
+    const { hideValue } = this.props.item;
+    if(hideValue)
+      return this.props.onNeedResize(false);
+
     let valueElement = React.findDOMNode(this.refs['value']);
     if(valueElement && valueElement.firstChild) {
       let valueChild = valueElement.firstChild;
