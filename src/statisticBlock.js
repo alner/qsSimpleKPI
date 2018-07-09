@@ -384,15 +384,17 @@ class StatisticBlock extends Component {
     const services = this.props.services;
     const isAllowOpenSheet = (this.props.services.State
       && !this.props.services.State.isInEditMode());
-    if(kpi.useLink && isAllowOpenSheet && services.Routing) {
+    if(kpi.useLink && isAllowOpenSheet /*&& services.Routing*/) {
       let linkId;
       if (typeof(kpi.kpiLink) === "string")
         linkId = kpi.kpiLink
       else
         linkId = kpi.kpiLink && kpi.kpiLink.id;
 
-      if(linkId)
-        services.Routing.goToSheet(linkId, 'analysis');
+      if(linkId) {
+        //services.Routing.goToSheet(linkId, 'analysis');
+        services.Qlik.navigation.gotoSheet(linkId);
+      }
     }
   }
 

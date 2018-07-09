@@ -12,7 +12,7 @@ const define = (global && global.define) || define;
 let dependencies = [
   'module',
   'qlik',
-  'client.utils/routing',
+  // 'client.utils/routing',
 //  'objects.utils/number-formatter',
   'general.services/show-service/show-service',
   'general.utils/drag-and-drop-service'
@@ -34,7 +34,7 @@ if(!global.React)
   dependencies.push('./vendors/react.min');
 
 define(dependencies,
-  function (module, qlik, Routing, /*NumberFormatter,*/ ShowService, DragDropService, React) {
+  function (module, qlik, /*Routing, NumberFormatter,*/ ShowService, DragDropService, React) {
     const ROOT_URI = (module && module.uri && module.uri.split('/').slice(0, -1).join('/')) ||
       '/extensions/qsSimpleKPI';
 
@@ -59,7 +59,7 @@ define(dependencies,
 
     let initialProperties = require('./initialProperties');
     let definition = require('./definition')({ ShowService });
-    let paint = require('./paint')({qlik, Routing, /*NumberFormatter,*/ DragDropService, LoadedPromise});
+    let paint = require('./paint')({qlik, /*Routing, NumberFormatter,*/ DragDropService, LoadedPromise});
 
     return {
        initialProperties,
