@@ -30,9 +30,11 @@ var config = {
   output: {
     path: path.resolve(__dirname, serverConfig.buildFolder),
     filename: outputFilename // output file
+    // libraryTarget: 'amd'
   },
   externals: {
-    "react": "React"
+    "react": "React",
+    // "general.utils/drag-and-drop-service": 'general.utils/drag-and-drop-service'
   },
   plugins: [
     //new webpack.optimize.CommonsChunkPlugin('React', 'react.js'),

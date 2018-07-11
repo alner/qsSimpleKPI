@@ -21,7 +21,7 @@ let dependencies = [
   // check if dependency was defined...
   if(defined(path)
   || path === 'module'
-  || path === 'objects.utils/number-formatter')
+  || path === 'general.utils/drag-and-drop-service')
     return path
   else
   if(path === 'qlik' && defined('js/qlik'))
