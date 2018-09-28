@@ -7,6 +7,9 @@ Each measure can have a link to another sheet.
 
 ![Simple KPI](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/SimpleKPI.png)
 
+## Status
+[![CircleCI](https://circleci.com/gh/qlik-oss/qsSimpleKPI/tree/master.svg?style=svg)](https://circleci.com/gh/qlik-oss/qsSimpleKPI/tree/master)
+
 
 ### Video: Using the simple KPI extension in Qlik Sense - Qlik Tuesday Tips and Tricks
 
