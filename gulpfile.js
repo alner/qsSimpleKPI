@@ -21,6 +21,8 @@ var build = require('./server').build;
 var buildDest = require('./server').buildPathDestination;
 var deployDest = require('./server').deployPathDestination;
 
+var deployDestination = "./build";
+
 var templateFile = './src/Template.qextmpl';
 var lessFiles = './src/**/*.less';
 var cssFiles = './src/**/*.css';
@@ -103,11 +105,13 @@ gulp.task('zip-build', function(){
 });
 
 gulp.task('deploy-assets', function(){
-  return gulp.src("assets/**/*").pipe(gulp.dest(deployDest));
+  //return gulp.src("assets/**/*").pipe(gulp.dest(deployDest));
+  return gulp.src("./assets/**/*").pipe(gulp.dest(deployDestination));
 });
 
 gulp.task('deploy', function(){
-  return gulp.src(buildDest + "/**/*").pipe(gulp.dest(deployDest));
+ // return gulp.src(buildDest + "/**/*").pipe(gulp.dest(deployDest));
+  return gulp.src(buildDest + "/**/*").pipe(gulp.dest(deployDestination));
 });
 
 gulp.task('development', ['qext', 'less2css', /*'css',*/ 'deploy-assets', 'watch', 'devServer']);
