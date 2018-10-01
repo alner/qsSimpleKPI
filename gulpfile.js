@@ -21,13 +21,12 @@ var build = require('./server').build;
 var buildDest = require('./server').buildPathDestination;
 var deployDest = require('./server').deployPathDestination;
 
-
 var templateFile = './src/Template.qextmpl';
 var lessFiles = './src/**/*.less';
 var cssFiles = './src/**/*.css';
 var jsFiles = './**/*.js';
 
-var name = path.basename(__dirname);
+var name = require('./package.json').packageName;
 
 var ccsnanoConfig = {
   discardComments: {
