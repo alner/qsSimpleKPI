@@ -3,8 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:stretch
-    environment:
-      GITHUB_TOKEN: "e9eb3ff59cbf68101948ba2fe06a7d350bfbfae9"
+
     steps:
       - checkout
       - run:
@@ -18,10 +17,17 @@ jobs:
               - deploy
       - run:
           name: Create GitHub release
+          requires:
+            - build
           attach_workspace:
             at: /tmp/workspace
           command: |
             ls -l deploy
             scripts/install-ghr.sh
             VERSION=$(cat version)
-            $HOME/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./deploy/qsSimpleKPI.zip
+            $HOME/bin/ghr -t ${ghoauth} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./deploy/qsSimpleKPI.zip
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d+\.\d+\.\d+$/

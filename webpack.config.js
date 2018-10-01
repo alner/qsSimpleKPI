@@ -4,7 +4,7 @@ var path = require('path');
 var serverConfig = require('./server.config.json');
 
 var node_modules_dir = path.join(__dirname, 'node_modules');
-var name = path.basename(__dirname);
+var name = require('./package.json').packageName;
 var outputFilename = name + '.js';
 var devServerPort = serverConfig.serverPort || 8080;
 
@@ -91,7 +91,7 @@ if(process.env.NODE_ENV !== 'production') {
   config.devtool = 'inline-source-map'; //'#eval-source-map';
     //config.devtool = 'source-map';
   config.debug = true;
-  config.output.path = path.resolve(serverConfig.deployFolder);
+  config.output.path = path.resolve(serverConfig.buildFolder);
   //config.entry.js.unshift("webpack/hot/only-dev-server");
     config.entry.js.unshift("webpack-dev-server/client?http://localhost:" + devServerPort);
     //config.plugins.push(new webpack.HotModuleReplacementPlugin());
