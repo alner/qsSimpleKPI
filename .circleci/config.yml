@@ -16,18 +16,28 @@ jobs:
             paths:
               - deploy
       - run:
+          name: Bump version
+          command: |
+            ./scripts/bumpVersion.sh
+          persist_to_workspace:
+            root: /tmp/workspace
+      - run:
           name: Create GitHub release
-          requires:
-            - build
           attach_workspace:
             at: /tmp/workspace
           command: |
             ls -l deploy
             scripts/install-ghr.sh
-            VERSION=$(cat version)
+            MAJOR=$(grep -i 'MAJOR' VERSION  | cut -f2 -d'=')
+            MINOR=$(grep -i 'MINOR' VERSION  | cut -f2 -d'=')
+            PATCH=$(grep -i 'PATCH' VERSION  | cut -f2 -d'=')
+            VERSION="${MAJOR}.${MINOR}.${PATCH}"
+            echo ${VERSION}
             $HOME/bin/ghr -t ${ghoauth} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./deploy/qsSimpleKPI.zip
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^\d+\.\d+\.\d+$/
+      - run:
+          name: Persist new version
+          attach_workspace:
+            at: /tmp/workspace
+          command: |
+            ./scripts/persistVersion.sh
+
