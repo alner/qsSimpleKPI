@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/sh
+set -o errexit
 
 echo "Persisting version"
 

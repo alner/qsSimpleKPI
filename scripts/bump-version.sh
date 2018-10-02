@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/sh
+set -o errexit
 
 echo "Bumping version..."
 MAJOR=$(grep -i 'MAJOR' VERSION  | cut -f2 -d'=')
