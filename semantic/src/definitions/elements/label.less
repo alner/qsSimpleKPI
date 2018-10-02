@@ -403,7 +403,7 @@ a.ui.label {
 
 .ui[class*="top attached"].label,
 .ui.attached.label {
-  width: 100%;
+  width: calc(~"100% - " (2 * @attachedHorizontalPadding) ~" - " (@borderWidth));
   position: absolute;
   margin: 0em;
   top: 0em;
