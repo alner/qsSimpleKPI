@@ -15,7 +15,7 @@ jobs:
           command: npm install
       - run:
           name: Bump version
-          command: ./scripts/bump-version.sh
+          command: scripts/bump-version.sh
       - run:
           name: Build and package
           command: npm run build
@@ -42,7 +42,9 @@ jobs:
             $HOME/bin/ghr -t ${ghoauth} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./deploy/qsSimpleKPI.zip
       - run:
           name: Persist version
-          command: ./scripts/persist-version.sh
+          command: |
+            echo "Persisting version: $(scripts/print-version.sh)"
+            scripts/persist-version.sh
 
 workflows:
   version: 2
@@ -56,4 +58,3 @@ workflows:
             branches:
               only:
                 - master
-                - build_pipeline
