@@ -7,9 +7,29 @@ Each measure can have a link to another sheet.
 
 ![Simple KPI](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/SimpleKPI.png)
 
-## Status
+## Circle CI build status
 [![CircleCI](https://circleci.com/gh/qlik-oss/qsSimpleKPI/tree/master.svg?style=svg)](https://circleci.com/gh/qlik-oss/qsSimpleKPI/tree/master)
 
+
+## Developing the extension
+
+If you want to do code changes to the extension follow these simple steps to get going.
+
+1. Get Qlik Sense Desktop
+1. Create a new app and add qsSimpleKPI to a sheet.
+2. Clone the repository
+3. Run `npm install`
+4. Change the `deployFolder`in `server.config.json` to be your local extensions folder. It will be something like `C:/Users/nerush/Documents/Qlik/Sense/Extensions/qsSimpleKPI`.
+5. Run `npm run dev`. This will start a watcher which will rebuild the extension and output all needed files to the `deployFolder` for each code change you make.
+6. See your changes directly in your Qlik Sense app.
+
+## Maintainers
+
+[alner](https://github.com/alner)
+
+## License
+
+MIT
 
 ### Video: Using the simple KPI extension in Qlik Sense - Qlik Tuesday Tips and Tricks
 
@@ -135,22 +155,3 @@ fa fa-calendar
 ```
 ![Font awesome](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/fontawesome.png)
 
-## Developing the extension
-
-If you want to do code changes to the extension follow these simple steps to get going.
-
-1. Get Qlik Sense Desktop
-1. Create a new app and add qsSimpleKPI to a sheet.
-2. Clone the repository
-3. Run `npm install`
-4. Change the `deployFolder`in `server.config.json` to be your local extensions folder. It will be something like `C:/Users/nerush/Documents/Qlik/Sense/Extensions/qsSimpleKPI`.
-5. Run `npm run dev`. This will start a watcher which will rebuild the extension and output all needed files to the `deployFolder` for each code change you make.
-6. See your changes directly in your Qlik Sense app.
-
-## Maintainers
-
-[alner](https://github.com/alner)
-
-## License
-
-MIT

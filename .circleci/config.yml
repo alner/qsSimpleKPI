@@ -1,10 +1,60 @@
 version: 2
+
+defaults: &defaults
+  working_directory: ~/qsSimpleKPI
+  docker:
+    - image: circleci/node:stretch
+
 jobs:
   build:
-    docker:
-      - image: debian:stretch
+    <<: *defaults
     steps:
       - checkout
       - run:
-          name: Greeting
-          command: echo Ninjas in the building.
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Bump version
+          command: scripts/bump-version.sh
+      - run:
+          name: Build and package
+          command: npm run build
+      - persist_to_workspace:
+          root: ~/qsSimpleKPI
+          paths:
+            - VERSION
+            - deploy
+  deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/qsSimpleKPI
+      - run:
+          name: Install ghr
+          command: scripts/install-ghr.sh
+      - run:
+          name: Create GitHub Release
+          command: |
+            echo "Contents of zip-file:"
+            ls -l deploy
+            VERSION="$(scripts/print-version.sh)"
+            $HOME/bin/ghr -t ${ghoauth} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./deploy/qsSimpleKPI.zip
+      - run:
+          name: Persist version
+          command: |
+            echo "Persisting version: $(scripts/print-version.sh)"
+            scripts/persist-version.sh
+
+workflows:
+  version: 2
+  master_flow:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master

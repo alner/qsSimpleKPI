@@ -3,13 +3,14 @@
   "version": "1.1.4",
   "description": "Simple KPI for Qlik Sense",
   "keywords": "kpi qliksense extension",
+  "packageName": "qsSimpleKPI",
   "main": "component.js",
   "private": true,
   "homepage": "https://github.com/alner/qsSimpleKPI",
   "bugs": "https://github.com/alner/qsSimpleKPI/issues",
   "scripts": {
-    "build": "set NODE_ENV=production&& gulp production",
-    "dev": "set NODE_ENV=development&& gulp development",
+    "build": "set NODE_ENV=production && gulp production",
+    "dev": "set NODE_ENV=development && gulp development",
     "test:setup-webdriver": "node_modules/.bin/webdriver-manager update --standalone false",
     "test:aw-webserver": "aw-web-server -c ./test/aw-webserver-config.json",
     "test:integration": "aw-webdriver-test-runner ./test/conf.dev.js --specs test/**/*.comp.spec.js --aw-artifacts-path ./test/integration/artifacts"

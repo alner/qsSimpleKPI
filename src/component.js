@@ -14,7 +14,7 @@ let dependencies = [
   'module',
   'qlik',
   // 'client.utils/routing',
-//  'objects.utils/number-formatter',
+  //  'objects.utils/number-formatter',
   'general.services/show-service/show-service',
   'general.utils/drag-and-drop-service'
 ]
