@@ -95,11 +95,11 @@ let kpis = {
               }
             ]
           },
-          sheetLink: { 
+          sheetLink: {
             ref: "sheetLink", // 'sheet-dropdown' need it!!! See bellow.
             type: "string",
              // Non visible property, detect changes in "qDef.kpiLink". It needs because of 'sheet-dropdown' component.
-            component: DetectChangesInComponent('qDef.kpiLink'), 
+            component: DetectChangesInComponent('qDef.kpiLink'),
             show : function (data) {
               return data.qDef.useLink;
             }
@@ -107,7 +107,7 @@ let kpis = {
           kpiLink : {
             ref: "qDef.kpiLink",
             type : "string",
-            component : 'sheet-dropdown',            
+            component : 'sheet-dropdown',
             show : function (data) {
               return data.qDef.useLink;
             }
@@ -125,7 +125,7 @@ let kpis = {
         label: "Hide value",
         ref: "qDef.hideValue",
         defaultValue: false
-      },      
+      },
       groupByDimension: {
         type: "boolean",
         label: "Group by dimension",
@@ -579,7 +579,7 @@ let settings = {
           component: "switch",
           label: "Responsive size",
           ref: "options.autoSize",
-          defaultValue: false,
+          defaultValue: true,
           options: [
             {
               value: true,
