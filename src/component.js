@@ -1,5 +1,6 @@
 import loadCSS from './loadcss';
 import Promise from "promise-polyfill";
+import React from 'react';
 
 const global = window;
 const defined = global.requirejs && global.requirejs.defined;
@@ -29,9 +30,6 @@ let dependencies = [
   //else return 'resource-not-defined'
   else return null;
 });
-
-if(!global.React)
-  dependencies.push('./vendors/react.min');
 
 define(dependencies,
   function (module, qlik, /*Routing, NumberFormatter,*/ ShowService, DragDropService, React) {

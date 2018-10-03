@@ -8,12 +8,12 @@ var name = path.basename(__dirname);
 var outputFilename = name + '.js';
 var devServerPort = serverConfig.serverPort || 8080;
 
-var deps = [
-  'react/dist/react.min.js',
-  //'react-router/dist/react-router.min.js',
-  //'moment/min/moment.min.js',
-  //'underscore/underscore-min.js',
-];
+// var deps = [
+//   'react/dist/react.min.js',
+//   //'react-router/dist/react-router.min.js',
+//   //'moment/min/moment.min.js',
+//   //'underscore/underscore-min.js',
+// ];
 
 // default configuration
 var config = {
@@ -32,10 +32,10 @@ var config = {
     filename: outputFilename // output file
     // libraryTarget: 'amd'
   },
-  externals: {
-    "react": "React",
-    // "general.utils/drag-and-drop-service": 'general.utils/drag-and-drop-service'
-  },
+  // externals: {
+  //   "react": "React",
+  //   // "general.utils/drag-and-drop-service": 'general.utils/drag-and-drop-service'
+  // },
   plugins: [
     //new webpack.optimize.CommonsChunkPlugin('React', 'react.js'),
     //new webpack.IgnorePlugin(/react/)
