@@ -155,3 +155,6 @@ fa fa-calendar
 ```
 ![Font awesome](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/fontawesome.png)
 
+## Data limits
+Measurements: 1-256
+Dimensions: 0-1
