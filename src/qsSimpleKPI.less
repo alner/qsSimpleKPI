@@ -22,6 +22,19 @@
   @import "../semantic/src/definitions/views/statistic.less";
   @import "../semantic/src/definitions/elements/segment.less";
 
+  .ui.horizontal.segments {
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    .segment {
+      min-width: inherit;
+
+      &.is-selected > .label{
+        background-color: #52cc52;
+      }
+    }
+  }
+
   .top-aligned-items {
     height: 100%;
     display: flex;
@@ -89,7 +102,7 @@
   }
 
   .ui.tag.label {
-    font-size: 0.5em !important; 
+    font-size: 0.5em !important;
   }
 
   .ui.button {
