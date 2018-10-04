@@ -1,16 +1,23 @@
-#!/bin/sh
+#!/bin/bash
 set -o errexit
 
-echo "Bumping version..."
-MAJOR=$(grep -i 'MAJOR' VERSION  | cut -f2 -d'=')
-MINOR=$(grep -i 'MINOR' VERSION  | cut -f2 -d'=')
-PATCH=$(grep -i 'PATCH' VERSION  | cut -f2 -d'=')
-echo "from: ${MAJOR}.${MINOR}.${PATCH}"
+join_by () {
+  local IFS="$1"; shift; echo "$*";
+}
 
-# The bump
-sed -ie "/MINOR=/ s/=.*/=$((MINOR+1))/" "VERSION"
+# get version from repo
+OLD_VERSION="$(scripts/get-latest-version.sh $1 $2)"
 
-MAJOR=$(grep -i 'MAJOR' VERSION  | cut -f2 -d'=')
-MINOR=$(grep -i 'MINOR' VERSION  | cut -f2 -d'=')
-PATCH=$(grep -i 'PATCH' VERSION  | cut -f2 -d'=')
-echo "to: ${MAJOR}.${MINOR}.${PATCH}"
+# split into array
+IFS='.' read -ra ARRAY_VERSION <<< "$OLD_VERSION"
+
+# bump minor
+ARRAY_VERSION[1]=$((ARRAY_VERSION[1]+1))
+
+# join into string
+NEW_VERSION=$(join_by . ${ARRAY_VERSION[@]})
+echo "$NEW_VERSION"
+
+
+# Usage
+# $ bump-version.sh qlik-oss qsSimpleKPI

@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 set -o errexit
 
-VERSION="../VERSION"
+VERSION="$(scripts/get-latest-version.sh $1 $2)"
 
-MAJOR=$(grep -i 'MAJOR' VERSION  | cut -f2 -d'=')
-MINOR=$(grep -i 'MINOR' VERSION  | cut -f2 -d'=')
-PATCH=$(grep -i 'PATCH' VERSION  | cut -f2 -d'=')
-VERSION="${MAJOR}.${MINOR}.${PATCH}"
 echo ${VERSION}
+
+# Usage
+# $ print-version.sh qlik-oss qsSimpleKPI
+# 0.12.0

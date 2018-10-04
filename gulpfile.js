@@ -106,17 +106,13 @@ gulp.task('add-assets', function(){
   return gulp.src("./assets/**/*").pipe(gulp.dest(buildDest));
 });
 
-gulp.task('add-version', function(){
-  return gulp.src("VERSION").pipe(gulp.dest(buildDest));
-});
-
 gulp.task('deploy', function(){
   return gulp.src(buildDest + "/**/*").pipe(gulp.dest(deployDest));
 });
 
-gulp.task('development', ['qext', 'less2css', /*'css',*/ 'add-assets', 'add-version', 'watch', 'devServer']);
+gulp.task('development', ['qext', 'less2css', /*'css',*/ 'add-assets', 'watch', 'devServer']);
 gulp.task('production', function(callback) {
-  runSequence(['qext', 'less2css', /*'css',*/ 'purifycss', 'remove-build-zip', 'add-assets', 'add-version'],
+  runSequence(['qext', 'less2css', /*'css',*/ 'purifycss', 'remove-build-zip', 'add-assets'],
     'build',
     'zip-build',
     'deploy'
