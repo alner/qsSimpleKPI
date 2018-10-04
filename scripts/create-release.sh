@@ -1,8 +1,6 @@
 #!/bin/bash
 set -o errexit
 
-echo "Contents of zip-file:"
-ls -l deploy
 echo "Bumping version from: $(scripts/print-version.sh $1 $2)"
 VERSION="$(scripts/bump-version.sh $1 $2)"
 echo "to: $VERSION"

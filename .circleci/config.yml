@@ -18,11 +18,11 @@ jobs:
           command: npm install
       - run:
           name: Build and package
-          command: npm run build
+          command: npm run prod
       - persist_to_workspace:
           root: ~/qsSimpleKPI
           paths:
-            - deploy
+            - build
   deploy:
     <<: *defaults
     steps:
