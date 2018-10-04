@@ -1,15 +1,17 @@
 # Simple KPI
 
+![Simple KPI](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/SimpleKPI.png)
+
 Simple KPI component for Qlik Sense.
 It can show one or several KPI using measures and one dimension (selectable, optional, it can show up to 125 measures and if it is used no more then 80 dimensions lines).
 Supports adaptive design, conditional css colors, conditional icons, infographic (with constraints, no more than 1000 icons per measure), configurable number of kpis per line, several predefined sizes, custom styles (CSS).
 Each measure can have a link to another sheet.
 
-![Simple KPI](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/SimpleKPI.png)
-
-## Circle CI build status
 [![CircleCI](https://circleci.com/gh/qlik-oss/qsSimpleKPI/tree/master.svg?style=svg)](https://circleci.com/gh/qlik-oss/qsSimpleKPI/tree/master)
 
+## Introduction Video
+
+[![Using the simple KPI](https://i.ytimg.com/vi/vubli1Icp68/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLBQnCS4wNgkNtB7TLFDbOVqGW5GXg)](https://youtu.be/vubli1Icp68)
 
 ## Developing the extension
 
@@ -23,18 +25,6 @@ If you want to do code changes to the extension follow these simple steps to get
 5. Run `npm run dev`. This will start a watcher which will rebuild the extension and output all needed files to the `deployFolder` for each code change you make.
 6. See your changes directly in your Qlik Sense app.
 
-## Maintainers
-
-[alner](https://github.com/alner)
-
-## License
-
-MIT
-
-### Video: Using the simple KPI extension in Qlik Sense - Qlik Tuesday Tips and Tricks
-
-[![Using the simple KPI](https://i.ytimg.com/vi/vubli1Icp68/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLBQnCS4wNgkNtB7TLFDbOVqGW5GXg)](https://youtu.be/vubli1Icp68)
-
 ## Installation
 
 Download [build/qsSimpleKPI.zip](https://github.com/alner/qsSimpleKPI/raw/master/build/qsSimpleKPI.zip), upload to qlik server or extract to appropriate folder.
@@ -43,48 +33,19 @@ Qlik Sense Desktop: unzip to a directory under [My Documents]/Qlik/Sense/Extensi
 
 Qlik Sense Server: import the zip file in the QMC.
 
-## Demo
-
-Download [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf)
-
-![Example](examples/images/using_styles.png)
-
-You can easily add several kpis, group them accordingly and apply different ui settings (different font sizes, alignments, styles, icons, links to different sheets, responsive options).
-
-![Example](examples/SimpleKPIDemo.png)
-
-You can embedded Master Visualizations into the simple kpi object.
-
-![Example](examples/images/embedded_charts.png)
-
-You can add measure with some fake value (for example, using the following expression: ='Drag and Drop here'), then drag and drop master visualization into the value region or you can insert object id into the "Visualization" property for each measure.
-
-### Video: SimpleKPI plus Line Chart Tutorial.
-
-[![Simple KPI plus Line Chart Tutorial](https://i.ytimg.com/vi/gJxUUnJi5Vc/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLDho5IkTXSDn-lJjx8kekuALsn3Yw)](https://youtu.be/gJxUUnJi5Vc)
-
-![Example](examples/images/drag_chart.png)
-
-Infographic mode allows you to show appropriate number of icons (depends on measure, with constraints, no more than 1000 icons per measure).
-
-![Example](examples/images/infographic.png)
-
 ## Configuration
+
+**Icon for value or label**
 
 ![Appearance](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Appearance2.png)
 
-You can set icon for value or label (full icons set included).
-
 ![Example](examples/IconDialog.png)
 
-![Measures](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Measures.png)
-
-
-**Conditional colors**
+**Conditional colours**
 
 ![Colors](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Colors.png)
 
-![Conditional colors](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/ConditionalColors.png)
+![Conditional colours](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/ConditionalColors.png)
 
 **Conditional icons**
 
@@ -154,4 +115,12 @@ For example, copy and paste the following into the "Icon" property.
 fa fa-calendar
 ```
 ![Font awesome](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/fontawesome.png)
+
+## Demo Application
+
+Download [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf)
+
+## Tutorial Video
+
+[![Simple KPI plus Line Chart Tutorial](https://i.ytimg.com/vi/gJxUUnJi5Vc/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLDho5IkTXSDn-lJjx8kekuALsn3Yw)](https://youtu.be/gJxUUnJi5Vc)
 
