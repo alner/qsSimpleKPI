@@ -1,0 +1,50 @@
+version: 2
+
+defaults: &defaults
+  working_directory: ~/qsSimpleKPI
+  docker:
+    - image: circleci/node:stretch
+  environment:
+    GITHUB_ORG: "qlik-oss"
+    GITHUB_REPO: "qsSimpleKPI"
+
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Build and package
+          command: npm run build
+      - persist_to_workspace:
+          root: ~/qsSimpleKPI
+          paths:
+            - deploy
+  deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/qsSimpleKPI
+      - run:
+          name: Install ghr
+          command: scripts/install-ghr.sh
+      - run:
+          name: Create GitHub Release
+          command: scripts/create-release.sh $GITHUB_ORG $GITHUB_REPO
+
+workflows:
+  version: 2
+  master_flow:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master

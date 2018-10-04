@@ -26,7 +26,7 @@ var lessFiles = './src/**/*.less';
 var cssFiles = './src/**/*.css';
 var jsFiles = './**/*.js';
 
-var name = path.basename(__dirname);
+var name = require('./package.json').packageName;
 
 var ccsnanoConfig = {
   discardComments: {
@@ -92,30 +92,29 @@ gulp.task('watch', function(){
 });
 
 gulp.task('remove-build-zip', function(callback){
-  del.sync(['build/' + name + '.zip']);
+  del.sync([deployDest + name + '.zip']);
   callback();
 });
 
 gulp.task('zip-build', function(){
-  return gulp.src('build/**/*')
+  return gulp.src(buildDest + '/**/*')
     .pipe(zip(name + '.zip'))
-    .pipe(gulp.dest('build'));
+    .pipe(gulp.dest(deployDest));
 });
 
-gulp.task('deploy-assets', function(){
-  return gulp.src("assets/**/*").pipe(gulp.dest(deployDest));
+gulp.task('add-assets', function(){
+  return gulp.src("./assets/**/*").pipe(gulp.dest(buildDest));
 });
 
 gulp.task('deploy', function(){
   return gulp.src(buildDest + "/**/*").pipe(gulp.dest(deployDest));
 });
 
-gulp.task('development', ['qext', 'less2css', /*'css',*/ 'deploy-assets', 'watch', 'devServer']);
+gulp.task('development', ['qext', 'less2css', /*'css',*/ 'add-assets', 'watch', 'devServer']);
 gulp.task('production', function(callback) {
-  runSequence(['qext', 'less2css', /*'css',*/ 'purifycss', 'remove-build-zip'],
+  runSequence(['qext', 'less2css', /*'css',*/ 'purifycss', 'remove-build-zip', 'add-assets'],
     'build',
     'zip-build',
-    'deploy-assets',
     'deploy'
     );
 });

@@ -50,7 +50,7 @@
 /* Grouped */
 .ui.statistics {
   display: flex;
-  align-items: center; /*flex-start;*/
+  align-items: flex-start;
   flex-wrap: wrap;
 }
 .ui.statistics > .statistic {
@@ -483,11 +483,6 @@
   font-size: @miniTextValueSize;
 }
 
-.ui.mini.statistics .statistic > .label,
-.ui.mini.statistic > .label {
-  font-size: @miniLabelValueSize;
-}
-
 
 /* Tiny */
 .ui.tiny.statistics .statistic > .value,
@@ -501,11 +496,6 @@
 .ui.tiny.statistics .statistic > .text.value,
 .ui.tiny.statistic > .text.value {
   font-size: @tinyTextValueSize;
-}
-
-.ui.tiny.statistics .statistic > .label,
-.ui.tiny.statistic > .label {
-  font-size: @tinyLabelValueSize;
 }
 
 /* Small */
@@ -522,11 +512,6 @@
   font-size: @smallTextValueSize;
 }
 
-.ui.small.statistics .statistic > .label,
-.ui.small.statistic > .label {
-  font-size: @smallLabelValueSize;
-}
-
 /* Medium */
 .ui.statistics .statistic > .value,
 .ui.statistic > .value {
@@ -539,11 +524,6 @@
 .ui.statistics .statistic > .text.value,
 .ui.statistic > .text.value {
   font-size: @textValueSize;
-}
-
-.ui.statistics .statistic > .label,
-.ui.statistic > .label {
-  font-size: @labelValueSize;
 }
 
 /* Large */
@@ -560,11 +540,6 @@
   font-size: @largeTextValueSize;
 }
 
-.ui.large.statistics .statistic > .label,
-.ui.large.statistic > .label {
-  font-size: @largeLabelValueSize;
-}
-
 /* Huge */
 .ui.huge.statistics .statistic > .value,
 .ui.huge.statistic > .value {
@@ -579,9 +554,5 @@
   font-size: @hugeTextValueSize;
 }
 
-.ui.huge.statistics .statistic > .label,
-.ui.huge.statistic > .label {
-  font-size: @hugeLabelValueSize;
-}
 
 .loadUIOverrides();

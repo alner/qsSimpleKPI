@@ -1,5 +1,3 @@
 /*******************************
          Theme Overrides
 *******************************/
-
-@twoCard: ~"calc("@twoColumn~" - "(@twoCardSpacing * 2) - (@borderWidth * 2)~")";

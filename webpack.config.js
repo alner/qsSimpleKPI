@@ -4,16 +4,16 @@ var path = require('path');
 var serverConfig = require('./server.config.json');
 
 var node_modules_dir = path.join(__dirname, 'node_modules');
-var name = path.basename(__dirname);
+var name = require('./package.json').packageName;
 var outputFilename = name + '.js';
 var devServerPort = serverConfig.serverPort || 8080;
 
-var deps = [
-  'react/dist/react.min.js',
-  //'react-router/dist/react-router.min.js',
-  //'moment/min/moment.min.js',
-  //'underscore/underscore-min.js',
-];
+// var deps = [
+//   'react/dist/react.min.js',
+//   //'react-router/dist/react-router.min.js',
+//   //'moment/min/moment.min.js',
+//   //'underscore/underscore-min.js',
+// ];
 
 // default configuration
 var config = {
@@ -32,10 +32,10 @@ var config = {
     filename: outputFilename // output file
     // libraryTarget: 'amd'
   },
-  externals: {
-    "react": "React",
-    // "general.utils/drag-and-drop-service": 'general.utils/drag-and-drop-service'
-  },
+  // externals: {
+  //   "react": "React",
+  //   // "general.utils/drag-and-drop-service": 'general.utils/drag-and-drop-service'
+  // },
   plugins: [
     //new webpack.optimize.CommonsChunkPlugin('React', 'react.js'),
     //new webpack.IgnorePlugin(/react/)
@@ -91,7 +91,7 @@ if(process.env.NODE_ENV !== 'production') {
   config.devtool = 'inline-source-map'; //'#eval-source-map';
     //config.devtool = 'source-map';
   config.debug = true;
-  config.output.path = path.resolve(serverConfig.deployFolder);
+  config.output.path = path.resolve(serverConfig.buildFolder);
   //config.entry.js.unshift("webpack/hot/only-dev-server");
     config.entry.js.unshift("webpack-dev-server/client?http://localhost:" + devServerPort);
     //config.plugins.push(new webpack.HotModuleReplacementPlugin());
