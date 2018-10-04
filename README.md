@@ -116,6 +116,10 @@ fa fa-calendar
 ```
 ![Font awesome](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/fontawesome.png)
 
+## Data limits
+Measurements: 1-256
+Dimensions: 0-1
+
 ## Demo Application
 
 Download [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf)
@@ -123,4 +127,3 @@ Download [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf)
 ## Tutorial Video
 
 [![Simple KPI plus Line Chart Tutorial](https://i.ytimg.com/vi/gJxUUnJi5Vc/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLDho5IkTXSDn-lJjx8kekuALsn3Yw)](https://youtu.be/gJxUUnJi5Vc)
-
