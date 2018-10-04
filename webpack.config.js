@@ -4,7 +4,7 @@ var path = require('path');
 var serverConfig = require('./server.config.json');
 
 var node_modules_dir = path.join(__dirname, 'node_modules');
-var name = require('./package.json').packageName;
+var name = "qs" + require('./package.json').name;
 var outputFilename = name + '.js';
 var devServerPort = serverConfig.serverPort || 8080;
 
