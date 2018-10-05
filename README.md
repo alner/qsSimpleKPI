@@ -127,3 +127,6 @@ Download [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf)
 ## Tutorial Video
 
 [![Simple KPI plus Line Chart Tutorial](https://i.ytimg.com/vi/gJxUUnJi5Vc/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLDho5IkTXSDn-lJjx8kekuALsn3Yw)](https://youtu.be/gJxUUnJi5Vc)
+
+## Original Author
+[alner](https://github.com/alner)
