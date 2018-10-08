@@ -704,7 +704,7 @@ let settings = {
               label: "Stretched"
             },
           ],
-          defaultValue: "top-aligned-items"
+          defaultValue: "center-aligned-items"
         },
         styles: {
           type: "string",
