@@ -41,7 +41,7 @@ class DimensionEntry extends Component {
     return (
       <div className={`ui ${showAs}${isSelectedClass}`} style={style}>
         {label.isHidden ? null : <a className={`ui ${label.size} ${label.orientation} ${label.alignment} label`} onClick={this.handleClick}>{label.text}</a>}
-        <div className={`ui ${divideBy} statistics`}>
+        <div className={`ui ${divideBy} ${label.alignment} statistics`}>
           {children}
         </div>
       </div>
