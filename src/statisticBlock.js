@@ -290,7 +290,7 @@ class StatisticBlock extends Component {
       dimDivideBy = 'auto',
       divideBy,
       backgroundColor,
-      verticalAlign = "top-aligned-items",
+      verticalAlign = "center-aligned-items",
       styles = ''
     } = this.props.options;
 
