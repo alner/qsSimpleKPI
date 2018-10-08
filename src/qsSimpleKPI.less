@@ -160,4 +160,43 @@
     margin: 0;
     vertical-align: top;
   }
+
+  .ui.segments{
+    .ui.segment{
+      display: flex;
+      flex-direction: column;
+      .bottom{
+        border-bottom: none ;
+        border-top: 1px solid #a6a6a6;
+        order: 2;
+      }
+      .bottom.left{
+        border-bottom: none ;
+        border-top: 1px solid #a6a6a6;
+        order: 2;
+        text-align: left;
+      }
+      .bottom.right{
+        border-bottom: none ;
+        border-top: 1px solid #a6a6a6;
+        order: 2;
+        text-align: right;
+      }
+      .top {
+        border-top: none ;
+        border-bottom: 1px solid #a6a6a6;
+      }
+      .top.right{
+        border-top: none;
+        border-bottom: 1px solid #a6a6a6;
+        text-align: right;
+      }
+      .top.left{
+        border-top: none;
+        border-bottom: 1px solid #a6a6a6;
+        text-align: left;
+      }
+    }
+  }
 }
+
