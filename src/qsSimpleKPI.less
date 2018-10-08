@@ -105,6 +105,8 @@
 
   .ui.cards {
     margin: 0 !important;
+    align-items: center;
+    justify-content: center;
   }
 
   .ui.cards > .card,
@@ -161,14 +163,15 @@
     vertical-align: top;
   }
 
-  .ui.segments{
-    .ui.segment{
+  .ui.segments, .ui.cards{
+    .ui.segment, .ui.card{
       display: flex;
       flex-direction: column;
-      // labels positioning
       a{
         font-size: 16px;
       }
+
+      // labels positioning
       .bottom{
         border-bottom: none ;
         border-top: 1px solid #a6a6a6;
