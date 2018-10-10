@@ -20,6 +20,7 @@ var config = {
     path: path.resolve(__dirname, serverConfig.buildFolder),
     filename: outputFilename // output file
   },
+  plugins: [],
   module: {
     noParse: ["react"],
     loaders: [
