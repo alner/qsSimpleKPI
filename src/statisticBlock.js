@@ -26,7 +26,7 @@ class StatisticBlock extends Component {
     const isPrinting = this.isPrinting();
     const checkRequiredSizeDelay = isPrinting ? 1 : 50; //1
     const readyDelay = isPrinting ? 10 : 10000; // 10
-    
+
     setTimeout(function(){self.checkRequiredSize();}, checkRequiredSizeDelay);
     // initial resize should not be visible
     setTimeout(function(){ self.componentReady(); }, readyDelay);
@@ -49,8 +49,8 @@ class StatisticBlock extends Component {
   }
 
   isPrinting() {
-    return this.props.services.QlikComponent.backendApi.isSnapshot && 
-      this.props.services.Qlik.navigation && 
+    return this.props.services.QlikComponent.backendApi.isSnapshot &&
+      this.props.services.Qlik.navigation &&
       !this.props.services.Qlik.navigation.inClient;
   }
 
@@ -361,7 +361,7 @@ class StatisticBlock extends Component {
 
     let objectStyle = {
     };
-    if(backgroundColor) objectStyle.backgroundColor = backgroundColor;
+    if(backgroundColor) objectStyle.backgroundColor = backgroundColor.color;
     if(this.state.overflow) {
       objectStyle.overflow = this.state.overflow;
       objectStyle.WebkitOverflowScrolling = 'touch'; // nice webkit scorll support

@@ -1,14 +1,12 @@
 import {
-  ColorsPickerComponent,
   FontStylesComponent,
   TextEditorComponent,
   SelectIconDialogComponent,
   DetectChangesInComponent
-//  ExpressionEditorComponent
 } from './definitionComponents';
 
 import { FULL_ICONS_SET } from './iconsDefinitions';
-import {COLOR_OPTIONS, SIZE_OPTIONS, DEFAULT_SIZE, DIM_LABEL_OPTIONS, DIM_VIEW_OPTIONS} from './options';
+import { SIZE_OPTIONS, DEFAULT_SIZE, DIM_LABEL_OPTIONS, DIM_VIEW_OPTIONS } from './options';
 import ATTRIBUTES from './definitionAttributes';
 
 export default function ({ ShowService }) {
@@ -50,32 +48,16 @@ let kpis = {
         }
       },
       labelColor: {
-        type: "string",
+        type: "object",
         ref: "qDef.labelColor", //"qAttributeExpressions.0.qExpression",
         label: "Label color",
-        expression: "always",
-        defaultValue: "#545352"
-      },
-      pickLabelColor: {
-        type: "string",
-        component: ColorsPickerComponent,
-        ref: "qDef.labelColor", //"qAttributeExpressions.0.qExpression",
-        defaultValue: "#545352",
-        options: COLOR_OPTIONS
+        component: "color-picker"
       },
       itemColor: {
-        type: "string",
+        type: "object",
         ref: "qDef.valueColor",
         label: "Value color",
-        expression: "always",
-        defaultValue: "#808080"
-      },
-      pickItemColor: {
-        type: "string",
-        component: ColorsPickerComponent,
-        ref: "qDef.valueColor",
-        defaultValue: "#808080",
-        options: COLOR_OPTIONS
+        component: "color-picker"
       },
       linkToSheet : {
         type : "items",
@@ -668,18 +650,10 @@ let settings = {
       translation: "Styles",
       items: {
         backgroundColor: {
-          type: "string",
-          ref: "options.backgroundColor",
           label: "Background color",
-          expression: "always",
-          defaultValue: ""
-        },
-        pickBackgroundColor: {
-          type: "string",
-          component: ColorsPickerComponent,
+          component: "color-picker",
           ref: "options.backgroundColor",
-          options: COLOR_OPTIONS,
-          defaultValue: ""
+          type: "object"
         },
         iconSize: {
           type: "string",
