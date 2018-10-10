@@ -8,10 +8,14 @@ module.exports = {
     sourceType: "module"
   },
   parser: "babel-eslint",
+  env: {
+    node: true
+  },
   globals: {
     angular: false,
     define: false,
-    document: false
+    document: false,
+    require: false
   },
   rules: {
     "indent": ["warn", 2, { "SwitchCase": 1 }],
