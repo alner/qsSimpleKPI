@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-// import PropTypes from 'prop-types';
 
 class DimensionEntry extends Component {
   constructor (props) {
@@ -8,7 +7,6 @@ class DimensionEntry extends Component {
       isSelected: false
     };
 
-    // TODO: bind using class properties instead (requires babel plugin)
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -60,7 +58,7 @@ DimensionEntry.propTypes = {
     isHidden: PropTypes.bool,
     orientation: PropTypes.string,
     alignment: PropTypes.string,
-    size: PropTypes.any,
+    size: PropTypes.string,
     text: PropTypes.string
   }).isRequired,
   showAs: PropTypes.string.isRequired,

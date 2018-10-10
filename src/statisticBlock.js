@@ -346,7 +346,6 @@ class StatisticBlock extends Component {
                 text: dimensionLabel
               };
 
-              // TODO: generate id for cell in dataset at fetch and use that instead of Math.random
               return (
                 <DimensionEntry
                   divideBy={divideBy}
