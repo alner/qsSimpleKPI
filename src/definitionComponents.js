@@ -489,7 +489,7 @@ return DialogComponentFactory(ShowService, (() => {
         }
       </style>
       <div style="height: auto; font-size:3em;">
-        <i class="{{value}}" ng-if="!isExpression"></i><span ng-if="!isExpression" style="font-size:0.5em;">{{value}}</span>
+        <i class="{{value}}" style="margin: 0 10px;" ng-if="!isExpression" ></i><span ng-if="!isExpression" style="font-size:0.5em;">{{value.split("--")[1]}}</span>
         <i class="icon-expression" ng-if="isExpression" style="font-size:18px;"></i>
       </div>
       <div style="overflow:auto; -webkit-overflow-scrolling:touch; height:${docHeight / 2}px; border: solid 1px #f2f2f2;border-radius:5px;padding:5px">
@@ -504,26 +504,6 @@ return DialogComponentFactory(ShowService, (() => {
           <div><i class="{{icon}}" style="margin: 0; font-size: 1.3em"></i></div>
         </button>
       </div>
-      </div>
-      <div style="margin-top: 10px;">
-        <span ng-repeat-start="(iconOption, iconOptLabel) in iconOptions track by iconOption" />
-        <label
-          class="lui-checkbox qui-checkboxicon"
-          style="display: inline-block"
-          title="{{iconOptLabel}}"
-          ng-class="{ \'lui-hovered qui-hover\': hover }"
-          ng-mouseenter="hover = true"
-          ng-mouseleave="hover = false">
-          <input type="checkbox"
-            class="lui-checkbox__input"
-            ng-model="opts[iconOption]"
-            ng-change="select(iconOption)">
-          <div class="lui-checkbox__check-wrap check-wrap">
-            <span class="lui-checkbox__check check"></span>
-            <span class="lui-checkbox__check-text check-text" style="max-width: 200px">{{iconOptLabel}}</span>
-          </div>
-        </label>
-        <span ng-repeat-end>&nbsp;</span>
       </div>
     </div>
     `,
