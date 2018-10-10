@@ -19,6 +19,8 @@ jobs:
       - run:
           name: Build and package
           command: npm run prod
+          environment:
+            NODE_ENV: production
       - persist_to_workspace:
           root: ~/qsSimpleKPI
           paths:
