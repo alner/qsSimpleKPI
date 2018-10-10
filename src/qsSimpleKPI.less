@@ -16,36 +16,9 @@
 }
 .qv-object-qsstatistic {
   @import "../semantic/src/definitions/views/card.less";
-  //@import "../semantic/src/definitions/elements/button.less";
   @import "../semantic/src/definitions/elements/icon.less";
-  // @import "../semantic/src/definitions/elements/label.less";
   @import "../semantic/src/definitions/views/statistic.less";
   @import "../semantic/src/definitions/elements/segment.less";
-
-  .ui.segments, .ui.cards {
-    overflow: auto;
-
-    .segment, .card {
-      min-width: fit-content !important;
-      padding: 0;
-
-      &>.label {
-        display: block;
-        padding: 10px 4px;
-        border-bottom: solid 1px rgb(166,166,166);
-      }
-
-      &>.statistics {
-        padding: 1em;
-        box-sizing: border-box;
-      }
-
-      &.is-selected > .label {
-        background-color: #52cc52;
-        color: rgb(255,255,255);
-      }
-    }
-  }
 
   .top-aligned-items {
     height: 100%;
@@ -163,66 +136,86 @@
     vertical-align: top;
   }
 
-  .ui.segments, .ui.cards{
-    .ui.segment, .ui.card{
+  .ui.segments, .ui.cards {
+    overflow: auto;
+
+    .ui.segment, .ui.card {
       display: flex;
       flex-direction: column;
       a{
         font-size: 16px;
       }
 
+      min-width: fit-content !important;
+      padding: 0;
+
+      &>.label {
+        display: block;
+        padding: 10px 4px;
+        border-bottom: solid 1px rgb(166,166,166);
+      }
+
+      &>.statistics {
+        padding: 1em;
+        box-sizing: border-box;
+      }
+
+      &.is-selected > .label {
+        background-color: #52cc52;
+        color: rgb(255,255,255);
+      }
+
       // labels positioning
-      .bottom{
-        border-bottom: none ;
+      .bottom {
+        border-bottom: none;
         border-top: 1px solid #a6a6a6;
         order: 2;
       }
-      .bottom.left{
-        border-bottom: none ;
+      .bottom.left {
+        border-bottom: none;
         border-top: 1px solid #a6a6a6;
         order: 2;
         text-align: left;
       }
-      .bottom.right{
-        border-bottom: none ;
+      .bottom.right {
+        border-bottom: none;
         border-top: 1px solid #a6a6a6;
         order: 2;
         text-align: right;
       }
       .top {
-        border-top: none ;
+        border-top: none;
         border-bottom: 1px solid #a6a6a6;
       }
-      .top.right{
+      .top.right {
         border-top: none;
         border-bottom: 1px solid #a6a6a6;
         text-align: right;
       }
-      .top.left{
+      .top.left {
         border-top: none;
         border-bottom: 1px solid #a6a6a6;
         text-align: left;
       }
-      // labels sizing 
-      .mini{
+      // labels sizing
+      .mini {
         font-size: xx-small;
       }
-      .tiny{
+      .tiny {
         font-size: x-small;
       }
-      .small{
+      .small {
         font-size: small;
       }
-      .normal{
+      .normal {
         font-size: 19px;
       }
-      .large{
+      .large {
         font-size: x-large;
       }
-      .huge{
+      .huge {
         font-size: xx-large;
       }
     }
   }
 }
-
