@@ -13,6 +13,7 @@
     "eslint": "eslint src",
     "eslint:fix": "eslint --fix src",
     "test": "karma start karma.conf.js",
+    "test-once": "karma start karma.conf.js --single-run",
     "test:setup-webdriver": "node_modules/.bin/webdriver-manager update --standalone false",
     "test:aw-webserver": "aw-web-server -c ./test/aw-webserver-config.json",
     "test:integration": "aw-webdriver-test-runner ./test/conf.dev.js --specs test/**/*.comp.spec.js --aw-artifacts-path ./test/integration/artifacts"
