@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import InlineCSS from 'react-inline-css';
 import {DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex} from './options';
+import DimensionEntry from './dimensionEntry';
 import StatisticItem from './statisticItem';
 import ATTRIBUTES from './definitionAttributes';
 
@@ -17,6 +18,7 @@ class StatisticBlock extends Component {
     };
     this.componentReady = this.componentReady.bind(this);
     this.kpiItemResizeHandler = this.kpiItemResizeHandler.bind(this);
+    this.onDimensionLabelClick = this.onDimensionLabelClick.bind(this);
   }
 
   componentDidMount(){
@@ -26,7 +28,7 @@ class StatisticBlock extends Component {
     const isPrinting = this.isPrinting();
     const checkRequiredSizeDelay = isPrinting ? 1 : 50; //1
     const readyDelay = isPrinting ? 10 : 10000; // 10
-    
+
     setTimeout(function(){self.checkRequiredSize();}, checkRequiredSizeDelay);
     // initial resize should not be visible
     setTimeout(function(){ self.componentReady(); }, readyDelay);
@@ -49,8 +51,8 @@ class StatisticBlock extends Component {
   }
 
   isPrinting() {
-    return this.props.services.QlikComponent.backendApi.isSnapshot && 
-      this.props.services.Qlik.navigation && 
+    return this.props.services.QlikComponent.backendApi.isSnapshot &&
+      this.props.services.Qlik.navigation &&
       !this.props.services.Qlik.navigation.inClient;
   }
 
@@ -336,13 +338,30 @@ class StatisticBlock extends Component {
               const dimensionLabel = dim[dimNo].qText;
               const dimensionIndex = dim[dimNo].qElemNumber;
               let measures = self.renderKpis(kpis, dindex, divideByNumber);
+              const labelOptions = {
+                alignment: dimLabelsAlignment,
+                isHidden: dimHideLabels,
+                orientation: dimLabelOrientation,
+                size: dimLabelSize,
+                text: dimensionLabel
+              };
+
               return (
-              <div className={`ui ${dimShowAs}`} style={segmentStyle}>
-                {dimHideLabels ? null : <a className={`ui ${dimLabelSize} ${dimLabelOrientation} ${dimLabelsAlignment} label`} onClick={self.onDimensionLabelClick.bind(self, dimNo, dimensionIndex)}>{dimensionLabel}</a>}
-                  <div ref="statistics" className={`ui ${divideBy} statistics`}>
+                <DimensionEntry
+                  divideBy={divideBy}
+                  dindex={dindex}
+                  divideByNumber={divideByNumber}
+                  dimNo={dimNo}
+                  dimensionIndex={dimensionIndex}
+                  label={labelOptions}
+                  key={Math.random()}
+                  onToggle={self.onDimensionLabelClick}
+                  showAs={dimShowAs}
+                  style={segmentStyle}
+                >
                   {measures}
-                  </div>
-              </div>)
+                </DimensionEntry>
+              )
             })
           }
           </div>
@@ -399,8 +418,10 @@ class StatisticBlock extends Component {
   }
 
   onDimensionLabelClick(dimNo, value) {
-    this.props.services && this.props.services.QlikComponent
-      && this.props.services.QlikComponent.selectValues(dimNo, [value], true);
+    const { services } = this.props;
+    if (services && services.QlikComponent) {
+      services.QlikComponent.selectValues(dimNo, [value], true);
+    }
   }
 }
 

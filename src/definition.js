@@ -498,7 +498,7 @@ let settings = {
           type: "boolean",
           label: "Center aligned labels",
           ref: "options.dimCenteredLabels",
-          defaultValue: false
+          defaultValue: true
         },
         hideBorders: {
           type: "boolean",
@@ -704,7 +704,7 @@ let settings = {
               label: "Stretched"
             },
           ],
-          defaultValue: "top-aligned-items"
+          defaultValue: "center-aligned-items"
         },
         styles: {
           type: "string",
