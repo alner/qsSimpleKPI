@@ -66,7 +66,10 @@
   .ui.segment > .label[class*="center aligned"] {
     text-align: center;
   }
-
+  .ui.center.aligned.statistics > div > div > div > .value,
+  .ui.center.aligned.statistics > div > div > div > .label{
+    text-align: center !important;
+  }
   .ui.segments, .ui.segment {
     background-color: transparent !important;
   }
@@ -152,7 +155,6 @@
       >.label {
         display: block;
         padding: 10px 5px;
-        color: red;
         border-bottom: solid 1px rgb(166,166,166) !important;
       }
 
@@ -161,7 +163,7 @@
         box-sizing: border-box;
       }
 
-      .is-selected > .label {
+      &.is-selected > .label {
         background-color: #52cc52;
         color: rgb(255,255,255);
       }
