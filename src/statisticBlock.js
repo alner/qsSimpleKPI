@@ -380,7 +380,7 @@ class StatisticBlock extends Component {
 
     let objectStyle = {
     };
-    if(backgroundColor) objectStyle.backgroundColor = backgroundColor;
+    if(backgroundColor) objectStyle.backgroundColor = backgroundColor.color;
     if(this.state.overflow) {
       objectStyle.overflow = this.state.overflow;
       objectStyle.WebkitOverflowScrolling = 'touch'; // nice webkit scorll support
