@@ -19,7 +19,7 @@ class Icon extends Component {
       if(!isNaN(value) && isFinite(value)) {
         value = Math.min(1000, value);
         for (let i = 0; i < value; ++i)
-          icons.push(<i key={i} className={`${valueIcon} ${iconSize}`}></i>);
+          icons.push(<div className={`value--icon--wrapper ${iconSize}`}> <i key={i} className={`${valueIcon} ${iconSize}`}></i> </div>);
       }
 
       return (
@@ -29,7 +29,7 @@ class Icon extends Component {
       )
     }
     else
-      return (<i className={`${valueIcon} ${iconSize}`}></i>);
+      return (<div className={`value--icon--wrapper ${iconSize}`}><i className={`${valueIcon} ${iconSize}`}></i></div>);
   }
 };
 
