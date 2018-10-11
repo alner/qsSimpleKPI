@@ -142,25 +142,26 @@
     .ui.segment, .ui.card {
       display: flex;
       flex-direction: column;
+      min-width: fit-content !important;
+      padding: 0;
       a{
         font-size: 16px;
       }
 
-      min-width: fit-content !important;
-      padding: 0;
 
-      &>.label {
+      >.label {
         display: block;
-        padding: 10px 4px;
-        border-bottom: solid 1px rgb(166,166,166);
+        padding: 10px 5px;
+        color: red;
+        border-bottom: solid 1px rgb(166,166,166) !important;
       }
 
-      &>.statistics {
+      >.statistics {
         padding: 1em;
         box-sizing: border-box;
       }
 
-      &.is-selected > .label {
+      .is-selected > .label {
         background-color: #52cc52;
         color: rgb(255,255,255);
       }
