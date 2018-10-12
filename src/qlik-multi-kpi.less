@@ -16,9 +16,7 @@
 }
 .qv-object-qsstatistic {
   @import "../semantic/src/definitions/views/card.less";
-  //@import "../semantic/src/definitions/elements/button.less";
   @import "../semantic/src/definitions/elements/icon.less";
-  @import "../semantic/src/definitions/elements/label.less";
   @import "../semantic/src/definitions/views/statistic.less";
   @import "../semantic/src/definitions/elements/segment.less";
 
@@ -68,7 +66,10 @@
   .ui.segment > .label[class*="center aligned"] {
     text-align: center;
   }
-
+  .ui.center.aligned.statistics > div > div > div > .value,
+  .ui.center.aligned.statistics > div > div > div > .label{
+    text-align: center !important;
+  }
   .ui.segments, .ui.segment {
     background-color: transparent !important;
   }
@@ -80,6 +81,8 @@
 
   .ui.cards {
     margin: 0 !important;
+    align-items: center;
+    justify-content: center;
   }
 
   .ui.cards > .card,
@@ -89,7 +92,7 @@
   }
 
   .ui.tag.label {
-    font-size: 0.5em !important; 
+    font-size: 0.5em !important;
   }
 
   .ui.button {
@@ -134,5 +137,88 @@
     opacity: .9;
     margin: 0;
     vertical-align: top;
+  }
+
+  .ui.segments, .ui.cards {
+    overflow: auto;
+
+    .ui.segment, .ui.card {
+      display: flex;
+      flex-direction: column;
+      min-width: fit-content !important;
+      padding: 0;
+      a{
+        font-size: 16px;
+      }
+
+
+      >.label {
+        display: block;
+        padding: 10px 5px;
+        border-bottom: solid 1px rgb(166,166,166) !important;
+      }
+
+      >.statistics {
+        padding: 1em;
+        box-sizing: border-box;
+      }
+
+      &.is-selected > .label {
+        background-color: #52cc52;
+        color: rgb(255,255,255);
+      }
+
+      // labels positioning
+      .bottom {
+        border-bottom: none;
+        border-top: 1px solid #a6a6a6;
+        order: 2;
+      }
+      .bottom.left {
+        border-bottom: none;
+        border-top: 1px solid #a6a6a6;
+        order: 2;
+        text-align: left;
+      }
+      .bottom.right {
+        border-bottom: none;
+        border-top: 1px solid #a6a6a6;
+        order: 2;
+        text-align: right;
+      }
+      .top {
+        border-top: none;
+        border-bottom: 1px solid #a6a6a6;
+      }
+      .top.right {
+        border-top: none;
+        border-bottom: 1px solid #a6a6a6;
+        text-align: right;
+      }
+      .top.left {
+        border-top: none;
+        border-bottom: 1px solid #a6a6a6;
+        text-align: left;
+      }
+      // labels sizing
+      .mini {
+        font-size: xx-small;
+      }
+      .tiny {
+        font-size: x-small;
+      }
+      .small {
+        font-size: small;
+      }
+      .normal {
+        font-size: 19px;
+      }
+      .large {
+        font-size: x-large;
+      }
+      .huge {
+        font-size: xx-large;
+      }
+    }
   }
 }

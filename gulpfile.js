@@ -19,14 +19,13 @@ var startDevServer = require('./server').start;
 var build = require('./server').build;
 //var buildDest = require('./server.config.json').buildFolder;
 var buildDest = require('./server').buildPathDestination;
-var deployDest = require('./server').deployPathDestination;
 
-var templateFile = './src/Template.qextmpl';
+var qextFile = './src/qlik-multi-kpi.qext';
 var lessFiles = './src/**/*.less';
 var cssFiles = './src/**/*.css';
 var jsFiles = './**/*.js';
 
-var name = path.basename(__dirname);
+var name = require('./package.json').name;
 
 var ccsnanoConfig = {
   discardComments: {
@@ -57,8 +56,7 @@ gulp.task('devServer', function(callback){
 });
 
 gulp.task('qext', function () {
-  return gulp.src(templateFile)
-  .pipe(rename(name+'.qext'))
+  return gulp.src(qextFile)
   .pipe(gulp.dest(buildDest));
 });
 
@@ -92,32 +90,35 @@ gulp.task('watch', function(){
 });
 
 gulp.task('remove-build-zip', function(callback){
-  del.sync(['build/' + name + '.zip']);
+  del.sync([buildDest + "/" + name + '.zip']);
   callback();
 });
 
 gulp.task('zip-build', function(){
-  return gulp.src('build/**/*')
+  return gulp.src(buildDest + '/**/*')
     .pipe(zip(name + '.zip'))
-    .pipe(gulp.dest('build'));
+    .pipe(gulp.dest(buildDest));
 });
 
-gulp.task('deploy-assets', function(){
-  return gulp.src("assets/**/*").pipe(gulp.dest(deployDest));
+gulp.task('add-assets', function(){
+  return gulp.src("./assets/**/*").pipe(gulp.dest(buildDest));
 });
 
-gulp.task('deploy', function(){
-  return gulp.src(buildDest + "/**/*").pipe(gulp.dest(deployDest));
+gulp.task('prepare', ['qext', 'less2css', /*'css',*/ 'add-assets'])
+gulp.task('development', function(callback) {
+  runSequence(
+    'prepare',
+    'watch',
+    'devServer'
+  );
 });
-
-gulp.task('development', ['qext', 'less2css', /*'css',*/ 'deploy-assets', 'watch', 'devServer']);
 gulp.task('production', function(callback) {
-  runSequence(['qext', 'less2css', /*'css',*/ 'purifycss', 'remove-build-zip'],
+  runSequence(
+    'remove-build-zip',
+    'prepare',
+    'purifycss',
     'build',
-    'zip-build',
-    'deploy-assets',
-    'deploy'
-    );
+    'zip-build'
+  );
 });
 
-//gulp.task('default', ['production']);

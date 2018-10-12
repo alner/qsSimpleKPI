@@ -3,7 +3,6 @@ import {getDivideByValue} from './options';
 import senseDragDropSupport from './senseDragDropSupport';
 import ValueComponent from './ValueComponent';
 
-
 class Icon extends Component {
   constructor(props) {
     super(props);
@@ -98,12 +97,12 @@ export default class StatisticItem extends Component {
     } = this.props.item;
 
     let labelStyles = {padding: "0px 5px", textAlign: textAlignment};
-    let valueStyles = {padding: "0px 5px", textAlign: textAlignment, color: valueColor};
+    let valueStyles = {padding: "0px 5px", textAlign: textAlignment, color: valueColor.color};
     // if(embeddedItem && hideLabel)
     //  valueStyles.marginTop = `${QLIK_COMP_TOOLBAR_HEIGHT}px`;
 
     if(labelColor)
-      labelStyles.color = labelColor;
+      labelStyles.color = labelColor.color;
 
     if(fontStyles.bold)
       valueStyles.fontWeight = 'bold';
@@ -117,7 +116,6 @@ export default class StatisticItem extends Component {
     if(fontStyles.fontSize)
       valueStyles.fontSize = fontStyles.fontSize;
 
-      // valueStyles.color = valueColor;
     let classes = `ui ${labelOrientation} ${size} statistic`;
     classes = classes.split(" ").filter(function(item){
       return item.trim().length > 0;

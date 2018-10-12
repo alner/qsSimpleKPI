@@ -1,14 +1,12 @@
 import {
-  ColorsPickerComponent,
   FontStylesComponent,
   TextEditorComponent,
   SelectIconDialogComponent,
   DetectChangesInComponent
-//  ExpressionEditorComponent
 } from './definitionComponents';
 
 import { FULL_ICONS_SET } from './iconsDefinitions';
-import {COLOR_OPTIONS, SIZE_OPTIONS, DEFAULT_SIZE, DIM_LABEL_OPTIONS, DIM_VIEW_OPTIONS} from './options';
+import { SIZE_OPTIONS, DEFAULT_SIZE, DIM_LABEL_OPTIONS, DIM_VIEW_OPTIONS } from './options';
 import ATTRIBUTES from './definitionAttributes';
 
 export default function ({ ShowService }) {
@@ -50,32 +48,16 @@ let kpis = {
         }
       },
       labelColor: {
-        type: "string",
+        type: "object",
         ref: "qDef.labelColor", //"qAttributeExpressions.0.qExpression",
         label: "Label color",
-        expression: "always",
-        defaultValue: "#545352"
-      },
-      pickLabelColor: {
-        type: "string",
-        component: ColorsPickerComponent,
-        ref: "qDef.labelColor", //"qAttributeExpressions.0.qExpression",
-        defaultValue: "#545352",
-        options: COLOR_OPTIONS
+        component: "color-picker"
       },
       itemColor: {
-        type: "string",
+        type: "object",
         ref: "qDef.valueColor",
         label: "Value color",
-        expression: "always",
-        defaultValue: "#808080"
-      },
-      pickItemColor: {
-        type: "string",
-        component: ColorsPickerComponent,
-        ref: "qDef.valueColor",
-        defaultValue: "#808080",
-        options: COLOR_OPTIONS
+        component: "color-picker"
       },
       linkToSheet : {
         type : "items",
@@ -95,11 +77,11 @@ let kpis = {
               }
             ]
           },
-          sheetLink: { 
+          sheetLink: {
             ref: "sheetLink", // 'sheet-dropdown' need it!!! See bellow.
             type: "string",
              // Non visible property, detect changes in "qDef.kpiLink". It needs because of 'sheet-dropdown' component.
-            component: DetectChangesInComponent('qDef.kpiLink'), 
+            component: DetectChangesInComponent('qDef.kpiLink'),
             show : function (data) {
               return data.qDef.useLink;
             }
@@ -107,7 +89,7 @@ let kpis = {
           kpiLink : {
             ref: "qDef.kpiLink",
             type : "string",
-            component : 'sheet-dropdown',            
+            component : 'sheet-dropdown',
             show : function (data) {
               return data.qDef.useLink;
             }
@@ -125,7 +107,7 @@ let kpis = {
         label: "Hide value",
         ref: "qDef.hideValue",
         defaultValue: false
-      },      
+      },
       groupByDimension: {
         type: "boolean",
         label: "Group by dimension",
@@ -498,7 +480,7 @@ let settings = {
           type: "boolean",
           label: "Center aligned labels",
           ref: "options.dimCenteredLabels",
-          defaultValue: false
+          defaultValue: true
         },
         hideBorders: {
           type: "boolean",
@@ -579,7 +561,7 @@ let settings = {
           component: "switch",
           label: "Responsive size",
           ref: "options.autoSize",
-          defaultValue: false,
+          defaultValue: true,
           options: [
             {
               value: true,
@@ -668,18 +650,10 @@ let settings = {
       translation: "Styles",
       items: {
         backgroundColor: {
-          type: "string",
-          ref: "options.backgroundColor",
           label: "Background color",
-          expression: "always",
-          defaultValue: ""
-        },
-        pickBackgroundColor: {
-          type: "string",
-          component: ColorsPickerComponent,
+          component: "color-picker",
           ref: "options.backgroundColor",
-          options: COLOR_OPTIONS,
-          defaultValue: ""
+          type: "object"
         },
         iconSize: {
           type: "string",
@@ -704,7 +678,7 @@ let settings = {
               label: "Stretched"
             },
           ],
-          defaultValue: "top-aligned-items"
+          defaultValue: "center-aligned-items"
         },
         styles: {
           type: "string",

@@ -1,246 +1,6 @@
 import { getRefValue, setRefValue } from './utils';
 import DialogComponentFactory from './dialogComponent';
 
-let ColorsPickerComponent = {
-  template:
-    `
-    <div class="pp-component" ng-if="visible">
-          <div class="label" ng-if="label" ng-class="{ \'disabled\': readOnly }">
-            {{label}}
-          </div>
-          <div class="value">
-            <div class="qv-object-qsstatistic" ng-if="!loading">
-              <div class="ui mini right labeled">
-                <input type="color" ng-model="t.value" ng-change="onColorChange()">
-                <a title="{{colorExpression}}" class="ui statistic tag label" qva-activate="showPallete()" style="color: #00; overflow: visible; background-color: {{t.value}};">
-                  <span ng-if="!isColorExpression" style="color: #ffffff; font-size: 16px;">{{t.value}}</span>
-                  <i class="icon-expression" ng-if="isColorExpression" style="font-size: 16px;"></i>
-                </a>
-              </div>
-              <div ng-if="showColorPallete">
-                <button ng-repeat="option in options track by option.value"
-                  class="ui mini icon button"
-                  ng-disabled="readOnly"
-                  style="margin: 1px; background-color: {{option.value}};"
-                  qva-activate="onColorChange(option.value)" tid="{{option.value}}" data-icon="{{definition.icon}}"
-                  q-title-translation="{{option.tooltip || option.label}}">
-                  <i class="checkmark icon" style="color: #ffffff; font-size:17px;" ng-if="option.value == t.value"></i>
-                  <i class="icon" style="font-size:17px;" ng-if="option.value != t.value"></i>
-                </button>
-              </div>
-            </div>
-            <div class="pp-loading-container" ng-if="loading">
-              <div class="pp-loader qv-loader"></div>
-            </div>
-            <div ng-if="errorMessage" class="pp-invalid error">{{errorMessage}}</div>
-          </div>
-    </div>
-    `
-  ,
-  controller:
-    ["$scope", "$element", function(c, e){
-      function initOptions() {
-        c.loading = true;
-        c.errorMessage = "";
-        c.label = c.definition.label;
-        c.options = c.definition.options;
-        c.isColorExpression = false;
-        c.colorExpression = '';
-
-        let val = getRefValue(c.data, c.definition.ref);
-        if(typeof val === "object") {
-          c.isColorExpression = true;
-          c.colorExpression = (val && val.qStringExpression && val.qStringExpression.qExpr) || "";
-          val = c.definition.defaultValue;
-        } else
-        if(typeof val === "string") {
-          let isValidColor = /([#A-Fa-f0-9]{7}|[#A-Fa-f0-9]{4})/;
-          let colorMatch = isValidColor.exec(val);
-          if(colorMatch) val = colorMatch[0];
-        }
-
-        c.t = {
-          value: val || "..."
-        };
-
-        c.visible = true;
-        c.showColorPallete = false;
-        c.loading = false;
-      }
-      initOptions();
-      c.onColorChange = function(color) {
-        if(color) {
-          c.t.value = color;
-        }
-
-        if(c.isColorExpression) {
-          let val = getRefValue(c.data, c.definition.ref);
-          if(val && val.qStringExpression && val.qStringExpression.qExpr){
-            val.qStringExpression.qExpr += c.t.value;
-          } else
-            setRefValue(c.data, c.definition.ref, c.t.value);
-        }
-        else
-          setRefValue(c.data, c.definition.ref, c.t.value);
-
-        "function" == typeof c.definition.change && c.definition.change(c.data, c.args.handler);
-        c.$emit("saveProperties");
-        c.showColorPallete = false;
-      };
-      c.showPallete = function() {
-        c.showColorPallete = !c.showColorPallete;
-      };
-      c.$on("datachanged", function () {
-        initOptions();
-        //console.log('changed!');
-      });
-    }]
-};
-
-/*
-let IconsPickerComponent = {
-  template:
-    `<div class="pp-component pp-buttongroup-component" ng-if="visible">
-      <div class="label" ng-if="label" ng-class="{ \'disabled\': readOnly }">
-        {{label}}
-      </div>
-      <div class="value">
-        <div class="qv-object-qsstatistic" ng-if="!loading">
-          <button
-            class="qui-button"
-            title="{{iconExpression}}"
-            ng-class="{'qui-active': isShowIcons}"
-            qva-activate="showHideIcons()"
-            ng-disabled="readOnly">
-            <i class="{{value}}" ng-if="!isExpression" style="font-size:18px;"></i>
-            <i class="icon-expression" ng-if="isExpression" style="font-size:18px;"></i>
-          </button>
-          <span ng-if="!isExpression">{{value}}</span>
-          <div style="margin-top: 5px;">
-            <label class="qui-checkboxicon"
-              title="Disabled icon style"
-              ng-class="{ \'qui-hover\': hover }"
-              ng-mouseenter="hover = true"
-              ng-mouseleave="hover = false">
-              <input type="checkbox"
-                ng-model="opts.disabled"
-                ng-change="checkIconStyles('disabled')">
-              <div class="check-wrap">
-                <span class="check"></span>
-                <span class="check-text">Disabled</span>
-              </div>
-            </label>
-
-            <label class="qui-checkboxicon"
-              title="Loading icon style"
-              ng-class="{ \'qui-hover\': hover }"
-              ng-mouseenter="hover = true"
-              ng-mouseleave="hover = false">
-              <input type="checkbox"
-                ng-model="opts.loading"
-                ng-change="checkIconStyles('loading')">
-              <div class="check-wrap">
-                <span class="check"></span>
-                <span class="check-text">Loading</span>
-              </div>
-            </label>
-          </div>
-
-          <div ng-if="isShowIcons">
-            <button ng-repeat="option in options track by option.value"
-              class="ui tiny icon button"
-              ng-disabled="readOnly"
-              style="margin: 2px;"
-              qva-activate="select(option.value)">
-              <div><i class="{{option.value}}"></i></div>
-            </button>
-          </div>
-        </div>
-        <div class="pp-loading-container" ng-if="loading">
-          <div class="pp-loader qv-loader"></div>
-        </div>
-        <div ng-if="errorMessage" class="pp-invalid error">{{errorMessage}}</div>
-      </div>
-    </div>`
-  ,
-  controller:
-    ["$scope", function(c){
-      function initOptions() {
-        c.loading = true;
-        c.errorMessage = "";
-        c.isShowIcons = false;
-        c.isExpression = false;
-        c.iconExpression = "";
-        c.label = c.definition.label;
-        c.options = c.definition.options;
-        c.value = getRefValue(c.data, c.definition.ref);
-        if(typeof c.value === "object"
-          && c.value.qStringExpression) {
-          c.isExpression = true;
-          c.iconExpression = (c.value.qStringExpression.qExpr) || "";
-        }
-        c.opts = {};
-        c.opts.disabled = (c.getValueIndex('disabled') != -1);
-        c.opts.loading = (c.getValueIndex('loading') != -1);
-        c.visible = true;
-        c.loading = false;
-      }
-
-      c.getValueIndex = function(styleName){
-        let indx = -1;
-        if(!c.isExpression && typeof c.value === 'string')  {
-          let styles = (c.value && c.value.split(' ')) || [];
-          indx = styles.indexOf(styleName);
-        }
-        return indx;
-      };
-
-      // see template
-      c.select = function (a) {
-        c.value = a;
-
-        if(c.isExpression) {
-          let val = getRefValue(c.data, c.definition.ref);
-          if(val && val.qStringExpression && val.qStringExpression.qExpr){
-            val.qStringExpression.qExpr += c.value;
-          } else
-            setRefValue(c.data, c.definition.ref, c.value);
-        }
-        else
-          setRefValue(c.data, c.definition.ref, a);
-
-        "function" == typeof c.definition.change && c.definition.change(c.data, c.args.handler);
-        c.$emit("saveProperties");
-      };
-
-      c.checkIconStyles = function (styleName) {
-        if(!c.isExpression && typeof c.value === 'string')  {
-          let isDisabled = c.opts[styleName];
-          let styles = (c.value && c.value.split(' ')) || [];
-          let indx = styles.indexOf(styleName);
-          if(isDisabled && indx === -1)
-            styles.push(styleName);
-          else if(!isDisabled && (indx != -1))
-            styles.splice(indx, 1);
-
-          let value = styles.join(' ');
-          c.select(value);
-        }
-      };
-
-      c.showHideIcons = function(){
-        c.isShowIcons = !c.isShowIcons;
-      };
-
-      c.$on("datachanged", function () {
-        initOptions();
-      });
-
-      initOptions();
-    }]
-};
-*/
-
 let FontStylesComponent = {
   template:
     `<div class="pp-component pp-buttongroup-component qv-object-qsstatistic" ng-if="visible">
@@ -489,7 +249,7 @@ return DialogComponentFactory(ShowService, (() => {
         }
       </style>
       <div style="height: auto; font-size:3em;">
-        <i class="{{value}}" ng-if="!isExpression"></i><span ng-if="!isExpression" style="font-size:0.5em;">{{value}}</span>
+        <i class="{{value}}" style="margin: 0 10px;" ng-if="!isExpression" ></i><span ng-if="!isExpression" style="font-size:0.5em;">{{value.split("--")[1]}}</span>
         <i class="icon-expression" ng-if="isExpression" style="font-size:18px;"></i>
       </div>
       <div style="overflow:auto; -webkit-overflow-scrolling:touch; height:${docHeight / 2}px; border: solid 1px #f2f2f2;border-radius:5px;padding:5px">
@@ -505,26 +265,6 @@ return DialogComponentFactory(ShowService, (() => {
         </button>
       </div>
       </div>
-      <div style="margin-top: 10px;">
-        <span ng-repeat-start="(iconOption, iconOptLabel) in iconOptions track by iconOption" />
-        <label
-          class="lui-checkbox qui-checkboxicon"
-          style="display: inline-block"
-          title="{{iconOptLabel}}"
-          ng-class="{ \'lui-hovered qui-hover\': hover }"
-          ng-mouseenter="hover = true"
-          ng-mouseleave="hover = false">
-          <input type="checkbox"
-            class="lui-checkbox__input"
-            ng-model="opts[iconOption]"
-            ng-change="select(iconOption)">
-          <div class="lui-checkbox__check-wrap check-wrap">
-            <span class="lui-checkbox__check check"></span>
-            <span class="lui-checkbox__check-text check-text" style="max-width: 200px">{{iconOptLabel}}</span>
-          </div>
-        </label>
-        <span ng-repeat-end>&nbsp;</span>
-      </div>
     </div>
     `,
     // width: '100%' //`${docWidth - docWidth / 8}px`
@@ -532,67 +272,22 @@ return DialogComponentFactory(ShowService, (() => {
 })());
 }; // SelectIconDialogComponent
 
-// Detect changes in property "propertyName" and propagate it to referenced property... 
+// Detect changes in property "propertyName" and propagate it to referenced property...
 let DetectChangesInComponent = function(propertyName) {
-  return {    
-        template: '<span></span>', // Non visible component 
-        controller: ["$scope", function(scope) {  
+  return {
+        template: '<span></span>', // Non visible component
+        controller: ["$scope", function(scope) {
           scope.$watch(`data.${propertyName}`, function(newValue) {
-            scope.data[scope.definition.ref] = newValue; 
+            scope.data[scope.definition.ref] = newValue;
             scope.$emit("saveProperties");
           });
         }]
       };
 };
 
-/*
-let ExpressionEditorComponent = {
-  template:
-  `
-<div class="pp-component" ng-if="visible">
-  <div class="lui-input-group">
-      <input class="lui-input-group__item  lui-input-group__input  lui-input"/>
-      <button class="lui-input-group__item  lui-input-group__button  lui-button">
-          <span class="lui-button__icon  lui-icon  lui-icon--expression"></span>
-      </button>
-      <button class="lui-input-group__item  lui-input-group__button  lui-button">
-          <span class="lui-button__icon  lui-icon  lui-icon--expression"></span>
-      </button>
-  </div>
-</div>
-
-  `,
-  controller:
-    ["$scope", function(c){
-      function initOptions() {
-        c.loading = true;
-        c.errorMessage = "";
-        c.label = c.definition.label;
-        c.value = getRefValue(c.data, c.definition.ref)
-        c.visible = true;
-        c.loading = false;
-      }
-
-      c.onTextChange = function() {
-        setRefValue(c.data, c.definition.ref, c.value);
-        "function" == typeof c.definition.change && c.definition.change(c.data, c.args.handler);
-        c.$emit("saveProperties");
-      };
-
-      c.$on("datachanged", function () {
-        initOptions();
-      });
-
-      initOptions();
-    }]
-};
-*/
-
 export default {
-  ColorsPickerComponent,
   FontStylesComponent,
   TextEditorComponent,
   SelectIconDialogComponent,
-//  ExpressionEditorComponent,
   DetectChangesInComponent
-}
+};
