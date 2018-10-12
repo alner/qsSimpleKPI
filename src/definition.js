@@ -24,11 +24,7 @@ let dims = {
   allowAdd: true,
   allowRemove: true
 };
-let shi = function(a){
-  console.log(a);
-  
-}
-shi();
+
 // Kpi array
 let kpis = {
 //    type: "items",
@@ -48,8 +44,6 @@ let kpis = {
         ref: "qDef.autoFormatTemplate",
         defaultValue: "0A",
         show: function(a) {
-          console.log(a.qDef);
-          
           return a.qDef.qNumFormat.qType === "U";
         }
       },
@@ -59,7 +53,6 @@ let kpis = {
         label: "Label color",
         component: "color-picker",
         dualOutput: true
-
       },
       itemColor: {
         type: "object",
@@ -665,7 +658,6 @@ let settings = {
           ref: "options.backgroundColor",
           type: "object",
           dualOutput: true
-
         },
         iconSize: {
           type: "string",
