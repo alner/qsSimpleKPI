@@ -14,7 +14,10 @@ module.exports = {
   globals: {
     angular: false,
     define: false,
+    describe: false,
     document: false,
+    expect: false,
+    it: false,
     require: false
   },
   rules: {

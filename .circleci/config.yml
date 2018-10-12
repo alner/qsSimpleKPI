@@ -9,6 +9,18 @@ defaults: &defaults
     GITHUB_REPO: "qsSimpleKPI"
 
 jobs:
+  test:
+    docker:
+    - image: circleci/node:stretch-browsers
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Run tests
+          command: npm run test-once
+
   build:
     <<: *defaults
     steps:
@@ -42,6 +54,7 @@ workflows:
   version: 2
   master_flow:
     jobs:
+      - test
       - build
       - deploy:
           requires:

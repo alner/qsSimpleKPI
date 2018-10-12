@@ -6,7 +6,7 @@ VERSION=$(curl --silent "https://api.github.com/repos/$1/$2/releases/latest" | #
   sed -E 's/.*"([^"]+)".*/\1/')                                                # Pluck JSON value
 
 if [ -z "${VERSION}" ]; then
-  VERSION="0.0.1"
+  VERSION="0.1.0"
 fi
 
 echo "${VERSION}"
