@@ -40,7 +40,7 @@ If you want to do code changes to the extension follow these simple steps to get
 
 ![Appearance](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/Appearance2.png)
 
-![Example](examples/IconDialog.png)
+![Example](resources/IconDialog.png)
 
 **Conditional colours**
 
@@ -56,29 +56,29 @@ If you want to do code changes to the extension follow these simple steps to get
 
 You can set "Infographic mode" option for each measure. In such case expression determines icons quantity (with constraints, no more than 1000 icons per measure).
 
-![Example](examples/images/infographic_mode.png)
+![Example](resources/images/infographic_mode.png)
 
 **Measure alignment**
 
-![Example](examples/images/alignment.png)
+![Example](resources/images/alignment.png)
 
 **Calculation condition**
 
-![Example](examples/images/CalcCondition.png)
+![Example](resources/images/CalcCondition.png)
 
 **Styles**
 
  "Background color" property allows to set background color of the object using expression.
 
- ![Example](examples/images/background_color.png)
+ ![Example](resources/images/background_color.png)
 
  All KPIs can be vertically aligned.
 
- ![Example](examples/images/vertical_alignment.png)
+ ![Example](resources/images/vertical_alignment.png)
 
- You can fully customize kpis using "Styles (CSS)" property. For more details see [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf) ("Styles" sheet).
+ You can fully customize kpis using "Styles (CSS)" property. For more details see [SimpleKPIDemo.qvf](resources/SimpleKPIDemo.qvf) ("Styles" sheet).
 
-![Example](examples/images/google_fonts.png)
+![Example](resources/images/google_fonts.png)
 
  For example, you can change font-family, font-size, background color, text color and so on, using "Styles (CSS)" property for appropriate measure.
 
@@ -123,7 +123,7 @@ Dimensions: 0-1
 
 ## Demo Application
 
-Download [SimpleKPIDemo.qvf](examples/SimpleKPIDemo.qvf)
+Download [SimpleKPIDemo.qvf](resources/SimpleKPIDemo.qvf)
 
 ## Tutorial Video
 
