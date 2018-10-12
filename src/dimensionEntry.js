@@ -8,10 +8,10 @@ class DimensionEntry extends Component {
     };
 
     this.handleClick = this.handleClick.bind(this);
-    this.hidePopinterCursor = this.hidePopinterCursor.bind(this);
+    this.hidePointerCursor = this.hidePointerCursor.bind(this);
   }
 
-  hidePopinterCursor () {
+  hidePointerCursor () {
     const { isInEditMode } = this.props;
     if(!isInEditMode){
       return
@@ -51,7 +51,7 @@ class DimensionEntry extends Component {
 
     return (
       <div className={`ui ${showAs}${isSelectedClass}`} style={style}>
-        {label.isHidden ? null : <a className={`ui ${label.size} ${label.orientation} ${label.alignment} label`} onClick={this.handleClick} style={{cursor: this.hidePopinterCursor()}}>{label.text} </a>}
+        {label.isHidden ? null : <a className={`ui ${label.size} ${label.orientation} ${label.alignment} label`} onClick={this.handleClick} style={{cursor: this.hidePointerCursor()}}>{label.text} </a>}
         <div className={`ui ${divideBy} ${label.alignment} statistics`}>
           {children}
         </div>
