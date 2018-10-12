@@ -21,17 +21,18 @@ If you want to do code changes to the extension follow these simple steps to get
 1. Create a new app and add qsSimpleKPI to a sheet.
 2. Clone the repository
 3. Run `npm install`
-4. Change the `deployFolder`in `server.config.json` to be your local extensions folder. It will be something like `C:/Users/nerush/Documents/Qlik/Sense/Extensions/qsSimpleKPI`.
+4. Change the `deployFolder`in `server.config.json` to be your local extensions folder. It will be something like `C:/Users/nerush/Documents/Qlik/Sense/Extensions/qlik-multi-kpi`.
 5. Run `npm run dev`. This will start a watcher which will rebuild the extension and output all needed files to the `deployFolder` for each code change you make.
 6. See your changes directly in your Qlik Sense app.
 
 ## Installation
 
-Download [build/qsSimpleKPI.zip](https://github.com/alner/qsSimpleKPI/raw/master/build/qsSimpleKPI.zip), upload to qlik server or extract to appropriate folder.
+1. Download the extension zip, `qlik-multi-kpi.zip`, from the latest release(https://github.com/qlik-oss/qsSimpleKPI/releases/latest)
+2. Install the extension:
 
-Qlik Sense Desktop: unzip to a directory under [My Documents]/Qlik/Sense/Extensions.
+   a. **Qlik Sense Desktop**: unzip to a directory under [My Documents]/Qlik/Sense/Extensions.
 
-Qlik Sense Server: import the zip file in the QMC.
+   b. **Qlik Sense Server**: import the zip file in the QMC.
 
 ## Configuration
 

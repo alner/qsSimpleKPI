@@ -20,12 +20,12 @@ var build = require('./server').build;
 //var buildDest = require('./server.config.json').buildFolder;
 var buildDest = require('./server').buildPathDestination;
 
-var templateFile = './src/Template.qextmpl';
+var qextFile = './src/qlik-multi-kpi.qext';
 var lessFiles = './src/**/*.less';
 var cssFiles = './src/**/*.css';
 var jsFiles = './**/*.js';
 
-var name = "qs" + require('./package.json').name;
+var name = require('./package.json').name;
 
 var ccsnanoConfig = {
   discardComments: {
@@ -56,8 +56,7 @@ gulp.task('devServer', function(callback){
 });
 
 gulp.task('qext', function () {
-  return gulp.src(templateFile)
-  .pipe(rename(name+'.qext'))
+  return gulp.src(qextFile)
   .pipe(gulp.dest(buildDest));
 });
 
