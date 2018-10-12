@@ -51,13 +51,16 @@ let kpis = {
         type: "object",
         ref: "qDef.labelColor", //"qAttributeExpressions.0.qExpression",
         label: "Label color",
-        component: "color-picker"
+        component: "color-picker",
+        dualOutput: true
+
       },
       itemColor: {
         type: "object",
         ref: "qDef.valueColor",
         label: "Value color",
-        component: "color-picker"
+        component: "color-picker",
+        dualOutput: true
       },
       linkToSheet : {
         type : "items",
@@ -653,7 +656,9 @@ let settings = {
           label: "Background color",
           component: "color-picker",
           ref: "options.backgroundColor",
-          type: "object"
+          type: "object",
+          dualOutput: true
+
         },
         iconSize: {
           type: "string",
