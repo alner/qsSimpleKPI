@@ -315,7 +315,7 @@ class StatisticBlock extends Component {
         const dimNo = 0; // only one dimension allowed!
         if(dimDivideBy === "auto")
           dimDivideBy = DIVIDE_BY[Math.min(10, kpis.qDimensionInfo[dimNo].qCardinal)];
-
+        let isInEditMode = this.props.services.State.isInEditMode()
         let dimShowAsContainer = dimShowAs === 'card' ? `${dimDivideBy} stackable cards`  : 'segments';
         let dimLabelsAlignment = '';
         if(dimCenteredLabels) dimLabelsAlignment = 'center aligned';
@@ -348,6 +348,7 @@ class StatisticBlock extends Component {
 
               return (
                 <DimensionEntry
+                  isInEditMode={isInEditMode}
                   divideBy={divideBy}
                   dindex={dindex}
                   divideByNumber={divideByNumber}
