@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {getDivideByValue} from './options';
-import senseDragDropSupport from './senseDragDropSupport';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import { getDivideByValue } from './options';
 import ValueComponent from './ValueComponent';
 
 class Icon extends Component {
@@ -56,7 +56,7 @@ export default class StatisticItem extends Component {
     if(hideValue)
       return this.props.onNeedResize(false);
 
-    let valueElement = React.findDOMNode(this.refs['value']);
+    let valueElement = ReactDOM.findDOMNode(this.refs['value']);
     if(valueElement && valueElement.firstChild) {
       let valueChild = valueElement.firstChild;
       let childWidth = $(valueChild).width();
@@ -96,13 +96,16 @@ export default class StatisticItem extends Component {
       isShow
     } = this.props.item;
 
-    let labelStyles = {padding: "0px 5px", textAlign: textAlignment};
-    let valueStyles = {padding: "0px 5px", textAlign: textAlignment, color: valueColor.color};
+    let labelStyles = { padding: "0px 5px", textAlign: textAlignment };
+    let valueStyles = { padding: "0px 5px", textAlign: textAlignment };
     // if(embeddedItem && hideLabel)
     //  valueStyles.marginTop = `${QLIK_COMP_TOOLBAR_HEIGHT}px`;
 
     if(labelColor)
       labelStyles.color = labelColor.color;
+
+    if(valueColor)
+      valueStyles.color = valueColor.color;
 
     if(fontStyles.bold)
       valueStyles.fontWeight = 'bold';

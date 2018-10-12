@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import InlineCSS from 'react-inline-css';
 import {DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex} from './options';
 import DimensionEntry from './dimensionEntry';
@@ -114,7 +115,7 @@ class StatisticBlock extends Component {
       && !this.state.overflow) return;
 
       if(this.refs['child-0']) {
-        childHeight = React.findDOMNode(this.refs['child-0']).clientHeight;
+        childHeight = ReactDOM.findDOMNode(this.refs['child-0']).clientHeight;
       }
 
       if(element &&
