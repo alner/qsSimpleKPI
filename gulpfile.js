@@ -1,40 +1,29 @@
 var gulp = require('gulp');
-var gutil = require('gulp-util');
-var gulpIgnore = require('gulp-ignore');
-var rename = require('gulp-rename');
-var watch = require('gulp-watch');
 var less = require('gulp-less');
 var del = require('del');
 var zip = require('gulp-zip');
-var minifyCSS = require('gulp-clean-css'); // gulp-minify-css
 var cssnano = require('gulp-cssnano');
 var purify = require('gulp-purifycss');
 var runSequence = require('run-sequence');
 var LessPluginAutoPrefix = require('less-plugin-autoprefix');
 var autoprefix= new LessPluginAutoPrefix({ browsers: ["last 2 versions"] });
-//var gulpLoadPlugins = require('gulp-load-plugins');
-//plugins = gulpLoadPlugins();
 var path = require('path');
 var startDevServer = require('./server').start;
 var build = require('./server').build;
-//var buildDest = require('./server.config.json').buildFolder;
 var buildDest = require('./server').buildPathDestination;
 
-var qextFile = './src/qlik-multi-kpi.qext';
-var lessFiles = './src/**/*.less';
-var cssFiles = './src/**/*.css';
-var jsFiles = './**/*.js';
-
 var name = require('./package.json').name;
+
+var qextFile = path.resolve('./src/' + name + '.qext');
+var lessFiles = path.resolve('./src/**/*.less');
+var cssFiles = path.resolve('./src/**/*.css');
 
 var ccsnanoConfig = {
   discardComments: {
         removeAll: true
     },
   discardUnused: true,
-  discardEmpty: true,
-//  mergeLonghand: true,
-//  reduceIdents: true
+  discardEmpty: true
 };
 
 gulp.task('build', function(callback){
@@ -65,7 +54,6 @@ gulp.task('less2css', function(){
   .pipe(less({
     plugins: [autoprefix]
   }))
-  //.pipe(minifyCSS({keepSpecialComments : 0}))
   .pipe(cssnano(ccsnanoConfig))
   .pipe(gulp.dest(buildDest));
 });
@@ -78,7 +66,6 @@ gulp.task('purifycss', function(){
 
 gulp.task('css', function(){
   return gulp.src(cssFiles)
-  //.pipe(minifyCSS({keepSpecialComments : 0}))
   .pipe(cssnano(ccsnanoConfig))
   .pipe(gulp.dest(buildDest));
 });
@@ -104,7 +91,7 @@ gulp.task('add-assets', function(){
   return gulp.src("./assets/**/*").pipe(gulp.dest(buildDest));
 });
 
-gulp.task('prepare', ['qext', 'less2css', /*'css',*/ 'add-assets'])
+gulp.task('prepare', ['qext', 'less2css', 'add-assets'])
 gulp.task('development', function(callback) {
   runSequence(
     'prepare',
