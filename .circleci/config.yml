@@ -1,7 +1,7 @@
 version: 2
 
 defaults: &defaults
-  working_directory: ~/qsSimpleKPI
+  working_directory: ~/qlik-multi-kpi
   docker:
     - image: circleci/node:stretch
   environment:
@@ -34,7 +34,7 @@ jobs:
           environment:
             NODE_ENV: production
       - persist_to_workspace:
-          root: ~/qsSimpleKPI
+          root: ~/qlik-multi-kpi
           paths:
             - build
   deploy:
@@ -42,7 +42,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: ~/qsSimpleKPI
+          at: ~/qlik-multi-kpi
       - run:
           name: Install ghr
           command: scripts/install-ghr.sh

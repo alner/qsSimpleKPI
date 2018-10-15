@@ -14,7 +14,7 @@ let dependencies = [
   'module',
   'qlik',
   // 'client.utils/routing',
-  //  'objects.utils/number-formatter',
+  // 'objects.utils/number-formatter',
   'general.services/show-service/show-service',
   'general.utils/drag-and-drop-service'
 ]
@@ -34,7 +34,7 @@ let dependencies = [
 define(dependencies,
   function (module, qlik, /*Routing, NumberFormatter,*/ ShowService, DragDropService, React) {
     const ROOT_URI = (module && module.uri && module.uri.split('/').slice(0, -1).join('/')) ||
-      '/extensions/qsSimpleKPI';
+      '/extensions/qlik-multi-kpi';
 
     if(!global.Promise)
       global.Promise = Promise;
@@ -42,7 +42,7 @@ define(dependencies,
     const PromiseClass = qlik.Promise || global.Promise;
     let LoadedPromise = new PromiseClass(function(resolve, reject){
       //if(ROOT_URI)
-      loadCSS(`${ROOT_URI}/qsSimpleKPI.css`,
+      loadCSS(`${ROOT_URI}/qlik-multi-kpi.css`,
             function onLoaded() {
               resolve()
             },

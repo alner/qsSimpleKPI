@@ -1,0 +1,16 @@
+{
+  "name": "Multi KPI",
+  "description": "A KPI that can show multiple values based on a dimension and a measure.",
+  "type" : "visualization",
+  "version": "X.Y.Z",
+  "icon" : "kpi",
+  "preview": "preview.png",
+  "keywords": "qlik-sense, visualization",
+  "author": "Alexander Nerush"
+  "homepage": "",
+  "license": "MIT",
+  "repository": "",
+  "dependencies": {
+      "qlik-sense": ">=5.5.x"
+  }
+}
