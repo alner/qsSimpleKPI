@@ -26,7 +26,7 @@ var ccsnanoConfig = {
   discardEmpty: true
 };
 
-gulp.task('build', function(callback){
+gulp.task('webpack', function(callback){
     build(function(err, stats){
         if(err) {
           return callback(err);
@@ -70,8 +70,8 @@ gulp.task('css', function(){
   .pipe(gulp.dest(buildDest));
 });
 
-gulp.task('watch', function(){
-  gulp.watch(templateFile, ['qext']);
+gulp.task('startWatcher', function(){
+  gulp.watch(qextFile, ['qext']);
   gulp.watch(lessFiles, ['less2css']);
   gulp.watch(cssFiles, ['css']);
 });
@@ -92,19 +92,19 @@ gulp.task('add-assets', function(){
 });
 
 gulp.task('prepare', ['qext', 'less2css', 'add-assets'])
-gulp.task('development', function(callback) {
+gulp.task('watch', function(callback) {
   runSequence(
     'prepare',
-    'watch',
+    'startWatcher',
     'devServer'
   );
 });
-gulp.task('production', function(callback) {
+gulp.task('build', function(callback) {
   runSequence(
     'remove-build-zip',
     'prepare',
     'purifycss',
-    'build',
+    'webpack',
     'zip-build'
   );
 });
