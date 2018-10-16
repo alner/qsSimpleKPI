@@ -8,8 +8,8 @@
   "homepage": "https://github.com/alner/qsSimpleKPI",
   "bugs": "https://github.com/alner/qsSimpleKPI/issues",
   "scripts": {
-    "prod": "export NODE_ENV=production && gulp production",
-    "dev": "export NODE_ENV=development && gulp development",
+    "build": "gulp build",
+    "watch": "gulp watch",
     "eslint": "eslint src",
     "eslint:fix": "eslint --fix src",
     "test": "karma start karma.conf.js",

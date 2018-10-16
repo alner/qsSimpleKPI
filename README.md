@@ -22,8 +22,11 @@ If you want to do code changes to the extension follow these simple steps to get
 2. Clone the repository
 3. Run `npm install`
 4. Change the `deployFolder`in `server.config.json` to be your local extensions folder. It will be something like `C:/Users/nerush/Documents/Qlik/Sense/Extensions/qlik-multi-kpi`.
-5. Run `npm run dev`. This will start a watcher which will rebuild the extension and output all needed files to the `deployFolder` for each code change you make.
-6. See your changes directly in your Qlik Sense app.
+5. You now have two options. Either run the watch task or the build task. They are explained below. Both of them default to development mode but can be run in production by setting `NODE_ENV=production` before running the npm task.
+
+   a. **Watch**: `npm run watch`. This will start a watcher which will rebuild the extension and output all needed files to the `deployFolder` for each code change you make. See your changes directly in your Qlik Sense app.
+
+   b. **Build**: `npm run build`. If you want to build the extension package. The output zip-file can be found in the build folder.
 
 ## Installation
 
