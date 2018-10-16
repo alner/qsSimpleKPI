@@ -31,7 +31,7 @@ jobs:
           command: npm install
       - run:
           name: Build and package
-          command: npm run prod
+          command: npm run build
           environment:
             NODE_ENV: production
       - persist_to_workspace:
