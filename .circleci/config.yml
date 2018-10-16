@@ -7,6 +7,7 @@ defaults: &defaults
   environment:
     GITHUB_ORG: "qlik-oss"
     GITHUB_REPO: "qsSimpleKPI"
+    PACKAGE_NAME: "qlik-multi-kpi"
 
 jobs:
   test:
@@ -48,14 +49,16 @@ jobs:
           command: scripts/install-ghr.sh
       - run:
           name: Create GitHub Release
-          command: scripts/create-release.sh $GITHUB_ORG $GITHUB_REPO
+          command: scripts/create-release.sh $GITHUB_ORG $GITHUB_REPO $PACKAGE_NAME
 
 workflows:
   version: 2
   master_flow:
     jobs:
       - test
-      - build
+      - build:
+          requires:
+            - test
       - deploy:
           requires:
             - build
