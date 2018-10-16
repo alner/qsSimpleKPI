@@ -20,11 +20,13 @@ class StatisticBlock extends Component {
     this.kpiItemResizeHandler = this.kpiItemResizeHandler.bind(this);
     this.onDimensionLabelClick = this.onDimensionLabelClick.bind(this);
     this.getSelections = this.getSelections.bind(this);
+    this.isSelectedFunction = this.isSelectedFunction.bind(this);
   }
 
   componentDidMount(){
     var self = this;
-
+    // console.log(this.props);
+    
     // 3.2 SR2 Printing service patch (timeout strange behaviour, 10 equals to 10 sec (instead of 10 msec) in setTimeout)
     const isPrinting = this.isPrinting();
     const checkRequiredSizeDelay = isPrinting ? 1 : 50; //1
@@ -323,11 +325,13 @@ class StatisticBlock extends Component {
         let segmentsStyle = {}; //{margin: 0, height: '100%'};
         let segmentStyle = {};
         let array = this.getSelections();
-        console.log(array);
+        let selectedArrays = this.props.services.QlikComponent.selectedArrays;
+        // console.log(selectedArrays);
         let arrayOfValues= [];
         if(array){
-          arrayOfValues = array.selectedValues.map(q => q.qName)
+          arrayOfValues = array[0];
           console.log(arrayOfValues);
+          console.log(arrayOfValues.indexOf(22) > -1);
           
         }
         
@@ -355,18 +359,19 @@ class StatisticBlock extends Component {
                 size: dimLabelSize,
                 text: dimensionLabel
               };
-
+              // console.log(dimensionIndex);
+              
               // console.log(labelOptions);
-              let isSelected = false;
-              if(arrayOfValues.indexOf(labelOptions.text) > -1){
-                isSelected = true
-              }else{
-                isSelected= false;
-              }
+              // let isSelected ;
+              // if(arrayOfValues.indexOf(dimensionIndex) > -1){
+              //   isSelected = true
+              // }else{
+              //   isSelected= false;
+              // }
               return (
                 <DimensionEntry
                   isInEditMode={isInEditMode}
-                  isSelected={isSelected}
+                  isSelected={self.isSelectedFunction(arrayOfValues ,dimensionIndex ) }
                   divideBy={divideBy}
                   dindex={dindex}
                   divideByNumber={divideByNumber}
@@ -438,19 +443,32 @@ class StatisticBlock extends Component {
 
   getSelections(){
 
-    let selectionsArray = this.props.services.Qlik.currApp().selectionState().selections[0];
-      console.log(selectionsArray);
+    // let selectionsArray = this.props.services.Qlik.currApp().selectionState().selections[0];
+    let selectionsArray = this.props.services.QlikComponent.selectedArrays;
+      // console.log(selectionsArray);
 
     return selectionsArray;
     
+  }
+  isSelectedFunction (arrayOfValues,dimInd) {
+      if(arrayOfValues.indexOf(dimInd) > -1 ){
+        return true
+      }else {
+        return false
+      }
   }
   onDimensionLabelClick(dimNo, value) {
     const { services } = this.props;
     if (services && services.QlikComponent) {
 
       services.QlikComponent.selectValues(dimNo, [value], true);
+      // let selectionsArray = this.props.services.Qlik.currApp().selectionState().selections[0];
+      // console.log(selectionsArray);
+      // setTimout(() => {
       // this.render();
       this.forceUpdate();
+      // this.setState({ test: 'test' });
+      // },50);
     }
   }
 }

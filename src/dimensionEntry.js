@@ -4,11 +4,12 @@ class DimensionEntry extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      isSelected: false
+      isSelectedState: false
     };
 
     this.handleClick = this.handleClick.bind(this);
     this.hidePointerCursor = this.hidePointerCursor.bind(this);
+    this.isSelectedFun = this.isSelectedFun.bind(this);
   }
   // componentDidUpdate() {
   //   this.props.logit();
@@ -22,6 +23,27 @@ class DimensionEntry extends Component {
     }
   }
   // }
+  componentDidMount(){
+    console.log(this.props.label.text , this.props.isSelected);
+    
+    console.log("mount");
+    
+    this.isSelectedFun();
+  }
+  shouldComponentUpdate(nextProps , nextState){
+    if(nextProps == this.props){
+      return false
+    }
+    if (nextState == this.state){
+      return true
+    }else {
+      return false
+    }
+  }
+  componentDidUpdate(){
+    console.log("update");
+    this.isSelectedFun();
+  }
   handleClick () {
     const {
       dimNo,
@@ -33,11 +55,28 @@ class DimensionEntry extends Component {
         isSelected: !this.state.isSelected
       });
       this.props.onToggle(dimNo, dimensionIndex);
+      console.log("dimInd" + dimensionIndex);
+      this.isSelectedFun();
+      // const { isSelected } = this.props;
+    
+      // const isSelectedClass = false
+      // setInterval(function(){
+      //   isSelectedClass = isSelected ? ' is-selected' : '';
+  
+      // },0); 
     }else{
       return
     }
   }
-
+  isSelectedFun () {
+    const { isSelected } = this.props;
+    if (isSelected == true){
+      this.setState({isSelectedState : true});
+    }else{
+      this.setState({isSelectedState : false});
+      
+    }
+  }
   render () {
     const {
       children,
@@ -48,9 +87,13 @@ class DimensionEntry extends Component {
       dindex,
       divideByNumber
     } = this.props;
+    const { isSelectedState } = this.state;
     const { isSelected } = this.props;
     
-    const isSelectedClass = isSelected ? ' is-selected' : '';
+     const  isSelectedClass = isSelected ? ' is-selected' : '';
+   
+      // isSelectedClass = isSelectedState ? ' is-selected' : '';
+
 
     return (
       <div className={`ui ${showAs}${isSelectedClass}`} style={style}>
