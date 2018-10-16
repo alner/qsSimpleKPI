@@ -10,6 +10,8 @@ class DimensionEntry extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.hidePointerCursor = this.hidePointerCursor.bind(this);
   }
+  // componentDidUpdate() {
+  //   this.props.logit();
 
   hidePointerCursor () {
     const { isInEditMode } = this.props;
@@ -19,6 +21,7 @@ class DimensionEntry extends Component {
       return "default"
     }
   }
+  // }
   handleClick () {
     const {
       dimNo,
@@ -45,8 +48,8 @@ class DimensionEntry extends Component {
       dindex,
       divideByNumber
     } = this.props;
-    const { isSelected } = this.state;
-
+    const { isSelected } = this.props;
+    
     const isSelectedClass = isSelected ? ' is-selected' : '';
 
     return (
