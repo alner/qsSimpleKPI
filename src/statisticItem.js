@@ -12,14 +12,15 @@ class Icon extends Component {
       value,
       valueIcon,
       iconSize,
-      infographic
+      infographic,
+      isOnValue
     } = this.props;
     if(infographic) {
       let icons = [];
       if(!isNaN(value) && isFinite(value)) {
         value = Math.min(1000, value);
         for (let i = 0; i < value; ++i)
-          icons.push(<div className={`value--icon--wrapper ${iconSize}`}> <i key={i} className={`${valueIcon} ${iconSize}`}></i> </div>);
+          icons.push(<div className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``}`}> <i key={i} className={`${valueIcon} ${iconSize}`}></i> </div>);
       }
 
       return (
@@ -29,7 +30,7 @@ class Icon extends Component {
       )
     }
     else
-      return (<div className={`value--icon--wrapper ${iconSize}`}><i className={`${valueIcon} ${iconSize}`}></i></div>);
+      return (<div className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``}`}><i className={`${valueIcon} ${iconSize}`}></i></div>);
   }
 };
 
@@ -143,9 +144,9 @@ export default class StatisticItem extends Component {
     };
     let valueComponent = hideValue ? null : (
         <ValueComponent {...valueComponentProps}>
-            {iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
+            {iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon isOnValue={true} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
             {value /*!infographic ? value : null*/}
-            {!iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
+            {!iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon isOnValue={true} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
         </ValueComponent>
       );
 

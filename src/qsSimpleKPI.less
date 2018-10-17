@@ -79,7 +79,7 @@
   .value--icon--wrapper{
     display: inline-block;
     position: relative;
-    margin-right: 10px;
+    margin: 0 10px;
     top: -2px;
 
     &.mini, &.tiny{
@@ -96,6 +96,26 @@
     
     &.huge{
       top: 3px;
+    }
+  }
+  .value--icon--wrapper.on-value{
+    display: inline-block;
+    position: relative;
+    top: -19px ;
+    &.mini, &.tiny, &.small{
+      top: -21px;
+    } 
+
+    // &.small{
+    //   top: -3px;
+    // }
+
+    &.large{
+      top: -16px;
+    }
+    
+    &.huge{
+      top: -15px;
     }
   }
   .ui.statistics .statistic > .value,
