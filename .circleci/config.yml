@@ -38,7 +38,9 @@ jobs:
           root: ~/qlik-multi-kpi
           paths:
             - build
-
+      - store_artifacts:
+          path: build/qlik-multi-kpi.zip
+          destination: qlik-multi-kpi.zip
   deploy:
     <<: *defaults
     steps:
