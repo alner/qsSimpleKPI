@@ -34,7 +34,6 @@ class StatisticBlock extends Component {
     setTimeout(function(){self.checkRequiredSize();}, checkRequiredSizeDelay);
     // initial resize should not be visible
     setTimeout(function(){ self.componentReady(); }, readyDelay);
-    //this.componentReady();
   }
  
   componentDidUpdate() { 
@@ -196,7 +195,6 @@ class StatisticBlock extends Component {
       if(deltaSizeIndex > 0) {
         let itemSizeIndex = getSizeIndex(itemSize);
         itemSizeIndex = Math.max(0, options.autoSize && deltaSizeIndex > 0 ? itemSizeIndex - deltaSizeIndex + 1 : itemSizeIndex);
-        //if(itemSizeIndex >= SIZE_OPTIONS.length)
         itemSize = SIZE_OPTIONS[itemSizeIndex].value;
       }
       if(index >= data.length) return;
@@ -297,12 +295,6 @@ class StatisticBlock extends Component {
 
     let items;
 
-    // for vertical alignment
-    // const itemsContainerStyle = {
-    //   height: "100%",
-    //   display: "flex",
-    //   "align-items": verticalAlign
-    // };
 
     if(kpis.qMeasureInfo.length > 0 && kpis.qDataPages.length > 0) {
 
@@ -353,15 +345,6 @@ class StatisticBlock extends Component {
                 size: dimLabelSize,
                 text: dimensionLabel
               };
-              // console.log(dimensionIndex);
-              
-              // console.log(labelOptions);
-              // let isSelected ;
-              // if(arrayOfValues.indexOf(dimensionIndex) > -1){
-              //   isSelected = true
-              // }else{
-              //   isSelected= false;
-              // }
               return (
                 <DimensionEntry
                   isInEditMode={isInEditMode}
@@ -385,7 +368,6 @@ class StatisticBlock extends Component {
           </div>
         );
       } else {
-        // ${size}
         items = (
           <div className={`${verticalAlign}`}>
             <div ref="statistics" className={`ui ${divideBy} statistics`}>
