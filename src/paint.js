@@ -1,15 +1,15 @@
-import React, { render } from 'react';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import StatisticBlock from './statisticBlock';
 import NumberFormatter from './numberFormatter';
 
 const DEFAULT_AUTO_FORMAT = '0A';
 
 function getNumberFormatter(localeInfo, NumberFormatter) {
-  //let localeInfo = backendApi.localeInfo;
   if(localeInfo && NumberFormatter) {
-    let decimalSeparator = localeInfo.qDecimalSep; // || ".";
-    let thousandSep = localeInfo.qThousandSep; // || ",";
-    return new NumberFormatter(localeInfo, DEFAULT_AUTO_FORMAT, thousandSep, decimalSeparator, 'U'); // '', '', 'U'
+    let decimalSeparator = localeInfo.qDecimalSep;
+    let thousandSep = localeInfo.qThousandSep;
+    return new NumberFormatter(localeInfo, DEFAULT_AUTO_FORMAT, thousandSep, decimalSeparator, 'U');
   } else {
     return undefined;
   }
@@ -19,9 +19,7 @@ let wasZoomedId;
 function unmountIfZoomed($element, layout, { options }) {
   if((options && options.isZoomed && wasZoomedId !== layout.qInfo.qId)
   || (options && !options.isZoomed && wasZoomedId === layout.qInfo.qId)){
-    // qs 3.0 patch
-    //$element.empty();
-    React.unmountComponentAtNode(($element)[0]);
+    ReactDOM.unmountComponentAtNode(($element)[0]);
     if(options.isZoomed)
       wasZoomedId = layout.qInfo.qId;
     else
@@ -29,40 +27,28 @@ function unmountIfZoomed($element, layout, { options }) {
   }
 }
 
-// {qlik, Routing, State, NumberFormatter, DragDropService, Deffered}
 export default function setupPaint({
   qlik,
   Routing,
-//  NumberFormatter,
   DragDropService,
   LoadedPromise
 }) {
-    let numberFormatter;
-    let localeInfo;
-    // if(NumberFormatter && qlik) { // NumberFormatter && qlik
-    //   let localeInfo;
-    //   try {
-    //     //localeInfo = qlik.currApp().model.layout.qLocaleInfo;
-    //   } finally {
-    //     let decimalSeparator = (localeInfo && localeInfo.qDecimalSep) || ".";
-    //     let thousandSep = (localeInfo && localeInfo.qThousandSep) || ",";
-    //     //numberFormatter = new NumberFormatter(localeInfo, DEFAULT_AUTO_FORMAT, thousandSep, decimalSeparator, 'U'); // '', '', 'U'
-    //   }
-    // }
+  let numberFormatter;
+  let localeInfo;
 
   return function paint($element, layout) {
     let self = this;
 
-    if(!localeInfo) { // && self.backendApi && self.backendApi.localeInfo
+    if(!localeInfo) {
       localeInfo = (self.backendApi && self.backendApi.localeInfo);
       if(!localeInfo)
         try {
           const app = qlik.currApp();
           if(app)
-            localeInfo = app.model.layout.qLocaleInfo
+            localeInfo = app.model.layout.qLocaleInfo;
         } catch(err) {
+          console.log(err);
         }
-        //self.backendApi && self.backendApi.localeInfo;
     }
     if(!numberFormatter) {
       numberFormatter = getNumberFormatter(localeInfo, NumberFormatter);
@@ -75,31 +61,34 @@ export default function setupPaint({
 
     const PromiseClass = qlik.Promise || window.Promise; // for backward compatibility
     // It waits for all promises before "print" (after the styles has been loaded, see. component.js)
-    // LoadedPromise, 
+    // LoadedPromise,
     return PromiseClass.all([LoadedPromise, new PromiseClass(function(resolve, reject){
-
-      unmountIfZoomed($element, layout, self);
-
-      render(
-        <StatisticBlock
-          kpis={layout.qHyperCube}
-          options={{
-            ...layout.qInfo,
-            ...layout.options,
-            numberFormatter,
-            DEFAULT_AUTO_FORMAT
-          }}
-          services={{
-            Routing,
-            State,
-            Qlik: qlik,
-            DragDropService,
-            QlikComponent: self,
-            PrintResolver: resolve
-          }}
-          element={($element)[0]}/>
-        ,($element)[0]
-      );
+      try {
+        unmountIfZoomed($element, layout, self);
+        ReactDOM.render(
+          <StatisticBlock
+            kpis={layout.qHyperCube}
+            options={{
+              ...layout.qInfo,
+              ...layout.options,
+              numberFormatter,
+              DEFAULT_AUTO_FORMAT
+            }}
+            services={{
+              Routing,
+              State,
+              Qlik: qlik,
+              DragDropService,
+              QlikComponent: self,
+              PrintResolver: resolve
+            }}
+            element={($element)[0]}/>
+          ,($element)[0]
+        );
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
     })]);
-  }  
+  };
 }

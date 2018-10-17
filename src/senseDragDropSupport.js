@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 
 function IsRectEqual(r1, r2) {
   return r1.left === r2.left
@@ -130,12 +131,12 @@ export default function DragDropSupport(spec = DEFAULT_SPEC) {
       // "libraryitem", "gridcell",...?
       getRect(){
         //console.log(this.child);
-        let element = React.findDOMNode(this); //ReactDOM.findDOMNode(this);
+        let element = ReactDOM.findDOMNode(this); //ReactDOM.findDOMNode(this);
         let br = element.getBoundingClientRect();
         //console.warn('можно передавать параметр в spec, ссылку на контейнер');
         let $parent = $(element).parent();
         //console.log('parent', $parent);
-        //React.findDOMNode(this.refs.child).getBoundingClientRect();
+        //ReactDOM.findDOMNode(this.refs.child).getBoundingClientRect();
         return {
           left: br.left - $parent.scrollLeft(),
           top: br.top - $parent.scrollTop(),
@@ -154,7 +155,7 @@ export default function DragDropSupport(spec = DEFAULT_SPEC) {
       }
 
       getPlaceholderElement() {
-        let element = React.findDOMNode(this);
+        let element = ReactDOM.findDOMNode(this);
         let placeholder = element.getElementsByClassName(this.placeClassName || "placeholder")[0];
         if(!placeholder) placeholder = element;
         return element;
