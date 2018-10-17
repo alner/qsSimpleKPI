@@ -55,9 +55,22 @@ define(dependencies,
     if(React && !global.React)
       global.React = React;
 
-    let initialProperties = require('./initialProperties');
-    let definition = require('./definition')({ ShowService });
-    let paint = require('./paint')({qlik, /*Routing, NumberFormatter,*/ DragDropService, LoadedPromise});
+      const app = qlik.currApp();
+      const selectionState = app.selectionState();
+      const listeners = {};
+      
+      function selectionStateChange() {
+        try {
+          Object.values(listeners).forEach(listener => listener());
+        } catch (error) {
+          console.log(error);
+          }
+        }
+      selectionState.OnData.bind(selectionStateChange);
+        
+      let initialProperties = require('./initialProperties');
+      let definition = require('./definition')({ ShowService });
+      let paint = require('./paint')({qlik, /*Routing, NumberFormatter,*/ DragDropService, LoadedPromise, listeners});
 
     return {
        initialProperties,
