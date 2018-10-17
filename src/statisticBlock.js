@@ -372,7 +372,6 @@ class StatisticBlock extends Component {
                   dimNo={dimNo}
                   dimensionIndex={dimensionIndex}
                   label={labelOptions}
-                  key={Math.random()}
                   onToggle={self.onDimensionLabelClick}
                   showAs={dimShowAs}
                   style={segmentStyle}

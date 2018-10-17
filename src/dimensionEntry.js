@@ -22,11 +22,7 @@ class DimensionEntry extends Component {
       dimensionIndex,
       isInEditMode
     } = this.props;
-    if (!isInEditMode){
-      this.props.onToggle(dimNo, dimensionIndex);
-    }else{
-      return
-    }
+    this.props.onToggle(dimNo, dimensionIndex);
   }
   render () {
     const {
