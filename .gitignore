@@ -5,5 +5,3 @@ build/
 deploy/
 *.map
 *.log
-test/integration/artifacts/*
-!test/integration/artifacts/baseline/

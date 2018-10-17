@@ -38,6 +38,7 @@ jobs:
           root: ~/qlik-multi-kpi
           paths:
             - build
+
   deploy:
     <<: *defaults
     steps:
