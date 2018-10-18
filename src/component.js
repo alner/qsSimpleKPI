@@ -27,14 +27,14 @@ let dependencies = [
 define(dependencies,
   function (module, qlik, ShowService, DragDropService, React) {
     const ROOT_URI = (module && module.uri && module.uri.split('/').slice(0, -1).join('/'))
-    || '/extensions/qsSimpleKPI';
+    || '/extensions/qlik-multi-kpi';
 
     if(!global.Promise)
       global.Promise = Promise;
 
     const PromiseClass = qlik.Promise || global.Promise;
     let LoadedPromise = new PromiseClass(function(resolve){
-      loadCSS(`${ROOT_URI}/qsSimpleKPI.css`,
+      loadCSS(`${ROOT_URI}/qlik-multi-kpi.css`,
         function onLoaded() {
           resolve();
         },
@@ -50,7 +50,7 @@ define(dependencies,
     const app = qlik.currApp();
     const selectionState = app.selectionState();
     const listeners = {};
-    
+
     function selectionStateChange() {
       try {
         Object.values(listeners).forEach(listener => listener());
@@ -59,7 +59,7 @@ define(dependencies,
       }
     }
     selectionState.OnData.bind(selectionStateChange);
-      
+
     let initialProperties = require('./initialProperties');
     let definition = require('./definition')({ ShowService });
     let paint = require('./paint')({ qlik, DragDropService, LoadedPromise, listeners });

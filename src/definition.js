@@ -53,7 +53,7 @@ let data= {
           label: "Label color",
           component: "color-picker",
           dualOutput: true,
-          defaultValue: {index:6, color: "#4477aa"}
+          defaultValue: {index:14, color: "#000000"}
 
         },
         itemColor: {
@@ -748,7 +748,7 @@ return {
     items: {
       data,
       sorting,
-      settings  
-  } 
+      settings
+  }
 }
 }
