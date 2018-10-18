@@ -1,8 +1,8 @@
 import { getRefValue, setRefValue } from './utils';
 
 export default function DialogComponentFactory(ShowService, dialogOptions) {
-  let defaultComponentView = dialogOptions.controlComponent ||
-  `
+  let defaultComponentView = dialogOptions.controlComponent
+  || `
   <button
     class="lui-button qui-button"
     title="Show dialog"
@@ -42,8 +42,8 @@ export default function DialogComponentFactory(ShowService, dialogOptions) {
           if(dialogOptions
             && dialogOptions.initContext
             && typeof(dialogOptions.initContext) == 'function') {
-              dialogOptions.initContext(c, e);
-            }
+            dialogOptions.initContext(c, e);
+          }
 
           c.loading = false;
         }
@@ -73,24 +73,24 @@ export default function DialogComponentFactory(ShowService, dialogOptions) {
 
         function show(component, options) {
           var text = options.text,
-          icon = void 0 !== options.icon ? options.icon : "cogwheel",
-          confirmLabel = options.confirm || "Common.OK",
-          width = options.width || "100%",
-          height = options.height || "auto",
-          input = {
-            text : text,
-            header : options.header,
-            icon : icon,
-            confirmLabel : confirmLabel,
-            width: width,
-            height: height
-          };
-          return ShowService.show(component, input)
+            icon = void 0 !== options.icon ? options.icon : "cogwheel",
+            confirmLabel = options.confirm || "Common.OK",
+            width = options.width || "100%",
+            height = options.height || "auto",
+            input = {
+              text : text,
+              header : options.header,
+              icon : icon,
+              confirmLabel : confirmLabel,
+              width: width,
+              height: height
+            };
+          return ShowService.show(component, input);
         }
 
         c.showDialog = function () {
           var component = {
-              template : `
+            template : `
               <qv-modal-dialog qv-id="my-confirm-dialog"
                 qv-cancel="cancel()"
                 qv-confirm="confirm()">
@@ -105,46 +105,46 @@ export default function DialogComponentFactory(ShowService, dialogOptions) {
                 </main>
                 <qv-confirm-cancel-footer qv-confirm="confirm()" qv-cancel="cancel()" qv-confirm-label="{{confirmLabel || $parent.confirmLabel}}"></qv-confirm-cancel-footer>
               </qv-modal-dialog>`,
-              scope : {
-                text : "=",
-                header : "=",
-                icon : "=",
-                confirmLabel : "=",
-                width: "=",
-                height: "="
-              },
-              controller : ["$scope", function ($scope) {
-                  $scope.value = c.value;
-                  $scope.select = function(newValue) {
-                    if(dialogOptions.selectValue)
-                      $scope.value = dialogOptions.selectValue($scope, newValue);
-                    else
-                      $scope.value = newValue;
-                    //setRefValue(c.data, c.definition.ref, value);
-                  };
-                  $scope.confirm = function () {
-                    // setRefValue(c.data, c.definition.ref, $scope.value);
-                    // c.$emit("saveProperties");
-                    c.changeValue($scope.value);
-                    $scope.destroyComponent(),
-                    $scope.deferredResult.resolve();
-                  };
-                  $scope.cancel = function () {
-                    $scope.destroyComponent(),
-                    $scope.deferredResult.reject()
-                  };
+            scope : {
+              text : "=",
+              header : "=",
+              icon : "=",
+              confirmLabel : "=",
+              width: "=",
+              height: "="
+            },
+            controller : ["$scope", function ($scope) {
+              $scope.value = c.value;
+              $scope.select = function(newValue) {
+                if(dialogOptions.selectValue)
+                  $scope.value = dialogOptions.selectValue($scope, newValue);
+                else
+                  $scope.value = newValue;
+                //setRefValue(c.data, c.definition.ref, value);
+              };
+              $scope.confirm = function () {
+                // setRefValue(c.data, c.definition.ref, $scope.value);
+                // c.$emit("saveProperties");
+                c.changeValue($scope.value);
+                $scope.destroyComponent(),
+                $scope.deferredResult.resolve();
+              };
+              $scope.cancel = function () {
+                $scope.destroyComponent(),
+                $scope.deferredResult.reject();
+              };
 
-                  if(dialogOptions
+              if(dialogOptions
                     && dialogOptions.initDialogContext
                     && typeof(dialogOptions.initDialogContext) == 'function') {
-                      dialogOptions.initDialogContext(c, $scope);
-                  }
-                }
-              ]
-            };
+                dialogOptions.initDialogContext(c, $scope);
+              }
+            }
+            ]
+          };
 
           show(component, dialogOptions);
-        }
+        };
       }]
-  }
-};
+  };
+}

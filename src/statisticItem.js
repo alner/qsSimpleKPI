@@ -27,12 +27,12 @@ class Icon extends Component {
         <span>
           {icons}
         </span>
-      )
+      );
     }
     else
       return (<div className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``}`}><i className={`${valueIcon} ${iconSize}`}></i></div>);
   }
-};
+}
 
 export default class StatisticItem extends Component {
   constructor(props) {
@@ -175,8 +175,8 @@ export default class StatisticItem extends Component {
     // statistic-${index} - allows to use custom style to each measures element
     let statisticItem = (
       <div className={`statistic statistic-${index+1}`}
-          style={statisticStyles}
-          onClick={onClick}>
+        style={statisticStyles}
+        onClick={onClick}>
         <div className={`ui one ${size} statistics`}>
           <div className={classes}>
             {content}

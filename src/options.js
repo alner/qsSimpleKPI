@@ -166,7 +166,7 @@ const SIZE_OPTIONS = [
 function getSizeIndex(value) {
   return SIZE_OPTIONS.map(function(item){
     return item.value;
-  }).indexOf(value)
+  }).indexOf(value);
 }
 
 const DIVIDE_BY = [
@@ -239,4 +239,4 @@ export default {
   FONT_SIZE_OPTIONS,
   getSizeIndex,
   getDivideByValue
-}
+};

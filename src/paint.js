@@ -27,7 +27,6 @@ function doPaint(
   self
 ) {
   try {
-
     ReactDOM.render(
       <StatisticBlock
         kpis={layout.qHyperCube}

@@ -37,7 +37,7 @@ let DragDropSpec = {
 
   onDropLibraryItemHandler: function (item) {
     this.removeObject();
-    this.setState({itemid: item.item.id, isObjectInjected: false});
+    this.setState({ itemid: item.item.id, isObjectInjected: false });
 
     let measureIndex = this.props.measureIndex;
     let backendApi = this.props.services.QlikComponent
@@ -99,7 +99,7 @@ let DragDropSpec = {
       }
       let kpisRows = this.props.kpisRows;
       let mainContainerElement = this.props.mainContainerElement;
-      let mainContainerHeight =  Math.floor(
+      let mainContainerHeight = Math.floor(
         (mainContainerElement.clientHeight * 0.9
         || $(mainContainerElement).height()) / kpisRows);
       let placeElementHeight = $(placeElement).height();
