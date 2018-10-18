@@ -26,7 +26,7 @@ class StatisticBlock extends Component {
 
   componentDidMount(){
     var self = this;
-    
+
     // 3.2 SR2 Printing service patch (timeout strange behaviour, 10 equals to 10 sec (instead of 10 msec) in setTimeout)
     const isPrinting = this.isPrinting();
     const checkRequiredSizeDelay = isPrinting ? 1 : 50; //1
@@ -36,8 +36,8 @@ class StatisticBlock extends Component {
     // initial resize should not be visible
     setTimeout(function(){ self.componentReady(); }, readyDelay);
   }
- 
-  componentDidUpdate() { 
+
+  componentDidUpdate() {
     this.checkRequiredSize();
   }
 
@@ -319,9 +319,9 @@ class StatisticBlock extends Component {
         let arrayOfValues= [];
         if(array){
           arrayOfValues = array;
-          
+
         }
-        
+
         if(dimHideInternalBorders) segmentStyle.border = "0";
         if(dimHideBorders) {
           segmentsStyle.border = "0";
@@ -434,11 +434,7 @@ class StatisticBlock extends Component {
   }
   onDimensionLabelClick(dimNo, value) {
     const { services } = this.props;
-    const selectionState = services.Qlik.currApp().selectionState();
-    if(selectionState){
-    }
     if (services && services.QlikComponent) {
-
       services.QlikComponent.selectValues(dimNo, [value], true);
     }
   }
