@@ -16,11 +16,8 @@ export default function ({ ShowService }) {
 
 
 let data= {
-  uses: "data",
-  type: "items",
-  component: "accordion",
+  label:"data",
   items:{
-
     dimensions : {
       type: 'items',
       uses: 'dimensions',
@@ -55,7 +52,9 @@ let data= {
           ref: "qDef.labelColor", //"qAttributeExpressions.0.qExpression",
           label: "Label color",
           component: "color-picker",
-          dualOutput: true
+          dualOutput: true,
+          defaultValue: {index:6, color: "#4477aa"}
+
         },
         itemColor: {
           type: "object",
@@ -63,7 +62,7 @@ let data= {
           label: "Value color",
           component: "color-picker",
           dualOutput: true,
-          defaultValue: "#4477aa"
+          defaultValue: {index:6, color: "#4477aa"}
         },
         linkToSheet : {
           type : "items",
@@ -662,7 +661,10 @@ let settings = {
           component: "color-picker",
           ref: "options.backgroundColor",
           type: "object",
-          dualOutput: true
+          dualOutput: true,
+          defaultValue:{
+            index: 0 , color: "#ffffff"
+          }
         },
         iconSize: {
           type: "string",

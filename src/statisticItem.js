@@ -98,7 +98,7 @@ export default class StatisticItem extends Component {
     } = this.props.item;
     
     let labelStyles = {padding: "0px 5px", textAlign: textAlignment};
-    let valueStyles = {padding: "0px 5px", textAlign: textAlignment, color: valueColor};
+    let valueStyles = {padding: "0px 5px", textAlign: textAlignment, color: valueColor.color};
     // if(embeddedItem && hideLabel)
     //  valueStyles.marginTop = `${QLIK_COMP_TOOLBAR_HEIGHT}px`;
 
