@@ -2,7 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 var serverConfig = require('./server.config.json');
 
-var name = "qs" + require('./package.json').name;
+var name = require('./package.json').name;
 var outputFilename = name + '.js';
 var devServerPort = serverConfig.serverPort || 8080;
 

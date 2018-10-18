@@ -6,80 +6,72 @@ const global = window;
 const defined = global.requirejs && global.requirejs.defined;
 const define = (global && global.define) || define;
 
-// define && define('resource-not-defined', function(){
-//   return null;
-// });
-
 let dependencies = [
   'module',
   'qlik',
-  // 'client.utils/routing',
-  //  'objects.utils/number-formatter',
   'general.services/show-service/show-service',
   'general.utils/drag-and-drop-service'
 ]
-.map(function(path){
-  // check if dependency was defined...
-  if(defined(path)
-  || path === 'module'
-  || path === 'general.utils/drag-and-drop-service')
-    return path
-  else
-  if(path === 'qlik' && defined('js/qlik'))
-    return 'js/qlik'
-  //else return 'resource-not-defined'
-  else return null;
-});
+  .map(function(path){
+    // check if dependency was defined...
+    if(defined(path)
+    || path === 'module'
+    || path === 'general.utils/drag-and-drop-service')
+      return path;
+    else
+    if(path === 'qlik' && defined('js/qlik'))
+      return 'js/qlik';
+    else return null;
+  });
 
 define(dependencies,
-  function (module, qlik, /*Routing, NumberFormatter,*/ ShowService, DragDropService, React) {
-    const ROOT_URI = (module && module.uri && module.uri.split('/').slice(0, -1).join('/')) ||
-      '/extensions/qsSimpleKPI';
+  function (module, qlik, ShowService, DragDropService, React) {
+    const ROOT_URI = (module && module.uri && module.uri.split('/').slice(0, -1).join('/'))
+    || '/extensions/qsSimpleKPI';
 
     if(!global.Promise)
       global.Promise = Promise;
 
     const PromiseClass = qlik.Promise || global.Promise;
-    let LoadedPromise = new PromiseClass(function(resolve, reject){
-      //if(ROOT_URI)
+    let LoadedPromise = new PromiseClass(function(resolve){
       loadCSS(`${ROOT_URI}/qsSimpleKPI.css`,
-            function onLoaded() {
-              resolve()
-            },
-            function onError() {
-              resolve()
-            }
+        function onLoaded() {
+          resolve();
+        },
+        function onError() {
+          resolve();
+        }
       );
     });
 
     if(React && !global.React)
       global.React = React;
 
-      const app = qlik.currApp();
-      const selectionState = app.selectionState();
-      const listeners = {};
+    const app = qlik.currApp();
+    const selectionState = app.selectionState();
+    const listeners = {};
+    
+    function selectionStateChange() {
+      try {
+        Object.values(listeners).forEach(listener => listener());
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    selectionState.OnData.bind(selectionStateChange);
       
-      function selectionStateChange() {
-        try {
-          Object.values(listeners).forEach(listener => listener());
-        } catch (error) {
-          console.log(error);
-          }
-        }
-      selectionState.OnData.bind(selectionStateChange);
-        
-      let initialProperties = require('./initialProperties');
-      let definition = require('./definition')({ ShowService });
-      let paint = require('./paint')({qlik, /*Routing, NumberFormatter,*/ DragDropService, LoadedPromise, listeners});
+    let initialProperties = require('./initialProperties');
+    let definition = require('./definition')({ ShowService });
+    let paint = require('./paint')({ qlik, DragDropService, LoadedPromise, listeners });
 
     return {
-       initialProperties,
-       definition,
-       paint,
-        support: {
-          snapshot: true,
-          export: true,
-          exportData: true
-        }
-    }
-});
+      initialProperties,
+      definition,
+      paint,
+      support: {
+        snapshot: true,
+        export: true,
+        exportData: true
+      }
+    };
+  });

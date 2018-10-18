@@ -1,21 +1,15 @@
-import React, { render } from "react";
-import StatisticBlock from "./statisticBlock";
-import NumberFormatter from "./numberFormatter";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import StatisticBlock from './statisticBlock';
+import NumberFormatter from './numberFormatter';
 
 const DEFAULT_AUTO_FORMAT = "0A";
 
 function getNumberFormatter(localeInfo, NumberFormatter) {
-  //let localeInfo = backendApi.localeInfo;
-  if (localeInfo && NumberFormatter) {
-    let decimalSeparator = localeInfo.qDecimalSep; // || ".";
-    let thousandSep = localeInfo.qThousandSep; // || ",";
-    return new NumberFormatter(
-      localeInfo,
-      DEFAULT_AUTO_FORMAT,
-      thousandSep,
-      decimalSeparator,
-      "U"
-    ); // '', '', 'U'
+  if(localeInfo && NumberFormatter) {
+    let decimalSeparator = localeInfo.qDecimalSep;
+    let thousandSep = localeInfo.qThousandSep;
+    return new NumberFormatter(localeInfo, DEFAULT_AUTO_FORMAT, thousandSep, decimalSeparator, 'U');
   } else {
     return undefined;
   }
@@ -34,7 +28,7 @@ function doPaint(
 ) {
   try {
 
-    render(
+    ReactDOM.render(
       <StatisticBlock
         kpis={layout.qHyperCube}
         options={{
@@ -62,52 +56,39 @@ function doPaint(
 
 let wasZoomedId;
 function unmountIfZoomed($element, layout, { options }) {
-  if (
-    (options && options.isZoomed && wasZoomedId !== layout.qInfo.qId) ||
-    (options && !options.isZoomed && wasZoomedId === layout.qInfo.qId)
-  ) {
-    // qs 3.0 patch
-    //$element.empty();
-    React.unmountComponentAtNode($element[0]);
-    if (options.isZoomed) wasZoomedId = layout.qInfo.qId;
-    else wasZoomedId = undefined;
+  if((options && options.isZoomed && wasZoomedId !== layout.qInfo.qId)
+  || (options && !options.isZoomed && wasZoomedId === layout.qInfo.qId)){
+    ReactDOM.unmountComponentAtNode(($element)[0]);
+    if(options.isZoomed)
+      wasZoomedId = layout.qInfo.qId;
+    else
+      wasZoomedId = undefined;
   }
 }
 
-// {qlik, Routing, State, NumberFormatter, DragDropService, Deffered}
 export default function setupPaint({
   qlik,
   Routing,
-  //  NumberFormatter,
   DragDropService,
   LoadedPromise,
   listeners
 }) {
   let numberFormatter;
   let localeInfo;
-  // if(NumberFormatter && qlik) { // NumberFormatter && qlik
-  //   let localeInfo;
-  //   try {
-  //     //localeInfo = qlik.currApp().model.layout.qLocaleInfo;
-  //   } finally {
-  //     let decimalSeparator = (localeInfo && localeInfo.qDecimalSep) || ".";
-  //     let thousandSep = (localeInfo && localeInfo.qThousandSep) || ",";
-  //     //numberFormatter = new NumberFormatter(localeInfo, DEFAULT_AUTO_FORMAT, thousandSep, decimalSeparator, 'U'); // '', '', 'U'
-  //   }
-  // }
 
   return function paint($element, layout) {
     let self = this;
 
-    if (!localeInfo) {
-      // && self.backendApi && self.backendApi.localeInfo
-      localeInfo = self.backendApi && self.backendApi.localeInfo;
-      if (!localeInfo)
+    if(!localeInfo) {
+      localeInfo = (self.backendApi && self.backendApi.localeInfo);
+      if(!localeInfo)
         try {
           const app = qlik.currApp();
-          if (app) localeInfo = app.model.layout.qLocaleInfo;
-        } catch (err) {}
-      //self.backendApi && self.backendApi.localeInfo;
+          if(app)
+            localeInfo = app.model.layout.qLocaleInfo;
+        } catch(err) {
+          console.log(err);
+        }
     }
     if (!numberFormatter) {
       numberFormatter = getNumberFormatter(localeInfo, NumberFormatter);

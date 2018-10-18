@@ -1,14 +1,27 @@
 version: 2
 
 defaults: &defaults
-  working_directory: ~/qsSimpleKPI
+  working_directory: ~/qlik-multi-kpi
   docker:
     - image: circleci/node:stretch
   environment:
     GITHUB_ORG: "qlik-oss"
     GITHUB_REPO: "qsSimpleKPI"
+    PACKAGE_NAME: "qlik-multi-kpi"
 
 jobs:
+  test:
+    docker:
+    - image: circleci/node:stretch-browsers
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Run tests
+          command: npm run test-once
+
   build:
     <<: *defaults
     steps:
@@ -18,31 +31,37 @@ jobs:
           command: npm install
       - run:
           name: Build and package
-          command: npm run prod
+          command: npm run build
           environment:
             NODE_ENV: production
       - persist_to_workspace:
-          root: ~/qsSimpleKPI
+          root: ~/qlik-multi-kpi
           paths:
             - build
+      - store_artifacts:
+          path: build/qlik-multi-kpi.zip
+          destination: qlik-multi-kpi.zip
   deploy:
     <<: *defaults
     steps:
       - checkout
       - attach_workspace:
-          at: ~/qsSimpleKPI
+          at: ~/qlik-multi-kpi
       - run:
           name: Install ghr
           command: scripts/install-ghr.sh
       - run:
           name: Create GitHub Release
-          command: scripts/create-release.sh $GITHUB_ORG $GITHUB_REPO
+          command: scripts/create-release.sh $GITHUB_ORG $GITHUB_REPO $PACKAGE_NAME
 
 workflows:
   version: 2
   master_flow:
     jobs:
-      - build
+      - test
+      - build:
+          requires:
+            - test
       - deploy:
           requires:
             - build
