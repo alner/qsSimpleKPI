@@ -144,39 +144,38 @@ let TextEditorComponent = {
 
 // Select icon dialog component
 let SelectIconDialogComponent = function(ShowService) {
-return DialogComponentFactory(ShowService, (() => {
-
-  function getValueIndex(c, styleName) {
-    let indx = -1;
-    if(!c.isExpression && typeof c.value === 'string')  {
+  return DialogComponentFactory(ShowService, (() => {
+    function getValueIndex(c, styleName) {
+      let indx = -1;
+      if(!c.isExpression && typeof c.value === 'string') {
       // let styles = (c.value && c.value.split(' ')) || [];
-      indx = c.value.search(new RegExp(`\\s${styleName}`));
-    }
-    return indx;
-  }
-
-  //let docWidth = $(document).width();
-  let docHeight = $(document).height();
-  let dWidth = '85%'; // dialog width
-  let dHeight = 'auto'; // dialog height
-
-  return {
-    text: 'Icons',
-    icon: '', // dialog icon
-    initContext(c, e) { // component's context initialization
-      c.isExpression = false;
-      c.isNotSet = false;
-      if(typeof c.value === "object"
-        && c.value.qStringExpression) {
-        c.isExpression = true;
-        c.iconExpression = (c.value.qStringExpression.qExpr) || "";
-      } else if(typeof c.value === "string" && c.value.trim().length === 0) {
-        c.isNotSet = true;
-        c.iconExpression = 'Select icon';
-        c.value = "ellipsis horizontal icon";
+        indx = c.value.search(new RegExp(`\\s${styleName}`));
       }
-    },
-    controlComponent: `
+      return indx;
+    }
+
+    //let docWidth = $(document).width();
+    let docHeight = $(document).height();
+    let dWidth = '85%'; // dialog width
+    let dHeight = 'auto'; // dialog height
+
+    return {
+      text: 'Icons',
+      icon: '', // dialog icon
+      initContext(c, e) { // component's context initialization
+        c.isExpression = false;
+        c.isNotSet = false;
+        if(typeof c.value === "object"
+        && c.value.qStringExpression) {
+          c.isExpression = true;
+          c.iconExpression = (c.value.qStringExpression.qExpr) || "";
+        } else if(typeof c.value === "string" && c.value.trim().length === 0) {
+          c.isNotSet = true;
+          c.iconExpression = 'Select icon';
+          c.value = "ellipsis horizontal icon";
+        }
+      },
+      controlComponent: `
     <button
       class="lui-button qui-button"
       title="{{iconExpression}}"
@@ -188,59 +187,59 @@ return DialogComponentFactory(ShowService, (() => {
     <span ng-if="!isExpression && !isNotSet">{{value}}</span>
     <span ng-if="isNotSet">{{iconExpression}}</span>
     `,
-    initDialogContext(c, dc) {
+      initDialogContext(c, dc) {
       // c - component context (see initContext),
       // dc - dialog context (see dialogContent)
-      dc.iconOptions = {
-        disabled: 'Disabled',
-        loading: 'Loading',
-        //circular: 'Circular',
-        //bordered: 'Bordered',
-        ['horizontally flipped']: 'Horizontally flipped',
-        ['vertically flipped']: 'Vertically flipped',
-        ['clockwise rotated']: 'Clockwise rotated',
-        ['counterclockwise rotated']: 'Counterclockwise rotated'
-      };
-      dc.opts = {};
-      for(let iconOption in dc.iconOptions) {
-        dc.opts[iconOption] = (getValueIndex(c, iconOption) != -1);
-      }
+        dc.iconOptions = {
+          disabled: 'Disabled',
+          loading: 'Loading',
+          //circular: 'Circular',
+          //bordered: 'Bordered',
+          ['horizontally flipped']: 'Horizontally flipped',
+          ['vertically flipped']: 'Vertically flipped',
+          ['clockwise rotated']: 'Clockwise rotated',
+          ['counterclockwise rotated']: 'Counterclockwise rotated'
+        };
+        dc.opts = {};
+        for(let iconOption in dc.iconOptions) {
+          dc.opts[iconOption] = (getValueIndex(c, iconOption) != -1);
+        }
 
-      dc.isExpression = c.isExpression;
-      // Icons as options property:
-      dc.options = c.definition.options;
-    },
-    selectValue(c, newValue) {
-      c.isExpression = false;
-      if(c.iconOptions[newValue]) {
+        dc.isExpression = c.isExpression;
+        // Icons as options property:
+        dc.options = c.definition.options;
+      },
+      selectValue(c, newValue) {
+        c.isExpression = false;
+        if(c.iconOptions[newValue]) {
         //let values = (c.value && c.value.split(' ')) || [];
-        let values = c.value || "";
-        let isDisabled = c.opts[newValue];
-        let searchRe = new RegExp(`\\s${newValue}`);
-        let indx = values.search(searchRe);
-        if(isDisabled && indx === -1) {
+          let values = c.value || "";
+          let isDisabled = c.opts[newValue];
+          let searchRe = new RegExp(`\\s${newValue}`);
+          let indx = values.search(searchRe);
+          if(isDisabled && indx === -1) {
           // add
           //values.push(newValue);
-          values = values.concat(' ', newValue);
-          c.opts[newValue] = true;
-        }
-        else if(!isDisabled && (indx != -1)) {
+            values = values.concat(' ', newValue);
+            c.opts[newValue] = true;
+          }
+          else if(!isDisabled && (indx != -1)) {
           // remove
           // values.splice(indx, 1);
-          values = values.replace(searchRe, '');
-          c.opts[newValue] = false;
+            values = values.replace(searchRe, '');
+            c.opts[newValue] = false;
+          }
+          return values;
+        } else {
+          let returnValue = newValue;
+          for(let iconOption in c.iconOptions) {
+            if(c.opts[iconOption])
+              returnValue += ` ${iconOption}`;
+          }
+          return returnValue;
         }
-        return values;
-      } else {
-        let returnValue = newValue;
-        for(let iconOption in c.iconOptions) {
-          if(c.opts[iconOption])
-            returnValue += ` ${iconOption}`;
-        }
-        return returnValue;
-      }
-    },
-    dialogContent: `
+      },
+      dialogContent: `
     <div class="qv-object-qsstatistic">
       <style scoped>
         #my-confirm-dialog {
@@ -268,21 +267,21 @@ return DialogComponentFactory(ShowService, (() => {
     </div>
     `,
     // width: '100%' //`${docWidth - docWidth / 8}px`
-  }
-})());
+    };
+  })());
 }; // SelectIconDialogComponent
 
 // Detect changes in property "propertyName" and propagate it to referenced property...
 let DetectChangesInComponent = function(propertyName) {
   return {
-        template: '<span></span>', // Non visible component
-        controller: ["$scope", function(scope) {
-          scope.$watch(`data.${propertyName}`, function(newValue) {
-            scope.data[scope.definition.ref] = newValue;
-            scope.$emit("saveProperties");
-          });
-        }]
-      };
+    template: '<span></span>', // Non visible component
+    controller: ["$scope", function(scope) {
+      scope.$watch(`data.${propertyName}`, function(newValue) {
+        scope.data[scope.definition.ref] = newValue;
+        scope.$emit("saveProperties");
+      });
+    }]
+  };
 };
 
 export default {

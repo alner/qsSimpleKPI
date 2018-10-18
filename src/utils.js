@@ -9,15 +9,15 @@ function _getRefs(data, refName) {
     }
     name = props[props.length - 1];
   }
-  return {ref, name};
+  return { ref, name };
 }
 
 export function setRefValue(data, refName, value) {
-  let {ref, name} = _getRefs(data, refName);
+  let { ref, name } = _getRefs(data, refName);
   ref[name] = value;
 }
 
 export function getRefValue(data, refName) {
-  let {ref, name} = _getRefs(data, refName);
+  let { ref, name } = _getRefs(data, refName);
   return ref[name];
 }

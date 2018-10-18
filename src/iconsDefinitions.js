@@ -191,4 +191,4 @@ const FULL_ICONS_SET = {
 
 export default {
   FULL_ICONS_SET
-}
+};

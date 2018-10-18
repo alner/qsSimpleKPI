@@ -38,18 +38,5 @@ describe('<DimensionEntry />', () => {
       const model = setup();
       expect(model.component).toBeDefined();
     });
-
-    it('should not be selected', () => {
-      const model = setup();
-      expect(model.isSelected()).toEqual(false);
-    });
-  });
-
-  describe('when selected', () => {
-    it('should be in selected state', () => {
-      const model = setup();
-      model.select();
-      expect(model.isSelected()).toEqual(true, 'is selected');
-    });
   });
 });

@@ -13,8 +13,8 @@ function start(drag) {
   // drag.info.type: "libraryitem", "gridcell",...?
   let type = drag.info.type;
   //console.log('dnd start', this.accept[type]);
-  let shouldAccept = this.accept[type] &&
-   'function' == typeof this.accept[type] ? this.accept[type].call(this, drag) : this.accept[type];
+  let shouldAccept = this.accept[type]
+   && 'function' == typeof this.accept[type] ? this.accept[type].call(this, drag) : this.accept[type];
 
   //console.log('dnd should accept', shouldAccept);
   if(shouldAccept) {
@@ -53,10 +53,10 @@ const DEFAULT_SPEC = {
 
 export default function DragDropSupport(spec = DEFAULT_SPEC) {
   return function AddDragDropSupport(DecorateComponent) {
-    const displayName =
-     DecorateComponent.displayName ||
-     DecorateComponent.name ||
-     'Component';
+    const displayName
+     = DecorateComponent.displayName
+     || DecorateComponent.name
+     || 'Component';
 
     class DragDropContainer extends Component {
       constructor(props) {
@@ -142,7 +142,7 @@ export default function DragDropSupport(spec = DEFAULT_SPEC) {
           top: br.top - $parent.scrollTop(),
           right: (br.right - $parent.scrollLeft()) || (br.left - $parent.scrollLeft() + br.width),
           bottom: (br.bottom - $parent.scrollTop()) || (br.top - $parent.scrollTop() + br.height)
-        }
+        };
       }
 
       setupDragDropRect() {
@@ -186,5 +186,5 @@ export default function DragDropSupport(spec = DEFAULT_SPEC) {
     //assign(DragDropContainer.prototype, spec);
 
     return DragDropContainer;
-  }
+  };
 }

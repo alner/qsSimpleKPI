@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import StatisticBlock from './statisticBlock';
 import NumberFormatter from './numberFormatter';
 
-const DEFAULT_AUTO_FORMAT = '0A';
+const DEFAULT_AUTO_FORMAT = "0A";
 
 function getNumberFormatter(localeInfo, NumberFormatter) {
   if(localeInfo && NumberFormatter) {
@@ -12,6 +12,44 @@ function getNumberFormatter(localeInfo, NumberFormatter) {
     return new NumberFormatter(localeInfo, DEFAULT_AUTO_FORMAT, thousandSep, decimalSeparator, 'U');
   } else {
     return undefined;
+  }
+}
+
+function doPaint(
+  $element,
+  layout,
+  numberFormatter,
+  qlik,
+  Routing,
+  State,
+  DragDropService,
+  resolve,
+  self
+) {
+  try {
+    ReactDOM.render(
+      <StatisticBlock
+        kpis={layout.qHyperCube}
+        options={{
+          ...layout.qInfo,
+          ...layout.options,
+          numberFormatter,
+          DEFAULT_AUTO_FORMAT
+        }}
+        services={{
+          Routing,
+          State,
+          Qlik: qlik,
+          DragDropService,
+          QlikComponent: self,
+          PrintResolver: resolve
+        }}
+        element={$element[0]}
+      />,
+      $element[0]
+    );
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -31,7 +69,8 @@ export default function setupPaint({
   qlik,
   Routing,
   DragDropService,
-  LoadedPromise
+  LoadedPromise,
+  listeners
 }) {
   let numberFormatter;
   let localeInfo;
@@ -50,7 +89,7 @@ export default function setupPaint({
           console.log(err);
         }
     }
-    if(!numberFormatter) {
+    if (!numberFormatter) {
       numberFormatter = getNumberFormatter(localeInfo, NumberFormatter);
     }
 
@@ -62,33 +101,37 @@ export default function setupPaint({
     const PromiseClass = qlik.Promise || window.Promise; // for backward compatibility
     // It waits for all promises before "print" (after the styles has been loaded, see. component.js)
     // LoadedPromise,
-    return PromiseClass.all([LoadedPromise, new PromiseClass(function(resolve, reject){
-      try {
+    return PromiseClass.all([
+      LoadedPromise,
+      new PromiseClass(function(resolve, reject) {
+        listeners.paint = () => {
+          doPaint(
+            $element,
+            layout,
+            numberFormatter,
+            qlik,
+            Routing,
+            State,
+            DragDropService,
+            resolve,
+            self
+          );
+        };
         unmountIfZoomed($element, layout, self);
-        ReactDOM.render(
-          <StatisticBlock
-            kpis={layout.qHyperCube}
-            options={{
-              ...layout.qInfo,
-              ...layout.options,
-              numberFormatter,
-              DEFAULT_AUTO_FORMAT
-            }}
-            services={{
-              Routing,
-              State,
-              Qlik: qlik,
-              DragDropService,
-              QlikComponent: self,
-              PrintResolver: resolve
-            }}
-            element={($element)[0]}/>
-          ,($element)[0]
+
+        doPaint(
+          $element,
+          layout,
+          numberFormatter,
+          qlik,
+          Routing,
+          State,
+          DragDropService,
+          resolve,
+          self,
+          LoadedPromise
         );
-      } catch (error) {
-        console.log(error);
-        reject(error);
-      }
-    })]);
+      })
+    ]);
   };
 }

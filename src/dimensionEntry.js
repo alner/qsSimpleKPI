@@ -3,25 +3,27 @@ import React, { Component, PropTypes } from 'react';
 class DimensionEntry extends Component {
   constructor (props) {
     super(props);
-    this.state = {
-      isSelected: false
-    };
 
     this.handleClick = this.handleClick.bind(this);
+    this.hidePointerCursor = this.hidePointerCursor.bind(this);
   }
 
+  hidePointerCursor () {
+    const { isInEditMode } = this.props;
+    if(!isInEditMode){
+      
+    }else{
+      return "default";
+    }
+  }
   handleClick () {
     const {
       dimNo,
-      dimensionIndex
+      dimensionIndex,
+      isInEditMode
     } = this.props;
-
-    this.setState({
-      isSelected: !this.state.isSelected
-    });
     this.props.onToggle(dimNo, dimensionIndex);
   }
-
   render () {
     const {
       children,
@@ -32,13 +34,15 @@ class DimensionEntry extends Component {
       dindex,
       divideByNumber
     } = this.props;
-    const { isSelected } = this.state;
-
+    const { isSelected } = this.props;
+    
     const isSelectedClass = isSelected ? ' is-selected' : '';
+   
+
 
     return (
       <div className={`ui ${showAs}${isSelectedClass}`} style={style}>
-        {label.isHidden ? null : <a className={`ui ${label.size} ${label.orientation} ${label.alignment} label`} onClick={this.handleClick}>{label.text}</a>}
+        {label.isHidden ? null : <a className={`ui ${label.size} ${label.orientation} ${label.alignment} label`} onClick={this.handleClick} style={{ cursor: this.hidePointerCursor() }}>{label.text} </a>}
         <div className={`ui ${divideBy} ${label.alignment} statistics`}>
           {children}
         </div>

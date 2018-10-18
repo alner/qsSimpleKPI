@@ -12,26 +12,27 @@ class Icon extends Component {
       value,
       valueIcon,
       iconSize,
-      infographic
+      infographic,
+      isOnValue
     } = this.props;
     if(infographic) {
       let icons = [];
       if(!isNaN(value) && isFinite(value)) {
         value = Math.min(1000, value);
         for (let i = 0; i < value; ++i)
-          icons.push(<i key={i} className={`${valueIcon} ${iconSize}`}></i>);
+          icons.push(<div className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``}`}> <i key={i} className={`${valueIcon} ${iconSize}`}></i> </div>);
       }
 
       return (
         <span>
           {icons}
         </span>
-      )
+      );
     }
     else
-      return (<i className={`${valueIcon} ${iconSize}`}></i>);
+      return (<div className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``}`}><i className={`${valueIcon} ${iconSize}`}></i></div>);
   }
-};
+}
 
 export default class StatisticItem extends Component {
   constructor(props) {
@@ -134,23 +135,23 @@ export default class StatisticItem extends Component {
     );
 
     let valueComponentProps = {
-        key: "val",
-        ref: "value",
-        measureIndex,
-        embeddedItem,
-        mainContainerElement,
-        valueStyles,
-        services,
-        kpisRows,
-        isShow
+      key: "val",
+      ref: "value",
+      measureIndex,
+      embeddedItem,
+      mainContainerElement,
+      valueStyles,
+      services,
+      kpisRows,
+      isShow
     };
     let valueComponent = hideValue ? null : (
-        <ValueComponent {...valueComponentProps}>
-            {iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
-            {value /*!infographic ? value : null*/}
-            {!iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
-        </ValueComponent>
-      );
+      <ValueComponent {...valueComponentProps}>
+        {iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon isOnValue={true} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
+        {value /*!infographic ? value : null*/}
+        {!iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon isOnValue={true} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
+      </ValueComponent>
+    );
 
     let content = [];
     if(labelOrder === "first") {
@@ -174,8 +175,8 @@ export default class StatisticItem extends Component {
     // statistic-${index} - allows to use custom style to each measures element
     let statisticItem = (
       <div className={`statistic statistic-${index+1}`}
-          style={statisticStyles}
-          onClick={onClick}>
+        style={statisticStyles}
+        onClick={onClick}>
         <div className={`ui one ${size} statistics`}>
           <div className={classes}>
             {content}

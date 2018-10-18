@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import InlineCSS from 'react-inline-css';
-import {DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex} from './options';
+import { DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex } from './options';
 import DimensionEntry from './dimensionEntry';
 import StatisticItem from './statisticItem';
 import ATTRIBUTES from './definitionAttributes';
@@ -20,6 +20,8 @@ class StatisticBlock extends Component {
     this.componentReady = this.componentReady.bind(this);
     this.kpiItemResizeHandler = this.kpiItemResizeHandler.bind(this);
     this.onDimensionLabelClick = this.onDimensionLabelClick.bind(this);
+    this.getSelections = this.getSelections.bind(this);
+    this.isSelectedFunction = this.isSelectedFunction.bind(this);
   }
 
   componentDidMount(){
@@ -33,11 +35,9 @@ class StatisticBlock extends Component {
     setTimeout(function(){self.checkRequiredSize();}, checkRequiredSizeDelay);
     // initial resize should not be visible
     setTimeout(function(){ self.componentReady(); }, readyDelay);
-    //this.componentReady();
   }
 
   componentDidUpdate() {
-    var self = this;
     this.checkRequiredSize();
   }
 
@@ -47,14 +47,14 @@ class StatisticBlock extends Component {
 
   componentReady() {
     // initial resize should not be visible
-    this.setState({is_show: true});
+    this.setState({ is_show: true });
     this.props.services.PrintResolver && this.props.services.PrintResolver(); // we are ready... can be printed!
   }
 
   isPrinting() {
-    return this.props.services.QlikComponent.backendApi.isSnapshot &&
-      this.props.services.Qlik.navigation &&
-      !this.props.services.Qlik.navigation.inClient;
+    return this.props.services.QlikComponent.backendApi.isSnapshot
+      && this.props.services.Qlik.navigation
+      && !this.props.services.Qlik.navigation.inClient;
   }
 
   restoreSize(props){
@@ -88,10 +88,10 @@ class StatisticBlock extends Component {
         });
       } else {
         if(this.state.valueFontStyleIndex)
-          this.setState({valueFontStyleIndex: this.state.valueFontStyleIndex - 1});
+          this.setState({ valueFontStyleIndex: this.state.valueFontStyleIndex - 1 });
         else
         if(this.state.valueFontStyleIndex !== 0)
-          this.setState({valueFontStyleIndex: FONT_SIZE_OPTIONS.length - 1});
+          this.setState({ valueFontStyleIndex: FONT_SIZE_OPTIONS.length - 1 });
       }
     }
   }
@@ -118,8 +118,8 @@ class StatisticBlock extends Component {
         childHeight = ReactDOM.findDOMNode(this.refs['child-0']).clientHeight;
       }
 
-      if(element &&
-        ((element.clientHeight < scrollHeight
+      if(element
+        && ((element.clientHeight < scrollHeight
           || childHeight && element.clientHeight < childHeight)
         || ((clientWidth != element.clientWidth
           || clientHeight != element.clientHeight)
@@ -150,7 +150,7 @@ class StatisticBlock extends Component {
               this.kpiItemResizeHandler(true);
             } else
             if(this.state.overflow !== "auto")
-              this.setState({overflow: "auto"}); // ...show scrollbars
+              this.setState({ overflow: "auto" }); // ...show scrollbars
           }
         }
         else
@@ -161,10 +161,10 @@ class StatisticBlock extends Component {
         }
       }
     } else {
-        if((this.state.overflow !== "auto")
+      if((this.state.overflow !== "auto")
         && (element.clientHeight < scrollHeight
           || element.clientWidth < scrollWidth))
-          this.setState({overflow: "auto"});
+        this.setState({ overflow: "auto" });
     }
   }
 
@@ -196,7 +196,6 @@ class StatisticBlock extends Component {
       if(deltaSizeIndex > 0) {
         let itemSizeIndex = getSizeIndex(itemSize);
         itemSizeIndex = Math.max(0, options.autoSize && deltaSizeIndex > 0 ? itemSizeIndex - deltaSizeIndex + 1 : itemSizeIndex);
-        //if(itemSizeIndex >= SIZE_OPTIONS.length)
         itemSize = SIZE_OPTIONS[itemSizeIndex].value;
       }
       if(index >= data.length) return;
@@ -247,7 +246,7 @@ class StatisticBlock extends Component {
         params.value = data[index].qText;
         params.numericValue = data[index].qNum;
         if(item.qIsAutoFormat
-        &&  item.autoFormatTemplate && item.autoFormatTemplate.length > 0
+        && item.autoFormatTemplate && item.autoFormatTemplate.length > 0
         && numberFormatter) {
           let value = data[index].qNum;
           if(!isNaN(value) && isFinite(value)) {
@@ -268,8 +267,8 @@ class StatisticBlock extends Component {
           item={params}
           options={options}
           services={services}
-          onNeedResize={self.kpiItemResizeHandler} />
-        }
+          onNeedResize={self.kpiItemResizeHandler} />;
+      }
       else
         return null;
     });
@@ -297,15 +296,8 @@ class StatisticBlock extends Component {
 
     let items;
 
-    // for vertical alignment
-    // const itemsContainerStyle = {
-    //   height: "100%",
-    //   display: "flex",
-    //   "align-items": verticalAlign
-    // };
 
     if(kpis.qMeasureInfo.length > 0 && kpis.qDataPages.length > 0) {
-
       if(divideBy === "auto")
         divideBy = DIVIDE_BY[ Math.min(10, kpis.qDataPages[0].qMatrix[0].length - kpis.qDimensionInfo.length)];
 
@@ -316,12 +308,18 @@ class StatisticBlock extends Component {
         const dimNo = 0; // only one dimension allowed!
         if(dimDivideBy === "auto")
           dimDivideBy = DIVIDE_BY[Math.min(10, kpis.qDimensionInfo[dimNo].qCardinal)];
-
-        let dimShowAsContainer = dimShowAs === 'card' ? `${dimDivideBy} stackable cards`  : 'segments';
+        let isInEditMode = this.props.services.State.isInEditMode();
+        let dimShowAsContainer = dimShowAs === 'card' ? `${dimDivideBy} stackable cards` : 'segments';
         let dimLabelsAlignment = '';
         if(dimCenteredLabels) dimLabelsAlignment = 'center aligned';
         let segmentsStyle = {}; //{margin: 0, height: '100%'};
         let segmentStyle = {};
+        let array = this.getSelections();
+        let arrayOfValues= [];
+        if(array){
+          arrayOfValues = array;
+        }
+
         if(dimHideInternalBorders) segmentStyle.border = "0";
         if(dimHideBorders) {
           segmentsStyle.border = "0";
@@ -333,43 +331,42 @@ class StatisticBlock extends Component {
         }
         items = (
           <div className={`${verticalAlign}`}>
-          <div className={`ui ${dimensionsOrientation} ${dimShowAsContainer}`} style={segmentsStyle}>
-          {
-            kpis.qDataPages[0].qMatrix.map(function(dim, dindex){
-              const dimensionLabel = dim[dimNo].qText;
-              const dimensionIndex = dim[dimNo].qElemNumber;
-              let measures = self.renderKpis(kpis, dindex, divideByNumber);
-              const labelOptions = {
-                alignment: dimLabelsAlignment,
-                isHidden: dimHideLabels,
-                orientation: dimLabelOrientation,
-                size: dimLabelSize,
-                text: dimensionLabel
-              };
-
-              return (
-                <DimensionEntry
-                  divideBy={divideBy}
-                  dindex={dindex}
-                  divideByNumber={divideByNumber}
-                  dimNo={dimNo}
-                  dimensionIndex={dimensionIndex}
-                  label={labelOptions}
-                  key={Math.random()}
-                  onToggle={self.onDimensionLabelClick}
-                  showAs={dimShowAs}
-                  style={segmentStyle}
-                >
-                  {measures}
-                </DimensionEntry>
-              )
-            })
-          }
-          </div>
+            <div className={`ui ${dimensionsOrientation} ${dimShowAsContainer}`} style={segmentsStyle}>
+              {
+                kpis.qDataPages[0].qMatrix.map(function(dim, dindex){
+                  const dimensionLabel = dim[dimNo].qText;
+                  const dimensionIndex = dim[dimNo].qElemNumber;
+                  let measures = self.renderKpis(kpis, dindex, divideByNumber);
+                  const labelOptions = {
+                    alignment: dimLabelsAlignment,
+                    isHidden: dimHideLabels,
+                    orientation: dimLabelOrientation,
+                    size: dimLabelSize,
+                    text: dimensionLabel
+                  };
+                  return (
+                    <DimensionEntry
+                      isInEditMode={isInEditMode}
+                      isSelected={ self.isSelectedFunction(arrayOfValues ,labelOptions.text ) }
+                      divideBy={divideBy}
+                      dindex={dindex}
+                      divideByNumber={divideByNumber}
+                      dimNo={dimNo}
+                      dimensionIndex={dimensionIndex}
+                      label={labelOptions}
+                      onToggle={self.onDimensionLabelClick}
+                      showAs={dimShowAs}
+                      style={segmentStyle}
+                    >
+                      {measures}
+                    </DimensionEntry>
+                  );
+                })
+              }
+            </div>
           </div>
         );
       } else {
-        // ${size}
         items = (
           <div className={`${verticalAlign}`}>
             <div ref="statistics" className={`ui ${divideBy} statistics`}>
@@ -392,10 +389,10 @@ class StatisticBlock extends Component {
     }
 
     return (
-      <InlineCSS namespace={`css-${qId}`} stylesheet={styles} style={{height: "100%"}}>
-      <div className="qv-object-qsstatistic" style={objectStyle}>
+      <InlineCSS namespace={`css-${qId}`} stylesheet={styles} style={{ height: "100%" }}>
+        <div className="qv-object-qsstatistic" style={objectStyle}>
           {items}
-      </div>
+        </div>
       </InlineCSS>
     );
   }
@@ -407,7 +404,7 @@ class StatisticBlock extends Component {
     if(kpi.useLink && isAllowOpenSheet /*&& services.Routing*/) {
       let linkId;
       if (typeof(kpi.kpiLink) === "string")
-        linkId = kpi.kpiLink
+        linkId = kpi.kpiLink;
       else
         linkId = kpi.kpiLink && kpi.kpiLink.id;
 
@@ -418,6 +415,21 @@ class StatisticBlock extends Component {
     }
   }
 
+  getSelections(){
+    let selectionsArray = [];
+    if (this.props.services.Qlik.currApp().selectionState().selections.length > 0) {
+      selectionsArray = this.props.services.Qlik.currApp().selectionState().selections[0].selectedValues.map(a => a.qName);
+    }
+
+    return selectionsArray;
+  }
+  isSelectedFunction (arrayOfValues,label) {
+    if(arrayOfValues.indexOf(label) > -1 ){
+      return true;
+    }else {
+      return false;
+    }
+  }
   onDimensionLabelClick(dimNo, value) {
     const { services } = this.props;
     if (services && services.QlikComponent) {
