@@ -11,7 +11,7 @@ class DimensionEntry extends Component {
   hidePointerCursor () {
     const { isInEditMode } = this.props;
     if(!isInEditMode){
-      
+      return "pointer";
     }else{
       return "default";
     }
@@ -35,9 +35,9 @@ class DimensionEntry extends Component {
       divideByNumber
     } = this.props;
     const { isSelected } = this.props;
-    
+
     const isSelectedClass = isSelected ? ' is-selected' : '';
-   
+
 
 
     return (

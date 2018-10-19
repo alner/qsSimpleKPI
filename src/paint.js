@@ -76,6 +76,7 @@ export default function setupPaint({
   let localeInfo;
 
   return function paint($element, layout) {
+    console.log('paint triggered');
     let self = this;
 
     if(!localeInfo) {
@@ -104,7 +105,9 @@ export default function setupPaint({
     return PromiseClass.all([
       LoadedPromise,
       new PromiseClass(function(resolve, reject) {
-        listeners.paint = () => {
+        listeners.paint = (selectionState) => {
+          const selections = (selectionState.selections[0] && selectionState.selections[0].selectedValues.map(selectedValue => selectedValue.qName)) || [];
+          console.log('selection changed', selections);
           doPaint(
             $element,
             layout,

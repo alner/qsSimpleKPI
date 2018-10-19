@@ -62,6 +62,9 @@
   .ui.statistic > .label {
     text-transform: none;
   }
+  .ui.statistic > .value {
+    width: 100%;
+  }
 
   .ui.segment > .label[class*="center aligned"] {
     text-align: center;
@@ -76,41 +79,25 @@
   .value--icon--wrapper{
     display: inline-block;
     position: relative;
-    margin: 0 10px;
-    top: -2px;
-
-    &.mini, &.tiny{
-      top: -4px;
-    }
-    &.small{
-      top: -3px;
-    }
-    &.large{
-      top: 0;
-    }
-    &.huge{
-      top: 3px;
+    margin: 5px;
+    bottom: 0;
+    &.infographic{
+      margin: 10px 0;
     }
   }
   .value--icon--wrapper.on-value{
     display: inline-block;
     position: relative;
-    top: -19px ;
-    &.mini, &.tiny, &.small{
-      top: -21px;
-    }
-
-    &.large{
-      top: -16px;
-    }
-
-    &.huge{
-      top: -15px;
+    margin: 5px;
+    bottom: 5px;
+    &.infographic{
+      margin: 10px 0 ;
     }
   }
   .ui.statistics .statistic > .value,
   .ui.statistic > .value {
     text-transform: none;
+    box-sizing: border-box;
   }
 
   .ui.cards {

@@ -275,6 +275,7 @@ class StatisticBlock extends Component {
   }
 
   render(){
+    console.log('render <StatisticBlock />');
     const self = this;
     const kpis = this.props.kpis;
     let {
