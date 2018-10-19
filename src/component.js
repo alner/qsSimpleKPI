@@ -66,6 +66,16 @@ define(dependencies,
 
     return {
       initialProperties,
+      data: {
+        dimensions: {
+          min: 0,
+          max: 1
+        },
+        measures: {
+          min: 1,
+          max: 15
+        },
+      },
       definition,
       paint,
       support: {

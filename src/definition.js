@@ -15,26 +15,9 @@ export default function ({ ShowService }) {
 
 
   let data= {
-    label:"Data",
+    uses: "data",
     items:{
-      dimensions : {
-        type: 'items',
-        uses: 'dimensions',
-        ref: 'qHyperCubeDef.qDimensions',
-        min: 0,
-        max: 1,
-        allowAdd: true,
-        allowRemove: true
-      },
       measures : {
-        uses : "measures",
-        ref: "qHyperCubeDef.qMeasures",
-        disabledRef : "qHyperCubeDef.qLayoutExclude.qHyperCubeDef.qMeasures",
-        min: 1,
-        max: 15,
-        allowAdd: true,
-        allowRemove: true,
-        allowMove: true,
         items: {
           autoFormatTemplate: {
             type: "string",
