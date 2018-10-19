@@ -20,7 +20,7 @@ class Icon extends Component {
       if(!isNaN(value) && isFinite(value)) {
         value = Math.min(1000, value);
         for (let i = 0; i < value; ++i)
-          icons.push(<div className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``}`}> <i key={i} className={`${valueIcon} ${iconSize}`}></i> </div>);
+          icons.push(<div className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}> <i key={i} className={`${valueIcon} ${iconSize}`}></i> </div>);
       }
 
       return (
