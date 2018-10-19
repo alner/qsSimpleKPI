@@ -53,7 +53,7 @@ define(dependencies,
 
     function selectionStateChange() {
       try {
-        Object.values(listeners).forEach(listener => listener());
+        Object.values(listeners).forEach(listener => listener(selectionState));
       } catch (error) {
         console.log(error);
       }
