@@ -15,7 +15,7 @@ export default function ({ ShowService }) {
 
 
   let data= {
-    label:"data",
+    label:"Data",
     items:{
       dimensions : {
         type: 'items',
