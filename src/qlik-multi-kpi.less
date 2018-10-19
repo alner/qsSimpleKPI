@@ -62,6 +62,9 @@
   .ui.statistic > .label {
     text-transform: none;
   }
+  .ui.statistic > .value {
+    width: 100%;
+  }
 
   .ui.segment > .label[class*="center aligned"] {
     text-align: center;
@@ -77,20 +80,20 @@
     display: inline-block;
     position: relative;
     margin: 10px;
-    bottom: 3px;
+    bottom: 0;
     &.infographic{
       margin: 10px 0;
     }
   }
-  // .value--icon--wrapper.on-value{
-  //   display: inline-block;
-  //   position: relative;
-  //   margin: 10px;
-  //   bottom: 3px;
-  //   &.infographic{
-  //     margin: 10px 0 !important;
-  //   }
-  // }
+  .value--icon--wrapper.on-value{
+    display: inline-block;
+    position: relative;
+    margin: 10px;
+    bottom: 10px;
+    &.infographic{
+      margin: 10px 0 ;
+    }
+  }
   .ui.statistics .statistic > .value,
   .ui.statistic > .value {
     text-transform: none;
