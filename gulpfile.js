@@ -77,7 +77,7 @@ gulp.task('startWatcher', function(){
 });
 
 gulp.task('remove-build-zip', function(callback){
-  del.sync([buildDest + "/" + name + '.zip']);
+  del.sync([buildDest + "/" + name + '.zip'], { force: true });
   callback();
 });
 
