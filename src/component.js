@@ -62,7 +62,7 @@ define(dependencies,
 
     let initialProperties = require('./initialProperties');
     let definition = require('./definition')({ ShowService });
-    let paint = require('./paint')({ qlik, DragDropService, LoadedPromise, listeners });
+    let {paint, beforeDestroy } = require('./paint')({ qlik, DragDropService, LoadedPromise, listeners });
 
     return {
       initialProperties,
@@ -72,6 +72,10 @@ define(dependencies,
         snapshot: true,
         export: true,
         exportData: true
+      },
+      beforeDestroy: function(){
+        beforeDestroy();
+        selectionState.OnData.unbind(selectionStateChange);
       }
     };
   });
