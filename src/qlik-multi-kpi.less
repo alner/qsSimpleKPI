@@ -104,8 +104,13 @@
     margin: 0 !important;
     align-items: center;
     justify-content: center;
+    height: 100%;
   }
-
+  .ui.cards, .ui.segments{
+    &.edit-mode{
+      overflow: hidden;
+    }
+  }
   .ui.cards > .card,
   .ui.card {
     padding: 0;

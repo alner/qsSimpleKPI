@@ -310,6 +310,7 @@ class StatisticBlock extends Component {
         if(dimDivideBy === "auto")
           dimDivideBy = DIVIDE_BY[Math.min(10, kpis.qDimensionInfo[dimNo].qCardinal)];
         let isInEditMode = this.props.services.State.isInEditMode();
+        let EditModeClass = isInEditMode ? 'edit-mode' : '';
         let dimShowAsContainer = dimShowAs === 'card' ? `${dimDivideBy} stackable cards` : 'segments';
         let dimLabelsAlignment = '';
         if(dimCenteredLabels) dimLabelsAlignment = 'center aligned';
@@ -332,7 +333,7 @@ class StatisticBlock extends Component {
         }
         items = (
           <div className={`${verticalAlign}`}>
-            <div className={`ui ${dimensionsOrientation} ${dimShowAsContainer}`} style={segmentsStyle}>
+            <div className={`ui ${dimensionsOrientation} ${dimShowAsContainer} ${EditModeClass}`} style={segmentsStyle}>
               {
                 kpis.qDataPages[0].qMatrix.map(function(dim, dindex){
                   const dimensionLabel = dim[dimNo].qText;
@@ -425,6 +426,8 @@ class StatisticBlock extends Component {
     return selectionsArray;
   }
   isSelectedFunction (arrayOfValues,label) {
+    console.log(arrayOfValues);
+
     if(arrayOfValues.indexOf(label) > -1 ){
       return true;
     }else {
