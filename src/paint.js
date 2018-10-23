@@ -27,6 +27,15 @@ function doPaint(
   self
 ) {
   try {
+    const selectionState = qlik.currApp().selectionState();
+    const selections = (
+      selectionState.selections[0] && selectionState.selections[0].selectedValues
+        .map(selectedValue => selectedValue.qName)
+    ) || [];
+    const selectionMap = selections.reduce((result, currentValue) => {
+      result[currentValue] = true;
+      return result;
+    }, {});
     ReactDOM.render(
       <StatisticBlock
         kpis={layout.qHyperCube}
@@ -36,6 +45,7 @@ function doPaint(
           numberFormatter,
           DEFAULT_AUTO_FORMAT
         }}
+        selections={selectionMap}
         services={{
           Routing,
           State,
@@ -75,40 +85,52 @@ export default function setupPaint({
   let numberFormatter;
   let localeInfo;
   let element;
-  return {paint: function paint($element, layout) {
+  return {
+    paint: function paint($element, layout) {
+      element = $element[0];
+      let self = this;
 
-    element = $element[0];
-    let self = this;
+      if(!localeInfo) {
+        localeInfo = (self.backendApi && self.backendApi.localeInfo);
+        if(!localeInfo)
+          try {
+            const app = qlik.currApp();
+            if(app)
+              localeInfo = app.model.layout.qLocaleInfo;
+          } catch(err) {
+            console.log(err);
+          }
+      }
+      if (!numberFormatter) {
+        numberFormatter = getNumberFormatter(localeInfo, NumberFormatter);
+      }
 
-    if(!localeInfo) {
-      localeInfo = (self.backendApi && self.backendApi.localeInfo);
-      if(!localeInfo)
-        try {
-          const app = qlik.currApp();
-          if(app)
-            localeInfo = app.model.layout.qLocaleInfo;
-        } catch(err) {
-          console.log(err);
-        }
-    }
-    if (!numberFormatter) {
-      numberFormatter = getNumberFormatter(localeInfo, NumberFormatter);
-    }
+      const State = {
+        isInEditMode: self.inEditState && self.inEditState.bind(self),
+        isInAnalysisMode: self.inAnalysisState && self.inAnalysisState.bind(self)
+      };
 
-    const State = {
-      isInEditMode: self.inEditState && self.inEditState.bind(self),
-      isInAnalysisMode: self.inAnalysisState && self.inAnalysisState.bind(self)
-    };
+      const PromiseClass = qlik.Promise || window.Promise; // for backward compatibility
+      // It waits for all promises before "print" (after the styles has been loaded, see. component.js)
+      // LoadedPromise,
+      return PromiseClass.all([
+        LoadedPromise,
+        new PromiseClass(function(resolve, reject) {
+          listeners['paint-' + layout.qInfo.qId] = () => {
+            doPaint(
+              $element,
+              layout,
+              numberFormatter,
+              qlik,
+              Routing,
+              State,
+              DragDropService,
+              resolve,
+              self
+            );
+          };
+          unmountIfZoomed($element, layout, self);
 
-    const PromiseClass = qlik.Promise || window.Promise; // for backward compatibility
-    // It waits for all promises before "print" (after the styles has been loaded, see. component.js)
-    // LoadedPromise,
-    return PromiseClass.all([
-      LoadedPromise,
-      new PromiseClass(function(resolve, reject) {
-        listeners.paint = (selectionState) => {
-          const selections = (selectionState.selections[0] && selectionState.selections[0].selectedValues.map(selectedValue => selectedValue.qName)) || [];
-          console.log('selection changed', selections);
           doPaint(
             $element,
             layout,
@@ -118,30 +140,15 @@ export default function setupPaint({
             State,
             DragDropService,
             resolve,
-            self
+            self,
+            LoadedPromise
           );
-        };
-        unmountIfZoomed($element, layout, self);
-
-        doPaint(
-          $element,
-          layout,
-          numberFormatter,
-          qlik,
-          Routing,
-          State,
-          DragDropService,
-          resolve,
-          self,
-          LoadedPromise
-        );
-      })
-    ]);
-  },
-  beforeDestroy: function(){
-    delete listeners.paint;
-    ReactDOM.unmountComponentAtNode(element);
-  }
-};
-
+        })
+      ]);
+    },
+    beforeDestroy: function(){
+      delete listeners.paint;
+      ReactDOM.unmountComponentAtNode(element);
+    }
+  };
 }
