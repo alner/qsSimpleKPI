@@ -20,8 +20,6 @@ class StatisticBlock extends Component {
     this.componentReady = this.componentReady.bind(this);
     this.kpiItemResizeHandler = this.kpiItemResizeHandler.bind(this);
     this.onDimensionLabelClick = this.onDimensionLabelClick.bind(this);
-    this.getSelections = this.getSelections.bind(this);
-    this.isSelectedFunction = this.isSelectedFunction.bind(this);
   }
 
   componentDidMount(){
@@ -279,9 +277,8 @@ class StatisticBlock extends Component {
   }
 
   render(){
-    console.log('render <StatisticBlock />');
     const self = this;
-    const kpis = this.props.kpis;
+    const { kpis, selections } = this.props;
     let {
       qId,
       dimLabelOrientation,
@@ -319,11 +316,6 @@ class StatisticBlock extends Component {
         if(dimCenteredLabels) dimLabelsAlignment = 'center aligned';
         let segmentsStyle = {}; //{margin: 0, height: '100%'};
         let segmentStyle = {};
-        let array = this.getSelections();
-        let arrayOfValues= [];
-        if(array){
-          arrayOfValues = array;
-        }
 
         if(dimHideInternalBorders) segmentStyle.border = "0";
         if(dimHideBorders) {
@@ -349,10 +341,12 @@ class StatisticBlock extends Component {
                     size: dimLabelSize,
                     text: dimensionLabel
                   };
+                  const isSelected = !!selections[dimensionLabel];
                   return (
                     <DimensionEntry
+                      key={dimensionLabel}
                       isInEditMode={isInEditMode}
-                      isSelected={ self.isSelectedFunction(arrayOfValues ,labelOptions.text ) }
+                      isSelected={isSelected}
                       divideBy={divideBy}
                       dindex={dindex}
                       divideByNumber={divideByNumber}
@@ -420,21 +414,6 @@ class StatisticBlock extends Component {
     }
   }
 
-  getSelections(){
-    let selectionsArray = [];
-    if (this.props.services.Qlik.currApp().selectionState().selections.length > 0) {
-      selectionsArray = this.props.services.Qlik.currApp().selectionState().selections[0].selectedValues.map(a => a.qName);
-    }
-
-    return selectionsArray;
-  }
-  isSelectedFunction (arrayOfValues,label) {
-    if(arrayOfValues.indexOf(label) > -1 ){
-      return true;
-    }else {
-      return false;
-    }
-  }
   onDimensionLabelClick(dimNo, value) {
     const { services } = this.props;
     if (services && services.QlikComponent) {
