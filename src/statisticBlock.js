@@ -426,8 +426,6 @@ class StatisticBlock extends Component {
     return selectionsArray;
   }
   isSelectedFunction (arrayOfValues,label) {
-    console.log(arrayOfValues);
-
     if(arrayOfValues.indexOf(label) > -1 ){
       return true;
     }else {
