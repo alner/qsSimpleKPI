@@ -62,7 +62,7 @@ define(dependencies,
 
     let initialProperties = require('./initialProperties');
     let definition = require('./definition')({ ShowService });
-    let {paint, beforeDestroy } = require('./paint')({ qlik, DragDropService, LoadedPromise, listeners });
+    let { paint, beforeDestroy } = require('./paint')({ qlik, DragDropService, LoadedPromise, listeners });
 
     return {
       initialProperties,

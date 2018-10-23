@@ -34,10 +34,10 @@ class StatisticBlock extends Component {
 
     this.handleIdCheckResize = setTimeout(function(){self.checkRequiredSize();}, checkRequiredSizeDelay);
     // initial resize should not be visible
-    this.hanldeIdComponentReady = setTimeout(function(){ self.componentReady(); }, readyDelay);
+    this.handleIdComponentReady = setTimeout(function(){ self.componentReady(); }, readyDelay);
   }
   componentWillUnmount(){
-    clearTimeout(this.hanldeIdComponentReady);
+    clearTimeout(this.handleIdComponentReady);
     clearTimeout(this.handleIdCheckResize);
   }
 
