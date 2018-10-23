@@ -19,8 +19,7 @@ class DimensionEntry extends Component {
   handleClick () {
     const {
       dimNo,
-      dimensionIndex,
-      isInEditMode
+      dimensionIndex
     } = this.props;
     this.props.onToggle(dimNo, dimensionIndex);
   }
@@ -30,19 +29,23 @@ class DimensionEntry extends Component {
       showAs,
       style,
       label,
-      divideBy,
-      dindex,
-      divideByNumber
+      divideBy
     } = this.props;
     const { isSelected } = this.props;
-
     const isSelectedClass = isSelected ? ' is-selected' : '';
-
-
 
     return (
       <div className={`ui ${showAs}${isSelectedClass}`} style={style}>
-        {label.isHidden ? null : <a className={`ui ${label.size} ${label.orientation} ${label.alignment} label`} onClick={this.handleClick} style={{ cursor: this.hidePointerCursor() }}>{label.text} </a>}
+        {label.isHidden
+          ? null
+          : (
+            <a
+              className={`ui ${label.size} ${label.orientation} ${label.alignment} label`}
+              onClick={this.handleClick}
+              style={{ cursor: this.hidePointerCursor() }}
+            >{label.text}</a>
+          )
+        }
         <div className={`ui ${divideBy} ${label.alignment} statistics`}>
           {children}
         </div>
@@ -58,6 +61,8 @@ DimensionEntry.propTypes = {
   dindex: PropTypes.any,
   divideBy: PropTypes.any,
   divideByNumber: PropTypes.any,
+  isInEditMode: PropTypes.bool,
+  isSelected: PropTypes.bool,
   label: PropTypes.shape({
     isHidden: PropTypes.bool,
     orientation: PropTypes.string,
@@ -65,6 +70,7 @@ DimensionEntry.propTypes = {
     size: PropTypes.string,
     text: PropTypes.string
   }).isRequired,
+  onToggle: PropTypes.func,
   showAs: PropTypes.string.isRequired,
   style: PropTypes.object
 };
