@@ -346,6 +346,7 @@ class StatisticBlock extends Component {
                   return (
                     <DimensionEntry
                       key={dimensionLabel}
+                      dimension={dim}
                       isInEditMode={isInEditMode}
                       isSelected={isSelected}
                       divideBy={divideBy}

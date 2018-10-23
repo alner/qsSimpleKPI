@@ -21,6 +21,10 @@ class DimensionEntry extends Component {
       dimNo,
       dimensionIndex
     } = this.props;
+
+    if(this.props.dimension[0].qIsNull){
+      return;
+    }
     this.props.onToggle(dimNo, dimensionIndex);
   }
   render () {
