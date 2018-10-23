@@ -1,32 +1,23 @@
 # Simple KPI
+[![CircleCI](https://circleci.com/gh/qlik-oss/qsSimpleKPI/tree/master.svg?style=shield)](https://circleci.com/gh/qlik-oss/qsSimpleKPI/tree/master)
 
-![Simple KPI](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/SimpleKPI.png)
 
 Simple KPI component for Qlik Sense.
 It can show one or several KPI using measures and one dimension (selectable, optional, it can show up to 125 measures and if it is used no more then 80 dimensions lines).
 Supports adaptive design, conditional css colors, conditional icons, infographic (with constraints, no more than 1000 icons per measure), configurable number of kpis per line, several predefined sizes, custom styles (CSS).
 Each measure can have a link to another sheet.
+![Simple KPI](https://raw.githubusercontent.com/alner/qsStatisticBlock/screenshots/screenshots/SimpleKPI.png)
 
-[![CircleCI](https://circleci.com/gh/qlik-oss/qsSimpleKPI/tree/master.svg?style=svg)](https://circleci.com/gh/qlik-oss/qsSimpleKPI/tree/master)
+---
 
-## Introduction Video
+- [Getting started](#getting-started)
+- [Developing the extension](#developing-the-extension)
+- [Limitations](#limitations)
+- [Original author](#original-author)
 
-[![Using the simple KPI](https://i.ytimg.com/vi/vubli1Icp68/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLBQnCS4wNgkNtB7TLFDbOVqGW5GXg)](https://youtu.be/vubli1Icp68)
+---
 
-## Developing the extension
-
-If you want to do code changes to the extension follow these simple steps to get going.
-
-1. Get Qlik Sense Desktop
-1. Create a new app and add qsSimpleKPI to a sheet.
-2. Clone the repository
-3. Run `npm install`
-4. Change the `buildFolder`in `server.config.json` to be your local extensions folder. It will be something like `C:/Users/nerush/Documents/Qlik/Sense/Extensions/qlik-multi-kpi`.
-5. You now have two options. Either run the watch task or the build task. They are explained below. Both of them default to development mode but can be run in production by setting `NODE_ENV=production` before running the npm task.
-
-   a. **Watch**: `npm run watch`. This will start a watcher which will rebuild the extension and output all needed files to the `buildFolder` for each code change you make. See your changes directly in your Qlik Sense app.
-
-   b. **Build**: `npm run build`. If you want to build the extension package. The output zip-file can be found in the `buildFolder`.
+# Getting started
 
 ## Installation
 
@@ -36,6 +27,19 @@ If you want to do code changes to the extension follow these simple steps to get
    a. **Qlik Sense Desktop**: unzip to a directory under [My Documents]/Qlik/Sense/Extensions.
 
    b. **Qlik Sense Server**: import the zip file in the QMC.
+
+
+## Tutorial Video
+
+[![Simple KPI plus Line Chart Tutorial](https://i.ytimg.com/vi/gJxUUnJi5Vc/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLDho5IkTXSDn-lJjx8kekuALsn3Yw)](https://youtu.be/gJxUUnJi5Vc)
+
+## Introduction Video
+
+[![Using the simple KPI](https://i.ytimg.com/vi/vubli1Icp68/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLBQnCS4wNgkNtB7TLFDbOVqGW5GXg)](https://youtu.be/vubli1Icp68)
+
+## Demo Application
+
+Download [SimpleKPIDemo.qvf](resources/SimpleKPIDemo.qvf)
 
 ## Configuration
 
@@ -124,13 +128,26 @@ fa fa-calendar
 Measurements: 1-256
 Dimensions: 0-1
 
-## Demo Application
 
-Download [SimpleKPIDemo.qvf](resources/SimpleKPIDemo.qvf)
+# Developing the extension
 
-## Tutorial Video
+If you want to do code changes to the extension follow these simple steps to get going.
 
-[![Simple KPI plus Line Chart Tutorial](https://i.ytimg.com/vi/gJxUUnJi5Vc/hqdefault.jpg?sqp=-oaymwEWCMQBEG5IWvKriqkDCQgBFQAAiEIYAQ==&rs=AOn4CLDho5IkTXSDn-lJjx8kekuALsn3Yw)](https://youtu.be/gJxUUnJi5Vc)
+1. Get Qlik Sense Desktop
+1. Create a new app and add qsSimpleKPI to a sheet.
+2. Clone the repository
+3. Run `npm install`
+4. Change the `buildFolder`in `server.config.json` to be your local extensions folder. It will be something like `C:/Users/nerush/Documents/Qlik/Sense/Extensions/qlik-multi-kpi`.
+5. You now have two options. Either run the watch task or the build task. They are explained below. Both of them default to development mode but can be run in production by setting `NODE_ENV=production` before running the npm task.
 
-## Original Author
+   a. **Watch**: `npm run watch`. This will start a watcher which will rebuild the extension and output all needed files to the `buildFolder` for each code change you make. See your changes directly in your Qlik Sense app.
+
+   b. **Build**: `npm run build`. If you want to build the extension package. The output zip-file can be found in the `buildFolder`.
+
+
+# Limitations
+See [Limitations](docs/LIMITATIONS.md)
+
+
+# Original Author
 [alner](https://github.com/alner)
