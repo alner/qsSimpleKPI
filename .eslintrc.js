@@ -20,6 +20,11 @@ module.exports = {
     it: false,
     require: false
   },
+  settings: {
+    react: {
+      version: "0.14.0"
+    }
+  },
   rules: {
     "indent": ["warn", 2, { "SwitchCase": 1 }],
     "linebreak-style": ["warn", "unix"],
