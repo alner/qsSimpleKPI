@@ -27,15 +27,19 @@ function doPaint(
   self
 ) {
   try {
-    const selectionState = qlik.currApp().selectionState();
-    const selections = (
-      selectionState.selections[0] && selectionState.selections[0].selectedValues
-        .map(selectedValue => selectedValue.qName)
-    ) || [];
-    const selectionMap = selections.reduce((result, currentValue) => {
-      result[currentValue] = true;
-      return result;
-    }, {});
+    const currentApp = qlik.currApp();
+    let selectionMap = {};
+    if (currentApp) {
+      const selectionState = currentApp.selectionState();
+      const selections = (
+        selectionState.selections[0] && selectionState.selections[0].selectedValues
+          .map(selectedValue => selectedValue.qName)
+      ) || [];
+      selectionMap = selections.reduce((result, currentValue) => {
+        result[currentValue] = true;
+        return result;
+      }, {});
+    }
     ReactDOM.render(
       <StatisticBlock
         kpis={layout.qHyperCube}

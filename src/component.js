@@ -47,18 +47,22 @@ define(dependencies,
     if(React && !global.React)
       global.React = React;
 
+
     const app = qlik.currApp();
-    const selectionState = app.selectionState();
     const listeners = {};
 
-    function selectionStateChange() {
-      try {
-        Object.values(listeners).forEach(listener => listener(selectionState));
-      } catch (error) {
-        console.log(error);
-      }
+    if (app) {
+      const selectionState = app.selectionState();
+      const selectionStateChange = () => {
+        try {
+          Object.values(listeners).forEach(listener => listener(selectionState));
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      selectionState.OnData.bind(selectionStateChange);
     }
-    selectionState.OnData.bind(selectionStateChange);
 
     let initialProperties = require('./initialProperties');
     let definition = require('./definition')({ ShowService });
