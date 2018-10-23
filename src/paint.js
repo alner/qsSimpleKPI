@@ -74,9 +74,10 @@ export default function setupPaint({
 }) {
   let numberFormatter;
   let localeInfo;
+  let element;
+  return {paint: function paint($element, layout) {
 
-  return function paint($element, layout) {
-    console.log('paint triggered');
+    element = $element[0];
     let self = this;
 
     if(!localeInfo) {
@@ -136,5 +137,11 @@ export default function setupPaint({
         );
       })
     ]);
-  };
+  },
+  beforeDestroy: function(){
+    delete listeners.paint;
+    ReactDOM.unmountComponentAtNode(element);
+  }
+};
+
 }

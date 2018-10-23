@@ -32,9 +32,13 @@ class StatisticBlock extends Component {
     const checkRequiredSizeDelay = isPrinting ? 1 : 50; //1
     const readyDelay = isPrinting ? 10 : 10000; // 10
 
-    setTimeout(function(){self.checkRequiredSize();}, checkRequiredSizeDelay);
+    this.handleIdCheckResize = setTimeout(function(){self.checkRequiredSize();}, checkRequiredSizeDelay);
     // initial resize should not be visible
-    setTimeout(function(){ self.componentReady(); }, readyDelay);
+    this.handleIdComponentReady = setTimeout(function(){ self.componentReady(); }, readyDelay);
+  }
+  componentWillUnmount(){
+    clearTimeout(this.handleIdComponentReady);
+    clearTimeout(this.handleIdCheckResize);
   }
 
   componentDidUpdate() {
