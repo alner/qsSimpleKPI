@@ -25,6 +25,7 @@
     "react-inline-css": "2.1.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "7.1.0",
     "autoprefixer": "6.3.7",
     "autoprefixer-loader": "3.2.0",
     "babel": "5.8.38",
