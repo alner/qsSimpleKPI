@@ -392,7 +392,7 @@ class StatisticBlock extends Component {
 
     return (
       <InlineCSS namespace={`css-${qId}`} stylesheet={styles} style={{ height: "100%" }}>
-        <div className="qv-object-qsstatistic" style={objectStyle}>
+        <div className={`qv-object-qsstatistic ${this.props.services.State.isInEditMode() ? 'edit-mode' : ''}`} style={objectStyle}>
           {items}
         </div>
       </InlineCSS>
