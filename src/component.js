@@ -47,26 +47,9 @@ define(dependencies,
     if(React && !global.React)
       global.React = React;
 
-
-    const app = qlik.currApp();
-    const listeners = {};
-
-    if (app) {
-      const selectionState = app.selectionState();
-      const selectionStateChange = () => {
-        try {
-          Object.values(listeners).forEach(listener => listener(selectionState));
-        } catch (error) {
-          console.log(error);
-        }
-      };
-
-      selectionState.OnData.bind(selectionStateChange);
-    }
-
     let initialProperties = require('./initialProperties');
     let definition = require('./definition')({ ShowService });
-    let { paint, beforeDestroy } = require('./paint')({ qlik, DragDropService, LoadedPromise, listeners });
+    let { paint, beforeDestroy } = require('./paint')({ qlik, DragDropService, LoadedPromise });
 
     return {
       initialProperties,
@@ -89,7 +72,6 @@ define(dependencies,
       },
       beforeDestroy: function(){
         beforeDestroy();
-        selectionState.OnData.unbind(selectionStateChange);
       }
     };
   });
