@@ -13,6 +13,9 @@
 .qv-object-qsstatistic {
   width: 100%;
   height: 100%;
+  &.edit-mode{
+    overflow-y: hidden
+  }
 }
 .qv-object-qsstatistic {
   @import "../semantic/src/definitions/views/card.less";
@@ -104,8 +107,13 @@
     margin: 0 !important;
     align-items: center;
     justify-content: center;
+    height: 100%;
   }
-
+  .ui.cards, .ui.segments{
+    &.edit-mode{
+      overflow: hidden;
+    }
+  }
   .ui.cards > .card,
   .ui.card {
     padding: 0;
