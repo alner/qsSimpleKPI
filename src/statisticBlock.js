@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import InlineCSS from 'react-inline-css';
 import { DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex } from './options';
-import DimensionEntry from './dimensionEntry';
+import DimensionEntry from './dimensionEntry.container';
 import StatisticItem from './statisticItem';
 import ATTRIBUTES from './definitionAttributes';
 
@@ -341,12 +341,10 @@ class StatisticBlock extends Component {
                     size: dimLabelSize,
                     text: dimensionLabel
                   };
-                  const isSelected = !!selections[dimensionLabel];
                   return (
                     <DimensionEntry
                       key={dimensionLabel}
                       isInEditMode={isInEditMode}
-                      isSelected={isSelected}
                       divideBy={divideBy}
                       dindex={dindex}
                       divideByNumber={divideByNumber}
