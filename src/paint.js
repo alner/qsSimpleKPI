@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import StatisticBlock from './statisticBlock';
 import NumberFormatter from './numberFormatter';
+import { Provider } from 'react-redux';
+import { deselectAllEntries } from './selections.actions';
+import getStore from './createStore';
 
 const DEFAULT_AUTO_FORMAT = "0A";
 
@@ -12,58 +15,6 @@ function getNumberFormatter(localeInfo, NumberFormatter) {
     return new NumberFormatter(localeInfo, DEFAULT_AUTO_FORMAT, thousandSep, decimalSeparator, 'U');
   } else {
     return undefined;
-  }
-}
-
-function doPaint(
-  $element,
-  layout,
-  numberFormatter,
-  qlik,
-  Routing,
-  State,
-  DragDropService,
-  resolve,
-  self
-) {
-  try {
-    const currentApp = qlik.currApp();
-    let selectionMap = {};
-    if (currentApp) {
-      const selectionState = currentApp.selectionState();
-      const selections = (
-        selectionState.selections[0] && selectionState.selections[0].selectedValues
-          .map(selectedValue => selectedValue.qName)
-      ) || [];
-      selectionMap = selections.reduce((result, currentValue) => {
-        result[currentValue] = true;
-        return result;
-      }, {});
-    }
-    ReactDOM.render(
-      <StatisticBlock
-        kpis={layout.qHyperCube}
-        options={{
-          ...layout.qInfo,
-          ...layout.options,
-          numberFormatter,
-          DEFAULT_AUTO_FORMAT
-        }}
-        selections={selectionMap}
-        services={{
-          Routing,
-          State,
-          Qlik: qlik,
-          DragDropService,
-          QlikComponent: self,
-          PrintResolver: resolve
-        }}
-        element={$element[0]}
-      />,
-      $element[0]
-    );
-  } catch (error) {
-    console.log(error);
   }
 }
 
@@ -83,8 +34,7 @@ export default function setupPaint({
   qlik,
   Routing,
   DragDropService,
-  LoadedPromise,
-  listeners
+  LoadedPromise
 }) {
   let numberFormatter;
   let localeInfo;
@@ -119,39 +69,43 @@ export default function setupPaint({
       // LoadedPromise,
       return PromiseClass.all([
         LoadedPromise,
-        new PromiseClass(function(resolve, reject) {
-          listeners['paint-' + layout.qInfo.qId] = () => {
-            doPaint(
-              $element,
-              layout,
-              numberFormatter,
-              qlik,
-              Routing,
-              State,
-              DragDropService,
-              resolve,
-              self
-            );
-          };
+        new PromiseClass(function(resolve) {
           unmountIfZoomed($element, layout, self);
 
-          doPaint(
-            $element,
-            layout,
-            numberFormatter,
-            qlik,
-            Routing,
-            State,
-            DragDropService,
-            resolve,
-            self,
-            LoadedPromise
-          );
+          try {
+            const qId = layout.qInfo.qId;
+            const store = getStore(qId);
+            store.dispatch(deselectAllEntries());
+            ReactDOM.render(
+              <Provider store={store}>
+                <StatisticBlock
+                  kpis={layout.qHyperCube}
+                  options={{
+                    ...layout.qInfo,
+                    ...layout.options,
+                    numberFormatter,
+                    DEFAULT_AUTO_FORMAT
+                  }}
+                  services={{
+                    Routing,
+                    State,
+                    Qlik: qlik,
+                    DragDropService,
+                    QlikComponent: self,
+                    PrintResolver: resolve
+                  }}
+                  element={$element[0]}
+                />
+              </Provider>,
+              $element[0]
+            );
+          } catch (error) {
+            console.log(error);
+          }
         })
       ]);
     },
     beforeDestroy: function(){
-      delete listeners.paint;
       ReactDOM.unmountComponentAtNode(element);
     }
   };

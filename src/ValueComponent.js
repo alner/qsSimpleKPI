@@ -74,7 +74,6 @@ let DragDropSpec = {
             $(placeElement).css('margin-top', `${QLIK_COMP_TOOLBAR_HEIGHT}px`);
           } else {
             $(placeElement).css('margin-top', '0px');
-            qlik.resize(itemid);
           }
         };
         object.Validated.bind(this.onObjectInvalidated);

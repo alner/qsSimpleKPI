@@ -19,13 +19,17 @@ class DimensionEntry extends Component {
   handleClick () {
     const {
       dimNo,
-      dimensionIndex
+      dimensionIndex,
+      isSelected,
+      onDeselect,
+      onSelect
     } = this.props;
 
     if(this.props.dimension[0].qIsNull){
       return;
     }
     this.props.onToggle(dimNo, dimensionIndex);
+    isSelected ? onDeselect() : onSelect();
   }
   render () {
     const {
@@ -74,7 +78,9 @@ DimensionEntry.propTypes = {
     size: PropTypes.string,
     text: PropTypes.string
   }).isRequired,
-  onToggle: PropTypes.func,
+  onDeselect: PropTypes.func.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  onToggle: PropTypes.func.isRequired,
   showAs: PropTypes.string.isRequired,
   style: PropTypes.object
 };
