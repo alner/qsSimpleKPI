@@ -144,6 +144,8 @@ If you want to do code changes to the extension follow these simple steps to get
 
    b. **Build**: `npm run build`. If you want to build the extension package. The output zip-file can be found in the `buildFolder`.
 
+PS: Multi-Kpi targets Chrome version 47 using babel/preset-env for compatibility with Qlik Sense desktop application.
+    Note that the .browserslistrc file must be changed if the Chrome version of Qlik Sense desktop is upgraded.
 
 # Limitations
 See [Limitations](docs/LIMITATIONS.md)
