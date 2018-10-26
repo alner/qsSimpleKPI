@@ -11,6 +11,7 @@ Enzyme.configure({ adapter: new Adapter() });
 describe('<DimensionEntry />', () => {
   const defaultProps = {
     children: null,
+    dimension: [{}],
     dimensionIndex: 0,
     dimNo: 0,
     dindex: 0,

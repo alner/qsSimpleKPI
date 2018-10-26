@@ -64,6 +64,7 @@ class DimensionEntry extends Component {
 
 DimensionEntry.propTypes = {
   children: PropTypes.node.isRequired,
+  dimension: PropTypes.array.isRequired,
   dimensionIndex: PropTypes.number,
   dimNo: PropTypes.number,
   dindex: PropTypes.any,
