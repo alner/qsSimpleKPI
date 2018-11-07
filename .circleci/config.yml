@@ -54,8 +54,8 @@ jobs:
           paths:
             - build
       - store_artifacts:
-          path: build/qlik-multi-kpi.zip
-          destination: qlik-multi-kpi.zip
+          path: build
+          destination: build
   deploy:
     <<: *defaults
     steps:
@@ -70,6 +70,8 @@ jobs:
           command: |
             export VERSION=$(scripts/get-bumped-version.sh)
             echo "Version: ${VERSION}"
+            ls
+            ls build
             scripts/create-release.sh $GITHUB_ORG $GITHUB_REPO $PACKAGE_NAME $VERSION
 
 workflows:

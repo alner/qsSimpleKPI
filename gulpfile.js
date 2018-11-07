@@ -13,9 +13,7 @@ var startDevServer = require('./server').start;
 var build = require('./server').build;
 var jeditor = require("gulp-json-editor");
 
-
 var buildDest = settings.buildDestination;
-var srcFiles = path.resolve('./src/**/*.*');
 var name = settings.name;
 var version = settings.version;
 
