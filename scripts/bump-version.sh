@@ -7,6 +7,7 @@ join_by () {
 
 # get version from repo
 OLD_VERSION="$(scripts/get-latest-version.sh $1 $2)"
+echo "Old version: ${OLD_VERSION}"
 
 # split into array
 IFS='.' read -ra ARRAY_VERSION <<< "$OLD_VERSION"
@@ -16,7 +17,9 @@ ARRAY_VERSION[1]=$((ARRAY_VERSION[1]+1))
 
 # join into string
 NEW_VERSION=$(join_by . ${ARRAY_VERSION[@]})
-echo "$NEW_VERSION"
+echo "NEW version: ${NEW_VERSION}"
+
+echo "${NEW_VERSION}" > BUMPED_VERSION
 
 
 # Usage

@@ -8,15 +8,22 @@ var runSequence = require('run-sequence');
 var LessPluginAutoPrefix = require('less-plugin-autoprefix');
 var autoprefix= new LessPluginAutoPrefix({ browsers: ["last 2 versions"] });
 var path = require('path');
+var settings = require('./settings');
 var startDevServer = require('./server').start;
 var build = require('./server').build;
-var buildDest = require('./server').buildPathDestination;
+var jeditor = require("gulp-json-editor");
 
-var name = require('./package.json').name;
+
+var buildDest = settings.buildDestination;
+var srcFiles = path.resolve('./src/**/*.*');
+var name = settings.name;
+var version = settings.version;
 
 var qextFile = path.resolve('./src/' + name + '.qext');
 var lessFiles = path.resolve('./src/**/*.less');
 var cssFiles = path.resolve('./src/**/*.css');
+
+
 
 var ccsnanoConfig = {
   discardComments: {
@@ -76,16 +83,23 @@ gulp.task('startWatcher', function(){
   gulp.watch(cssFiles, ['css']);
 });
 
-gulp.task('remove-build-zip', function(callback){
-  del.sync([buildDest + "/" + name + '.zip'], { force: true });
-  callback();
+gulp.task('remove-build-folder', function(){
+  return del([buildDest], { force: true });
 });
 
 gulp.task('zip-build', function(){
   return gulp.src(buildDest + '/**/*')
-    .pipe(zip(name + '.zip'))
+    .pipe(zip(name + '_' + version + '.zip'))
     .pipe(gulp.dest(buildDest));
 });
+
+gulp.task('update-qext-version', function () {
+  return gulp.src("./build/" + name + ".qext")
+    .pipe(jeditor({
+      'version': version
+    }))
+  .pipe(gulp.dest("./build"));
+})
 
 gulp.task('add-assets', function(){
   return gulp.src("./assets/**/*").pipe(gulp.dest(buildDest));
@@ -101,10 +115,11 @@ gulp.task('watch', function(callback) {
 });
 gulp.task('build', function(callback) {
   runSequence(
-    'remove-build-zip',
+    'remove-build-folder',
     'prepare',
     'purifycss',
     'webpack',
+    'update-qext-version',
     'zip-build'
   );
 });

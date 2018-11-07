@@ -22,6 +22,18 @@ jobs:
           name: Run tests
           command: npm run test-once
 
+  bump-version:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Bump version
+          command: scripts/bump-version.sh $GITHUB_ORG $GITHUB_REPO
+      - persist_to_workspace:
+          root: ~/qlik-multi-kpi
+          paths:
+            - BUMPED_VERSION
+
   build:
     <<: *defaults
     steps:
@@ -31,7 +43,10 @@ jobs:
           command: npm install
       - run:
           name: Build and package
-          command: npm run build
+          command: |
+            export VERSION=$(scripts/get-bumped-version.sh)
+            echo "Version: ${VERSION}"
+            npm run build
           environment:
             NODE_ENV: production
       - persist_to_workspace:
@@ -52,16 +67,22 @@ jobs:
           command: scripts/install-ghr.sh
       - run:
           name: Create GitHub Release
-          command: scripts/create-release.sh $GITHUB_ORG $GITHUB_REPO $PACKAGE_NAME
+          command: |
+            export VERSION=$(scripts/get-bumped-version.sh)
+            echo "Version: ${VERSION}"
+            scripts/create-release.sh $GITHUB_ORG $GITHUB_REPO $PACKAGE_NAME $VERSION
 
 workflows:
   version: 2
   master_flow:
     jobs:
       - test
-      - build:
+      - bump-version:
           requires:
             - test
+      - build:
+          requires:
+            - bump-version
       - deploy:
           requires:
             - build
@@ -69,3 +90,4 @@ workflows:
             branches:
               only:
                 - master
+                - feature/QPE-232
