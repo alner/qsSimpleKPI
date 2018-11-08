@@ -19,7 +19,6 @@
   "license": "MIT",
   "repository": "https://github.com/alner/qsSimpleKPI",
   "dependencies": {
-    "natives": "1.1.6",
     "promise-polyfill": "6.0.1",
     "react": "0.14.0",
     "react-dom": "0.14.0",
@@ -84,6 +83,7 @@
     "less-plugin-clean-css": "1.5.1",
     "lodash.merge": "4.6.1",
     "map-stream": "0.0.6",
+    "natives": "1.1.6",
     "node-libs-browser": "0.5.2",
     "postcss-loader": "0.9.1",
     "react-addons-test-utils": "0.14.0",
