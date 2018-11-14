@@ -22,9 +22,12 @@ class DimensionEntry extends Component {
       dimensionIndex,
       isSelected,
       onDeselect,
-      onSelect
+      onSelect,
+      isInEditMode
     } = this.props;
-
+    if(isInEditMode){
+      return;
+    }
     if(this.props.dimension[0].qIsNull){
       return;
     }
