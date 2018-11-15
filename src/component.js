@@ -1,6 +1,8 @@
 import loadCSS from './loadcss';
 import Promise from "promise-polyfill";
 import React from 'react';
+import getStore from './createStore';
+import { deselectAllEntries } from './selections.actions';
 
 const global = window;
 const defined = global.requirejs && global.requirejs.defined;
@@ -73,9 +75,10 @@ define(dependencies,
       beforeDestroy: function(){
         beforeDestroy();
       },
-      clearSelectedValues(a){
-        a.find(".is-selected")[0].classList.remove("is-selected"); //to make it "look" faster
-        this.$scope.selectionsApi.cancel();
+      clearSelectedValues(){
+        const id = this.options.id;
+        const store = getStore(id);
+        store.dispatch(deselectAllEntries());
       }
     };
   });
