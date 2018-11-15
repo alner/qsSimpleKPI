@@ -72,6 +72,10 @@ define(dependencies,
       },
       beforeDestroy: function(){
         beforeDestroy();
+      },
+      clearSelectedValues(a){
+        a.find(".is-selected")[0].classList.remove("is-selected"); //to make it "look" faster
+        this.$scope.selectionsApi.cancel();
       }
     };
   });
