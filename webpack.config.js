@@ -1,10 +1,10 @@
 var webpack = require('webpack');
 var path = require('path');
-var serverConfig = require('./server.config.json');
+var settings = require('./settings');
 
 var name = require('./package.json').name;
 var outputFilename = name + '.js';
-var devServerPort = serverConfig.serverPort || 8080;
+var devServerPort = settings.port || 8080;
 
 // default configuration
 var config = {
@@ -17,7 +17,7 @@ var config = {
     modulesDirectories: ['node_modules', 'bower_components'],
   },
   output: {
-    path: path.resolve(__dirname, serverConfig.buildFolder),
+    path: path.resolve(__dirname, settings.buildDestination),
     filename: outputFilename // output file
   },
   plugins: [],
@@ -37,7 +37,7 @@ if(process.env.NODE_ENV !== 'production') {
   console.log('DEVELOPMENT configuration');
   config.devtool = 'source-map';
   config.debug = true;
-  config.output.path = path.resolve(serverConfig.buildFolder);
+  config.output.path = path.resolve(settings.buildDestination);
   config.entry.js.unshift("webpack-dev-server/client?http://localhost:" + devServerPort);
   config.plugins.push(new webpack.NoErrorsPlugin());
 } else {
