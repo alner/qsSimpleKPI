@@ -57,7 +57,7 @@ class DimensionEntry extends Component {
             >{label.text}</a>
           )
         }
-        <div className={`ui ${divideBy} ${label.alignment} statistics`}>
+        <div title={this.props.dimension[1].qNum} className={`ui ${divideBy} ${label.alignment} statistics`}>
           {children}
         </div>
       </div>
