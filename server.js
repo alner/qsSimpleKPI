@@ -1,15 +1,15 @@
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
-var serverConfig = require('./server.config.json');
+var serverConfig = require('./settings');
 
-var devServerPort = serverConfig.devServerPort || 8080;
+var devServerPort = serverConfig.port;
 var contentUrl = serverConfig.url;
 
 var compiler = webpack(config);
 var originalOutputFileSystem = compiler.outputFileSystem;
 
-module.exports.buildPathDestination = serverConfig.buildFolder;
+module.exports.buildPathDestination = serverConfig.buildDestination;
 
 module.exports.start = function start(callback) {
 	var devServer = new WebpackDevServer(compiler, {
