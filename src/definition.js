@@ -18,6 +18,7 @@ export default function ({ ShowService }) {
     uses: "data",
     items:{
       measures : {
+        disabledRef: "",
         items: {
           autoFormatTemplate: {
             type: "string",
@@ -332,6 +333,9 @@ export default function ({ ShowService }) {
             show: true
           }
         }
+      },
+      dimensions: {
+        disabledRef: ""
       }
     }
   };
