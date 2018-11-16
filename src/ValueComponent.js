@@ -8,7 +8,7 @@ class ValueComponent extends Component {
   render(){
     let { valueStyles } = this.props;
     return (
-      <div className="value" style={valueStyles}>
+      <div title={this.props.children[1]} className="value" style={valueStyles}>
         {this.props.children}
       </div>
     );
