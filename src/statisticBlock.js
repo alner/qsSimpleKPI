@@ -356,6 +356,7 @@ class StatisticBlock extends Component {
                       onToggle={self.onDimensionLabelClick}
                       showAs={dimShowAs}
                       style={segmentStyle}
+                      dimDivideBy={dimDivideBy}
                     >
                       {measures}
                     </DimensionEntry>
