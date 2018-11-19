@@ -102,6 +102,14 @@ export default function setupPaint({
           } catch (error) {
             console.log(error);
           }
+          finally{
+            // Sense's undo/redo function waits for this promise to resolve,
+            // if it doesn't resolve, you cannot undo.
+            // There does not seem to be a reason for the code above to be inside a promise,
+            // and it does not always resolve after repainting.
+            // Therefore, we have resorted to the cowboy hack below. Enjoy!
+            resolve();
+          }
         })
       ]);
     },
