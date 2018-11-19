@@ -4,7 +4,7 @@
   "type" : "visualization",
   "version": "X.Y.Z",
   "icon" : "kpi",
-  "preview": "preview.png",
+  "preview": "multikpi.png",
   "keywords": "qlik-sense, visualization",
   "author": "Alexander Nerush",
   "homepage": "",
