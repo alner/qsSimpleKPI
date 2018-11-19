@@ -1,11 +1,21 @@
 import React, { Component, PropTypes } from 'react';
-
+const dividedByObject = Object.freeze({
+  'one': '100%',
+  'two': '40%',
+  'three': '30%',
+  'four': '22%',
+  'five': '17%',
+  'six': '14%',
+  'seven': '12%',
+  'eight': '7%'
+});
 class DimensionEntry extends Component {
   constructor (props) {
     super(props);
 
     this.handleClick = this.handleClick.bind(this);
     this.hidePointerCursor = this.hidePointerCursor.bind(this);
+
   }
 
   hidePointerCursor () {
@@ -15,6 +25,10 @@ class DimensionEntry extends Component {
     }else{
       return "default";
     }
+  }
+
+  updateFlexBasis (key) {
+    this.props.style.flexBasis = dividedByObject[key];
   }
   handleClick () {
     const {
@@ -40,11 +54,14 @@ class DimensionEntry extends Component {
       showAs,
       style,
       label,
-      divideBy
+      divideBy,
+      divideByNumber,
+      flexBasis,
+      dimDivideBy
     } = this.props;
     const { isSelected } = this.props;
     const isSelectedClass = isSelected ? ' is-selected' : '';
-
+    this.updateFlexBasis(dimDivideBy);
     return (
       <div className={`ui ${showAs}${isSelectedClass}`} style={style}>
         {label.isHidden

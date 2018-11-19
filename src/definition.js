@@ -413,16 +413,6 @@ export default function ({ ShowService }) {
                 label: "8",
                 tooltip: "Eight"
               },
-              {
-                value: "nine",
-                label: "9",
-                tooltip: "Nine"
-              },
-              {
-                value: "ten",
-                label: "10",
-                tooltip: "Ten"
-              }
             ]
           },
           dimensionsOrientation: {
@@ -623,16 +613,6 @@ export default function ({ ShowService }) {
                 label: "8",
                 tooltip: "Eight"
               },
-              {
-                value: "nine",
-                label: "9",
-                tooltip: "Nine"
-              },
-              {
-                value: "ten",
-                label: "10",
-                tooltip: "Ten"
-              }
             ]
           }
         }
