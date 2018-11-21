@@ -38,11 +38,14 @@ export default function setupPaint({
 }) {
   let numberFormatter;
   let localeInfo;
-  let element;
+  let elements = {};
+  let self ;
+  let qId;
   return {
     paint: function paint($element, layout) {
-      element = $element[0];
-      let self = this;
+      self = this;
+      qId = layout.qInfo.qId;
+      elements[qId] = $element[0];
 
       if(!localeInfo) {
         localeInfo = (self.backendApi && self.backendApi.localeInfo);
@@ -73,6 +76,9 @@ export default function setupPaint({
           unmountIfZoomed($element, layout, self);
 
           try {
+            console.log("paint");
+
+
             const qId = layout.qInfo.qId;
             const store = getStore(qId);
             store.dispatch(deselectAllEntries());
@@ -113,8 +119,8 @@ export default function setupPaint({
         })
       ]);
     },
-    beforeDestroy: function(){
-      ReactDOM.unmountComponentAtNode(element);
+    beforeDestroy: function(id){
+      ReactDOM.unmountComponentAtNode(elements[id]);
     }
   };
 }
