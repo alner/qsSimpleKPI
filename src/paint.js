@@ -76,9 +76,6 @@ export default function setupPaint({
           unmountIfZoomed($element, layout, self);
 
           try {
-            console.log("paint");
-
-
             const qId = layout.qInfo.qId;
             const store = getStore(qId);
             store.dispatch(deselectAllEntries());
