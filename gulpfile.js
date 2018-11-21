@@ -18,9 +18,6 @@ var lessFiles = path.resolve('./src/**/*.less');
 var cssFiles = path.resolve('./src/**/*.css');
 
 var ccsnanoConfig = {
-  discardComments: {
-        removeAll: true
-    },
   discardUnused: true,
   discardEmpty: true
 };
@@ -115,4 +112,3 @@ gulp.task('build', function(callback) {
     'zip-build'
   );
 });
-
