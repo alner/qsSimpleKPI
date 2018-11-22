@@ -39,12 +39,10 @@ export default function setupPaint({
   let numberFormatter;
   let localeInfo;
   let elements = {};
-  let self ;
-  let qId;
   return {
     paint: function paint($element, layout) {
-      self = this;
-      qId = layout.qInfo.qId;
+      let self = this;
+      let qId = layout.qInfo.qId;
       elements[qId] = $element[0];
 
       if(!localeInfo) {
