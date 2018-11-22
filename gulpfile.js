@@ -58,7 +58,7 @@ gulp.task('less2css', function(){
 });
 
 gulp.task('purifycss', function(){
-  return gulp.src('./build/*.css')
+  return gulp.src(`${settings.buildDestination}/*.css`)
     .pipe(purify(['./src/**/*.js']))
     .pipe(gulp.dest(settings.buildDestination));
 });
@@ -115,4 +115,3 @@ gulp.task('build', function(callback) {
     'zip-build'
   );
 });
-
