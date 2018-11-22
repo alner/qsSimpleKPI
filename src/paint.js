@@ -38,11 +38,12 @@ export default function setupPaint({
 }) {
   let numberFormatter;
   let localeInfo;
-  let element;
+  let elements = {};
   return {
     paint: function paint($element, layout) {
-      element = $element[0];
       let self = this;
+      let qId = layout.qInfo.qId;
+      elements[qId] = $element[0];
 
       if(!localeInfo) {
         localeInfo = (self.backendApi && self.backendApi.localeInfo);
@@ -102,11 +103,19 @@ export default function setupPaint({
           } catch (error) {
             console.log(error);
           }
+          finally{
+            // Sense's undo/redo function waits for this promise to resolve,
+            // if it doesn't resolve, you cannot undo.
+            // There does not seem to be a reason for the code above to be inside a promise,
+            // and it does not always resolve after repainting.
+            // Therefore, we have resorted to the cowboy hack below. Enjoy!
+            resolve();
+          }
         })
       ]);
     },
-    beforeDestroy: function(){
-      ReactDOM.unmountComponentAtNode(element);
+    beforeDestroy: function(id){
+      ReactDOM.unmountComponentAtNode(elements[id]);
     }
   };
 }

@@ -74,7 +74,8 @@ define(dependencies,
         exportData: true
       },
       beforeDestroy: function(){
-        beforeDestroy();
+        let id = this.options.id;
+        beforeDestroy(id);
       },
       clearSelectedValues(){
         const id = this.options.id;
