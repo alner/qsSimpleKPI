@@ -4,7 +4,7 @@ const packageJSON = require('./package.json');
 const defaultBuildDestination = path.resolve("./build");
 
 module.exports = {
-  buildDestination: process.env.BUILD_PATH || defaultBuildDestination,
+  buildDestination: "C:\\Users\\Ahmed\\Documents\\Qlik\\Sense\\Extensions\\KPI",
   mode: process.env.NODE_ENV || 'development',
   name: packageJSON.name,
   version: process.env.VERSION || 'local-dev',
