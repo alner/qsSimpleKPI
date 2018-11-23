@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import { getDivideByValue } from './options';
 import ValueComponent from './ValueComponent';
 
-const THRESHOLD = 10;
+const THRESHOLD = 100;
+const ICONS_PER_ROW = 20;
 
 class Icon extends Component {
   constructor(props) {
@@ -35,6 +36,9 @@ class Icon extends Component {
               <i key={i} className={`${valueIcon} ${iconSize}`}></i>
             </div>
           );
+          if (i % ICONS_PER_ROW === 0) {
+            icons.push(<br />);
+          }
         }
       }
 
