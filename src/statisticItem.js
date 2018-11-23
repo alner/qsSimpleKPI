@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { getDivideByValue } from './options';
 import ValueComponent from './ValueComponent';
 
+const THRESHOLD = 10;
+
 class Icon extends Component {
   constructor(props) {
     super(props);
@@ -26,8 +28,7 @@ class Icon extends Component {
     if(infographic && valueIcon) {
       let icons = [];
       if(!isNaN(value) && isFinite(value)) {
-        const threshold = 10;
-        value = Math.min(threshold, value);
+        value = Math.min(THRESHOLD, value);
         for (let i = 1; i <= value; ++i) {
           icons.push(
             <div key={i} className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}>
@@ -153,12 +154,14 @@ export default class StatisticItem extends Component {
       kpisRows,
       isShow
     };
-    const icon = <Icon isOnValue={true} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} />
+    const icon = (
+      <Icon isOnValue={true} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} />
+    );
     let valueComponent = hideValue ? null : (
       <ValueComponent {...valueComponentProps}>
         {iconOrderFirst && this.props.item.iconPosition === 'value' ? icon : null}
         <span style={valueStyles}>{value}</span>
-        {!iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon isOnValue={true} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
+        {!iconOrderFirst && this.props.item.iconPosition === 'value' ? icon : null}
       </ValueComponent>
     );
 
