@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { getDivideByValue } from './options';
 import ValueComponent from './ValueComponent';
 
-const THRESHOLD = 10;
+const THRESHOLD = 100;
 
 class Icon extends Component {
   constructor(props) {
