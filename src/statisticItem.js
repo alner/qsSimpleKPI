@@ -29,12 +29,16 @@ class Icon extends Component {
       let icons = [];
       if(!isNaN(value) && isFinite(value)) {
         value = Math.min(THRESHOLD, value);
+        const iconsPerRow = 20;
         for (let i = 1; i <= value; ++i) {
           icons.push(
             <div key={i} className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}>
               <i key={i} className={`${valueIcon} ${iconSize}`}></i>
             </div>
           );
+          if (i % iconsPerRow === 0) {
+            icons.push(<br />);
+          }
         }
       }
 
