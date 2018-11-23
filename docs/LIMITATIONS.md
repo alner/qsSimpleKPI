@@ -1,6 +1,6 @@
 # Limitations
 ## Infographic mode
-Infographic mode will max out at 10 icons, an expression will need to be set accordingly for infographic visualization to be useful.
+Infographic mode will max out at 100 icons, an expression will need to be set accordingly for infographic visualization to be useful.
 
 ## Theme colors
 There is a known limitation with automatic color changes when changing app theme.
