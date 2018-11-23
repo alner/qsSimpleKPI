@@ -7,6 +7,14 @@ class Icon extends Component {
   constructor(props) {
     super(props);
   }
+  shouldComponentUpdate (nextProps) {
+    const hasValueChanged = this.props.value !== nextProps.value;
+    const hasIconChanged = this.props.valueIcon !== nextProps.valueIcon;
+    const hasIconSizeChanged = this.props.iconSize !== nextProps.iconSize;
+    const hasInfographicChanged = this.props.infographic !== nextProps.infographic;
+    const hasIsOnValueChanged = this.props.isOnValue !== nextProps.isOnValue;
+    return hasValueChanged || hasIconChanged || hasIconSizeChanged || hasInfographicChanged || hasIsOnValueChanged;
+  }
   render() {
     let {
       value,
@@ -15,18 +23,24 @@ class Icon extends Component {
       infographic,
       isOnValue
     } = this.props;
-    if(infographic) {
+    if(infographic && valueIcon) {
       let icons = [];
       if(!isNaN(value) && isFinite(value)) {
-        value = Math.min(1000, value);
-        for (let i = 0; i < value; ++i)
-          icons.push(<div className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}> <i key={i} className={`${valueIcon} ${iconSize}`}></i> </div>);
+        const threshold = 10;
+        value = Math.min(threshold, value);
+        for (let i = 1; i <= value; ++i) {
+          icons.push(
+            <div key={i} className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}>
+              <i key={i} className={`${valueIcon} ${iconSize}`}></i>
+            </div>
+          );
+        }
       }
 
       return (
-        <span>
+        <div className="infographic-icon-set-wrapper">
           {icons}
-        </span>
+        </div>
       );
     }
     else
@@ -49,8 +63,7 @@ export default class StatisticItem extends Component {
   }
 
   checkRequiredSize(){
-    //let embeddedItem = this.props.item.embeddedItem;
-    if(!this.props.onNeedResize) // || (embeddedItem && embeddedItem.trim().length > 0)
+    if(!this.props.onNeedResize)
       return;
 
     const { hideValue } = this.props.item;
@@ -61,7 +74,6 @@ export default class StatisticItem extends Component {
     if(valueElement && valueElement.firstChild) {
       let valueChild = valueElement.firstChild;
       let childWidth = $(valueChild).width();
-      //let childHeight = $(valueChild).height();
       if(childWidth > valueElement.clientWidth) {
         this.props.onNeedResize(true);
       } else
@@ -70,7 +82,6 @@ export default class StatisticItem extends Component {
   }
 
   render(){
-    //let size = this.props.item.size || "";
     const index = this.props.index;
     const services = this.props.services;
     const {
@@ -99,8 +110,6 @@ export default class StatisticItem extends Component {
 
     let labelStyles = { padding: "0px 5px", textAlign: textAlignment };
     let valueStyles = { padding: "0px 5px", textAlign: textAlignment };
-    // if(embeddedItem && hideLabel)
-    //  valueStyles.marginTop = `${QLIK_COMP_TOOLBAR_HEIGHT}px`;
 
     if(labelColor)
       labelStyles.color = labelColor.color;
@@ -140,15 +149,15 @@ export default class StatisticItem extends Component {
       measureIndex,
       embeddedItem,
       mainContainerElement,
-      valueStyles,
       services,
       kpisRows,
       isShow
     };
+    const icon = <Icon isOnValue={true} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} />
     let valueComponent = hideValue ? null : (
       <ValueComponent {...valueComponentProps}>
-        {iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon isOnValue={true} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
-        {value /*!infographic ? value : null*/}
+        {iconOrderFirst && this.props.item.iconPosition === 'value' ? icon : null}
+        <span style={valueStyles}>{value}</span>
         {!iconOrderFirst && this.props.item.iconPosition === 'value' ? <Icon isOnValue={true} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
       </ValueComponent>
     );
