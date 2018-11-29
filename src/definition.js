@@ -544,7 +544,8 @@ export default function ({ ShowService }) {
             component: "switch",
             label: "Responsive size",
             ref: "options.autoSize",
-            defaultValue: true,
+            defaultValue: false,
+            show: false,
             options: [
               {
                 value: true,
