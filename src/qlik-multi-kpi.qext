@@ -1,6 +1,6 @@
 {
   "name": "Multi KPI",
-  "description": "A KPI that can show multiple values based on a dimension and a measure.",
+  "description": "A tiled chart that shows one KPI per dimension value and measure.",
   "type" : "visualization",
   "version": "X.Y.Z",
   "icon" : "kpi",
