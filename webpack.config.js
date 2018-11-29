@@ -30,6 +30,14 @@ var config = {
         loaders: ['babel']
       },
     ]
+  },
+  externals: {
+    jquery: {
+      amd: 'jquery',
+      commonjs: 'jquery',
+      commonjs2: 'jquery',
+      root: '_'
+    }
   }
 };
 
