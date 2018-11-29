@@ -31,6 +31,14 @@ var config = {
       },
     ]
   },
+  externals: {
+    jquery: {
+      amd: 'jquery',
+      commonjs: 'jquery',
+      commonjs2: 'jquery',
+      root: '_'
+    }
+  }
 };
 
 if(process.env.NODE_ENV !== 'production') {

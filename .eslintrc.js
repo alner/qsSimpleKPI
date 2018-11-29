@@ -48,7 +48,8 @@ module.exports = {
     "operator-linebreak": ["warn", "before"],
     "prefer-promise-reject-errors": ["warn"],
     "padded-blocks": ["warn", { "blocks": "never", "switches": "never", "classes": "never" }],
-    "semi": ["warn", "always"]
+    "semi": ["warn", "always"],
+    "react/prop-types": "off"
   },
   extends: [
     "eslint:recommended",
