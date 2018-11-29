@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import senseDragDropSupport from './senseDragDropSupport';
+import $ from 'jquery';
 
 const QLIK_COMP_TOOLBAR_HEIGHT = 44; // additional selections panel height
 
