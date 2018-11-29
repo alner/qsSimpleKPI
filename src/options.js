@@ -147,7 +147,7 @@ const SIZE_OPTIONS = [
     tooltip: "Small"
   },
   {
-    value: "",
+    value: "normal",
     label: "Normal",
     tooltip: "Normal"
   },
