@@ -8,7 +8,6 @@ const QLIK_COMP_TOOLBAR_HEIGHT = 44; // additional selections panel height
 class ValueComponent extends Component {
   render(){
     let { valueStyles } = this.props;
-    console.log(this.props);
 
     return (
       <div title={this.props.children[1].props.children} className="value" style={valueStyles}>
