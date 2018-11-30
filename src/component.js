@@ -69,7 +69,7 @@ define(dependencies,
       definition,
       paint,
       support: {
-        snapshot: true,
+        snapshot: false,
         export: true,
         exportData: true
       },
