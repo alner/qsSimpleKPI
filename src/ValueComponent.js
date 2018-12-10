@@ -66,8 +66,8 @@ let DragDropSpec = {
     let qlik = this.props.services.Qlik;
     //let height = $(placeElement).height();
     if(itemid && itemid.trim().length > 0) {
-      ReactDOM.unmountComponentAtNode(placeElement);
-      qlik.currApp().getObject(placeElement, itemid).then((object) => {
+      self.setState({ isObjectInjected: false, object: null, itemid: "" });
+      qlik.currApp().getObject(placeElement, itemid, { noInteraction: true }).then((object) => {
         //let newHeight = height - QLIK_COMP_TOOLBAR_HEIGHT;
         self.onObjectInvalidated = function(){
           if(object.layout.qSelectionInfo.qInSelections) {
