@@ -97,7 +97,6 @@ class StatisticBlock extends Component {
       }
     }
   }
-
   checkRequiredSize(){
     let element = this.props.element;
 
@@ -111,13 +110,34 @@ class StatisticBlock extends Component {
       let clientWidth = this.state.clientWidth;
       let clientHeight = this.state.clientHeight;
       let childHeight = 0;
+      let childWidth = 0;
+      let childrenElm = element.children[0].children[0].children[0].children[0].children;
+      let childrenCombinedWidth = 0;
+      let childrenHeight = childrenElm[0].clientHeight;
+      for (let e of childrenElm) {
+        childrenCombinedWidth = childrenCombinedWidth + e.clientWidth;
+      }
 
-      if(element.clientHeight == element.scrollHeight
-      && this.state.size == this.props.options.size
-      && !this.state.overflow) return;
+      // if(element.clientHeight == element.scrollHeight
+      // && this.state.size == this.props.options.size
+      // && !this.state.overflow) return;
 
+      if (elementClientWidth < childrenCombinedWidth || elementClientHeight < childrenHeight){
+        let index = getSizeIndex(size);
+        if(index > 0) {
+          // trying to reduce size ...
+          this.setState({
+            size: SIZE_OPTIONS[index - 1].value,
+            clientWidth: elementClientWidth,
+            clientHeight: elementClientHeight,
+            prevClientWidth: this.state.clientWidth,
+            prevClientHeight: this.state.clientHeight
+          });
+        }
+      }
       if(this.refs['child-0']) {
         childHeight = ReactDOM.findDOMNode(this.refs['child-0']).clientHeight;
+        childWidth = ReactDOM.findDOMNode(this.refs['child-0']).clientWidth;
       }
 
       if(element
@@ -128,9 +148,9 @@ class StatisticBlock extends Component {
            && size != this.props.options.size)
         ))
       {
-        if(element.clientHeight < scrollHeight
-          || element.clientHeight < childHeight
-          || element.clientWidth < scrollWidth) {
+        if( // removed element.clientHeight < scrollHeight ||
+          element.clientHeight < childHeight
+          || element.clientWidth < childWidth) {
           if(this.state.size == SIZE_OPTIONS[0].value
           && this.state.overflow === "auto")
             return;
