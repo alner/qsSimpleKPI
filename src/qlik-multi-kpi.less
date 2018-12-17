@@ -192,9 +192,18 @@
 
   .ui.segments, .ui.cards {
     overflow: auto;
+    .ui.segment{
+      .ui.statistics{
+        display: block;
+      }
+    }
+    .ui.card{
+      .ui.statistics{
+        display: flex;
+      }
+    }
 
     .ui.segment, .ui.card {
-      display: flex;
       flex-direction: column;
       min-width: 150px;
       min-width: fit-content !important;
