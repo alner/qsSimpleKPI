@@ -99,7 +99,6 @@ class StatisticBlock extends Component {
   }
   checkRequiredSize(){
     let element = this.props.element;
-
     let scrollWidth = element.scrollWidth * 0.95;
     let scrollHeight = element.scrollHeight * 0.95;
 
@@ -111,7 +110,8 @@ class StatisticBlock extends Component {
       let clientHeight = this.state.clientHeight;
       let childHeight = 0;
       let childWidth = 0;
-      let childrenElm = element.children[0].children[0].children[0].children[0].children;
+      let containerElm = this.refs.parent;
+      let childrenElm =containerElm.children;
       let childrenCombinedWidth = 0;
       let childrenHeight = childrenElm[0].clientHeight;
       for (let e of childrenElm) {
@@ -349,7 +349,7 @@ class StatisticBlock extends Component {
         }
         items = (
           <div className={`${verticalAlign}`}>
-            <div className={`ui ${dimensionsOrientation} ${dimShowAsContainer} ${EditModeClass}`} style={segmentsStyle}>
+            <div className={`ui ${dimensionsOrientation} ${dimShowAsContainer} ${EditModeClass}`} ref="parent" style={segmentsStyle}>
               {
                 kpis.qDataPages[0].qMatrix.map(function(dim, dindex){
                   const dimensionLabel = dim[dimNo].qText;
