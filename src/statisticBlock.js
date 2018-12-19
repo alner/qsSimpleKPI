@@ -106,14 +106,12 @@ class StatisticBlock extends Component {
       let size = this.state.size;
       let elementClientWidth = this.props.element.clientWidth;
       let elementClientHeight = this.props.element.clientHeight;
-      let clientWidth = this.state.clientWidth;
-      let clientHeight = this.state.clientHeight;
       let childHeight = 0;
       let childWidth = 0;
       let containerElm = this.refs.parent;
       let childrenElm =containerElm.children;
       let childrenCombinedWidth = 0;
-      let childrenHeight = childrenElm[0].clientHeight;
+      let childrenHeight = childrenElm[0].getBoundingClientRect().height;
       for (let e of childrenElm) {
         childrenCombinedWidth = childrenCombinedWidth + e.clientWidth;
       }
@@ -136,8 +134,10 @@ class StatisticBlock extends Component {
         }
       }
       if(this.refs['child-0']) {
-        childHeight = ReactDOM.findDOMNode(this.refs['child-0']).clientHeight;
-        childWidth = ReactDOM.findDOMNode(this.refs['child-0']).clientWidth;
+        const element = ReactDOM.findDOMNode(this.refs['child-0']);
+        var { clientHeight, clientWidth } = element;
+        childHeight = clientHeight;
+        childWidth = clientWidth;
       }
 
       if(element
