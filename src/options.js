@@ -180,6 +180,13 @@ function getDivideByValue(value) {
   else
     return null;
 }
+function getDivideByNumber(value) {
+  var divs = DIVIDE_BY.indexOf(value);
+  if(divs !== -1)
+    return divs;
+  else
+    return null;
+}
 
 const DIM_LABEL_OPTIONS = [
   {
@@ -238,5 +245,6 @@ export default {
   DIM_VIEW_OPTIONS,
   FONT_SIZE_OPTIONS,
   getSizeIndex,
-  getDivideByValue
+  getDivideByValue,
+  getDivideByNumber
 };

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import InlineCSS from 'react-inline-css';
-import { DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex } from './options';
+import { DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex ,getDivideByNumber } from './options';
 import DimensionEntry from './dimensionEntry.container';
 import StatisticItem from './statisticItem';
 import ATTRIBUTES from './definitionAttributes';
@@ -104,18 +104,49 @@ class StatisticBlock extends Component {
 
     if(this.props.options.autoSize) {
       let size = this.state.size;
-      let elementClientWidth = this.props.element.clientWidth;
-      let elementClientHeight = this.props.element.clientHeight;
       let childHeight = 0;
       let childWidth = 0;
       let containerElm = this.refs.parent;
-      let childrenElm =containerElm.children;
+      let elementClientWidth = containerElm.getBoundingClientRect().width;
+      let elementClientHeight = containerElm.getBoundingClientRect().height;
+      let childrenHeight = 0;
+      let childrenElm;
+      childrenElm =containerElm.children;
       let childrenCombinedWidth = 0;
-      let childrenHeight = childrenElm[0].getBoundingClientRect().height;
-      for (let e of childrenElm) {
-        childrenCombinedWidth = childrenCombinedWidth + e.clientWidth;
-      }
+      let dividedBy =this.props.options.divideBy;
+      let dividedByNumber = getDivideByNumber(dividedBy);
+      if (this.props.options.dimShowAs == "segment" && this.props.options.dimensionsOrientation == "vertical"){
 
+        childrenCombinedWidth = childrenElm[0].getBoundingClientRect().width;
+        for (let i = 0 ; i < childrenElm.length ; i++){
+          childrenHeight += childrenElm[i].getBoundingClientRect().height;
+        }
+      }else{
+        if (dividedBy == "auto" || dividedBy == ""){
+          for (let e of childrenElm) {
+            childrenCombinedWidth = childrenCombinedWidth + e.getBoundingClientRect().width;
+          }
+        }else{
+          let rows = this.props.kpis.qMeasureInfo.length;
+          if (this.props.kpis.qDimensionInfo.length == 0 ){
+            if (rows % dividedByNumber == 0){
+              for (let i = 0 ; i < rows/dividedByNumber ; i+3){
+                childrenHeight += childrenElm[i].getBoundingClientRect().height;
+              }
+            }
+            else{
+              for (let i = 0 ; i <= rows/dividedByNumber ; i+3){
+                childrenHeight += childrenElm[i].getBoundingClientRect().height;
+              }
+            }
+          }else{
+            childrenHeight = childrenElm[0].getBoundingClientRect().height;
+          }
+          for ( let i = 0 ; i < dividedByNumber ; i++){
+            childrenCombinedWidth = childrenCombinedWidth + childrenElm[i].getBoundingClientRect().width;
+          }
+        }
+      }
       // if(element.clientHeight == element.scrollHeight
       // && this.state.size == this.props.options.size
       // && !this.state.overflow) return;
@@ -133,55 +164,55 @@ class StatisticBlock extends Component {
           });
         }
       }
-      if(this.refs['child-0']) {
-        const element = ReactDOM.findDOMNode(this.refs['child-0']);
-        var { clientHeight, clientWidth } = element;
-        childHeight = clientHeight;
-        childWidth = clientWidth;
-      }
+      // if(this.refs['child-0']) {
+      //   const element = ReactDOM.findDOMNode(this.refs['child-0']);
+      //   var { clientHeight, clientWidth } = element;
+      //   childHeight = clientHeight;
+      //   childWidth = clientWidth;
+      // }
 
-      if(element
-        && ((element.clientHeight < scrollHeight
-          || childHeight && element.clientHeight < childHeight)
-        || ((clientWidth != element.clientWidth
-          || clientHeight != element.clientHeight)
-           && size != this.props.options.size)
-        ))
-      {
-        if( // removed element.clientHeight < scrollHeight ||
-          element.clientHeight < childHeight
-          || element.clientWidth < childWidth) {
-          if(this.state.size == SIZE_OPTIONS[0].value
-          && this.state.overflow === "auto")
-            return;
+      // if(element
+      //   && ((element.clientHeight < scrollHeight
+      //     || childHeight && element.clientHeight < childHeight)
+      //   || ((clientWidth != element.clientWidth
+      //     || clientHeight != element.clientHeight)
+      //      && size != this.props.options.size)
+      //   ))
+      // {
+      //   if( // removed element.clientHeight < scrollHeight ||
+      //     element.clientHeight < childHeight
+      //     || element.clientWidth < childWidth) {
+      //     if(this.state.size == SIZE_OPTIONS[0].value
+      //     && this.state.overflow === "auto")
+      //       return;
 
-          let index = getSizeIndex(size);
-          if(index > 0) {
-            // trying to reduce size ...
-            this.setState({
-              size: SIZE_OPTIONS[index - 1].value,
-              clientWidth: elementClientWidth,
-              clientHeight: elementClientHeight,
-              prevClientWidth: this.state.clientWidth,
-              prevClientHeight: this.state.clientHeight
-            });
-          }
-          else if(index == 0){
-            if(this.state.valueFontStyleIndex !== 0) {
-              // trying to reduce font size ...
-              this.kpiItemResizeHandler(true);
-            } else
-            if(this.state.overflow !== "auto")
-              this.setState({ overflow: "auto" }); // ...show scrollbars
-          }
-        }
-        else
-        {
-          if(this.state.prevClientWidth > this.state.clientWidth
-          || this.state.prevClientHeight > this.state.clientHeight)
-            this.restoreSize();
-        }
-      }
+      //     let index = getSizeIndex(size);
+      //     if(index > 0) {
+      //       // trying to reduce size ...
+      //       this.setState({
+      //         size: SIZE_OPTIONS[index - 1].value,
+      //         clientWidth: elementClientWidth,
+      //         clientHeight: elementClientHeight,
+      //         prevClientWidth: this.state.clientWidth,
+      //         prevClientHeight: this.state.clientHeight
+      //       });
+      //     }
+      //     else if(index == 0){
+      //       if(this.state.valueFontStyleIndex !== 0) {
+      //         // trying to reduce font size ...
+      //         this.kpiItemResizeHandler(true);
+      //       } else
+      //       if(this.state.overflow !== "auto")
+      //         this.setState({ overflow: "auto" }); // ...show scrollbars
+      //     }
+      //   }
+      //   else
+      //   {
+      //     if(this.state.prevClientWidth > this.state.clientWidth
+      //     || this.state.prevClientHeight > this.state.clientHeight)
+      //       this.restoreSize();
+      //   }
+      // }
     } else {
       if((this.state.overflow !== "auto")
         && (element.clientHeight < scrollHeight
@@ -389,7 +420,7 @@ class StatisticBlock extends Component {
       } else {
         items = (
           <div className={`${verticalAlign}`}>
-            <div ref="statistics" className={`ui ${divideBy} statistics`}>
+            <div ref="parent" className={`ui ${divideBy} statistics`}>
               {self.renderKpis(kpis, 0, divideByNumber)}
             </div>
           </div>);
