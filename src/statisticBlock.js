@@ -128,7 +128,7 @@ class StatisticBlock extends Component {
           }
         }else{
           let rows = this.props.kpis.qMeasureInfo.length;
-          let ratio = Math.floor(rows / dividedByNumber)
+          let ratio = Math.floor(rows / dividedByNumber) + 1;
           if (this.props.kpis.qDimensionInfo.length == 0 ){
             if (rows % dividedByNumber == 0){
               for (let i = 0 ; i < rows/dividedByNumber ; i+ ratio){
