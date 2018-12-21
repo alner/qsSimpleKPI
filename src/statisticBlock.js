@@ -104,8 +104,8 @@ class StatisticBlock extends Component {
 
     if(this.props.options.autoSize) {
       let size = this.state.size;
-      let childHeight = 0;
-      let childWidth = 0;
+      // let childHeight = 0;
+      // let childWidth = 0;
       let containerElm = this.refs.parent;
       let elementClientWidth = containerElm.getBoundingClientRect().width;
       let elementClientHeight = containerElm.getBoundingClientRect().height;
@@ -158,10 +158,10 @@ class StatisticBlock extends Component {
           // trying to reduce size ...
           this.setState({
             size: SIZE_OPTIONS[index - 1].value,
-            clientWidth: elementClientWidth,
-            clientHeight: elementClientHeight,
-            prevClientWidth: this.state.clientWidth,
-            prevClientHeight: this.state.clientHeight
+            // clientWidth: elementClientWidth,
+            // clientHeight: elementClientHeight,
+            // prevClientWidth: this.state.clientWidth,
+            // prevClientHeight: this.state.clientHeight
           });
         }
       }
