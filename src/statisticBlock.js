@@ -128,14 +128,15 @@ class StatisticBlock extends Component {
           }
         }else{
           let rows = this.props.kpis.qMeasureInfo.length;
+          let ratio = Math.floor(rows / dividedByNumber)
           if (this.props.kpis.qDimensionInfo.length == 0 ){
             if (rows % dividedByNumber == 0){
-              for (let i = 0 ; i < rows/dividedByNumber ; i+3){
+              for (let i = 0 ; i < rows/dividedByNumber ; i+ ratio){
                 childrenHeight += childrenElm[i].getBoundingClientRect().height;
               }
             }
             else{
-              for (let i = 0 ; i <= rows/dividedByNumber ; i+3){
+              for (let i = 0 ; i <= rows/dividedByNumber ; i+ratio){
                 childrenHeight += childrenElm[i].getBoundingClientRect().height;
               }
             }
