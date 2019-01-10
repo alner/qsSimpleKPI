@@ -91,7 +91,7 @@
     background-color: transparent !important;
   }
   .value--icon--wrapper{
-    display: inline-block;
+    display: contents;
     position: relative;
     margin: 8px;
     bottom: 0;
@@ -125,6 +125,7 @@
     flex-wrap: wrap;
   }
   .ui.cards, .ui.segments{
+    min-width: max-content;
     &.edit-mode{
       overflow: hidden;
     }
@@ -257,6 +258,7 @@
         text-align: right;
       }
       .top.left {
+
         border-top: none;
         border-bottom: 1px solid #a6a6a6;
         text-align: left;
