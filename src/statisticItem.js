@@ -113,8 +113,8 @@ export default class StatisticItem extends Component {
       isShow
     } = this.props.item;
 
-    let labelStyles = { padding: "0px 5px", textAlign: textAlignment };
-    let valueStyles = { padding: "0px 5px", textAlign: textAlignment };
+    let labelStyles = { padding: "5px 5px", textAlign: textAlignment };
+    let valueStyles = { padding: "5px 5px", textAlign: textAlignment };
 
     if(labelColor)
       labelStyles.color = labelColor.color;
