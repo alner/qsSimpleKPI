@@ -48,8 +48,10 @@ class Icon extends Component {
         </div>
       );
     }
-    else
+    else if(valueIcon)
       return (<div className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``}`}><i className={`${valueIcon} ${iconSize}`}></i></div>);
+    else
+      return (<div style={{ display : 'none' }}> </div>);
   }
 }
 
