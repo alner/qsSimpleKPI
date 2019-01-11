@@ -32,12 +32,12 @@ class Icon extends Component {
         value = Math.min(THRESHOLD, value);
         for (let i = 1; i <= value; ++i) {
           icons.push(
-            <div key={i} className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}>
+            <div key={`${i}_parent_div`} className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}>
               <i key={i} className={`${valueIcon} ${iconSize}`}></i>
             </div>
           );
           if (i % ICONS_PER_ROW === 0) {
-            icons.push(<br />);
+            icons.push(<br key={`${i}_br`}/>);
           }
         }
       }
