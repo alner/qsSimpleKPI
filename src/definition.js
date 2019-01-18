@@ -562,7 +562,7 @@ export default function ({ ShowService }) {
             component: "dropdown",
             label: "Items per row",
             ref: "options.divideBy",
-            defaultValue: "auto",
+            defaultValue: "one",
             options: [
               {
                 value: "",
