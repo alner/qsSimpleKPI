@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import InlineCSS from 'react-inline-css';
-import { DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex ,getDivideByNumber } from './options';
+import { DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex , getDivideByNumber } from './options';
 import DimensionEntry from './dimensionEntry.container';
 import StatisticItem from './statisticItem';
 import ATTRIBUTES from './definitionAttributes';
@@ -96,108 +96,113 @@ class StatisticBlock extends Component {
   }
   checkRequiredSize(){
     let element = this.props.element;
-    let scrollWidth = element.scrollWidth * 0.95;
-    let scrollHeight = element.scrollHeight * 0.95;
 
-    if(this.props.options.autoSize) {
-      let size = this.state.size;
-      if(this.props.kpis.qDimensionInfo.length > 0) {
-        let containerElm = this.refs.parent;
+    if (!this.props.options.autoSize) {
+      const scrollWidth = element.scrollWidth * 0.95;
+      const scrollHeight = element.scrollHeight * 0.95;
+      const shouldShowScrollBar = (element.clientHeight < scrollHeight || element.clientWidth < scrollWidth);
+      if (this.state.overflow !== "auto" && shouldShowScrollBar) {
+        this.setState({ overflow: "auto" });
+      }
 
-        let elementClientWidth = containerElm.getBoundingClientRect().width;
-        let elementClientHeight = containerElm.getBoundingClientRect().height;
-        let childrenHeight = 0;
-        let childrenElm =containerElm.children;
-        let childrenCombinedWidth = 0;
-        let dividedBy =this.props.options.divideBy;
-        let dividedByNumber = getDivideByNumber(dividedBy);
+      return;
+    }
 
+    let currentSize = this.state.size;
+    if (this.props.kpis.qDimensionInfo.length > 0) {
+      if (getIfWeShouldUpdateSize()){
+        decreaseSize(currentSize);
+      }
+    } else {
+      if (getIfWeShouldUpdateSizeWithoutDimension()) {
+        decreaseSize(currentSize);
+      }
+    }
 
-        if (this.props.options.dimShowAs == "segment" && this.props.options.dimensionsOrientation == "vertical"){
+    function getIfWeShouldUpdateSize () {
+      let containerElement = this.refs.parent; // until we are updating react, we have to use this outdated syntax
 
-          childrenCombinedWidth = childrenElm[0].getBoundingClientRect().width;
-          for (let i = 0 ; i < childrenElm.length ; i++){
-            childrenHeight = childrenHeight + childrenElm[i].getBoundingClientRect().height;
-          }
-        }else{
-          if (dividedBy == "auto" || dividedBy == ""){
-            for (let e of childrenElm) {
-              childrenCombinedWidth = childrenCombinedWidth + e.getBoundingClientRect().width;
-            }
-          }else{
-            let rows = this.props.kpis.qMeasureInfo.length;
-            let ratio = Math.floor(rows / dividedByNumber) + 1;
-            if (rows % dividedByNumber == 0){
-              for (let i = 0 ; i < rows/dividedByNumber ; i++ + ratio){
-                childrenHeight = childrenHeight + childrenElm[i].getBoundingClientRect().height;
-              }
-            }
-            else{
-              for (let i = 0 ; i <= Math.floor(rows/dividedByNumber) ; i++ + ratio){
-                childrenHeight = childrenHeight + childrenElm[i].getBoundingClientRect().height;
-              }
-            }
-            for ( let i = 0 ; i < dividedByNumber ; i++){
-              childrenCombinedWidth = childrenCombinedWidth + childrenElm[i].getBoundingClientRect().width;
-            }
-          }
-        }
-        if (elementClientWidth < childrenCombinedWidth || elementClientHeight < childrenHeight){
-          let index = getSizeIndex(size);
-          if(index > 0) {
-            // trying to reduce size ...
-            this.setState({
-              size: SIZE_OPTIONS[index - 1].value,
-            });
-          } else if (index < 0){
-            this.setState({
-              size: SIZE_OPTIONS[3].value,
-            });
-          }
+      const containerSize = containerElement.getBoundingClientRect();
+      let elementClientWidth = containerSize.width;
+      let elementClientHeight = containerSize.height;
+      let childrenElements = containerElement.children;
+      let dividedBy = this.props.options.divideBy;
+      let dividedByNumber = getDivideByNumber(dividedBy);
+      let childrenHeight = 0;
+      let childrenCombinedWidth = 0;
+
+      if (this.props.options.dimShowAs == "segment" && this.props.options.dimensionsOrientation == "vertical"){
+        childrenCombinedWidth = childrenElements[0].getBoundingClientRect().width;
+        for (let i = 0 ; i < childrenElements.length ; i++){
+          childrenHeight = childrenHeight + childrenElements[i].getBoundingClientRect().height;
         }
       }else{
-        let containerElement = this.refs.statistics;
-        let elementClientWidth = containerElement.getBoundingClientRect().width;
-        let elementClientHeight = containerElement.getBoundingClientRect().height;
-        let childrenElm =containerElement.children;
-        let childrenCombinedWidth = 0;
-        let childrenHeight = 0;
-        let dividedBy =this.props.options.divideBy;
-        let dividedByNumber = getDivideByNumber(dividedBy);
-        let rows = this.props.kpis.qMeasureInfo.length;
-        let ratio = Math.floor(rows / dividedByNumber) + 1;
-        if (rows % dividedByNumber == 0){
-          for (let i = 0 ; i < rows/dividedByNumber ; i++ + ratio){
-            childrenHeight = childrenHeight + childrenElm[i].getBoundingClientRect().height;
+        if (dividedBy == "auto" || dividedBy == ""){
+          for (let e of childrenElements) {
+            childrenCombinedWidth = childrenCombinedWidth + e.getBoundingClientRect().width;
           }
-        }
-        else{
-          for (let i = 0 ; i <= Math.floor(rows/dividedByNumber) ; i++ + ratio){
-            childrenHeight = childrenHeight + childrenElm[i].getBoundingClientRect().height;
+        }else{
+          let rows = this.props.kpis.qMeasureInfo.length;
+          let ratio = Math.floor(rows / dividedByNumber) + 1;
+          if (rows % dividedByNumber == 0){
+            for (let i = 0 ; i < rows/dividedByNumber ; i++ + ratio){
+              childrenHeight = childrenHeight + childrenElements[i].getBoundingClientRect().height;
+            }
           }
-        }
-        for ( let i = 0 ; i < dividedByNumber ; i++){
-          childrenCombinedWidth = childrenCombinedWidth + childrenElm[i].getBoundingClientRect().width;
-        }
-        if (elementClientWidth < childrenCombinedWidth || elementClientHeight < childrenHeight){
-          let index = getSizeIndex(size);
-          if(index > 0) {
-            // trying to reduce size ...
-            this.setState({
-              size: SIZE_OPTIONS[index - 1].value,
-            });
-          } else if (index < 0){
-            this.setState({
-              size: SIZE_OPTIONS[3].value,
-            });
+          else{
+            for (let i = 0 ; i <= Math.floor(rows/dividedByNumber) ; i++ + ratio){
+              childrenHeight = childrenHeight + childrenElements[i].getBoundingClientRect().height;
+            }
+          }
+          for ( let i = 0 ; i < dividedByNumber ; i++){
+            childrenCombinedWidth = childrenCombinedWidth + childrenElements[i].getBoundingClientRect().width;
           }
         }
       }
-    } else {
-      if((this.state.overflow !== "auto")
-        && (element.clientHeight < scrollHeight
-          || element.clientWidth < scrollWidth))
-        this.setState({ overflow: "auto" });
+
+      return elementClientWidth < childrenCombinedWidth || elementClientHeight < childrenHeight;
+    }
+
+    function getIfWeShouldUpdateSizeWithoutDimension() {
+      let containerElement = this.refs.statistics;
+      const containerElementSize = containerElement.getBoundingClientRect();
+      let elementClientWidth = containerElementSize.width;
+      let elementClientHeight = containerElementSize.height;
+      let childrenElm = containerElement.children;
+      let childrenCombinedWidth = 0;
+      let childrenHeight = 0;
+      let dividedBy = this.props.options.divideBy;
+      let dividedByNumber = getDivideByNumber(dividedBy);
+      let rows = this.props.kpis.qMeasureInfo.length;
+      let ratio = Math.floor(rows / dividedByNumber) + 1;
+      if (rows % dividedByNumber == 0){
+        for (let i = 0 ; i < rows/dividedByNumber ; i++ + ratio){
+          childrenHeight = childrenHeight + childrenElm[i].getBoundingClientRect().height;
+        }
+      }
+      else{
+        for (let i = 0 ; i <= Math.floor(rows/dividedByNumber) ; i++ + ratio){
+          childrenHeight = childrenHeight + childrenElm[i].getBoundingClientRect().height;
+        }
+      }
+      for ( let i = 0 ; i < dividedByNumber ; i++){
+        childrenCombinedWidth = childrenCombinedWidth + childrenElm[i].getBoundingClientRect().width;
+      }
+
+      return elementClientWidth < childrenCombinedWidth || elementClientHeight < childrenHeight;
+    }
+
+    function decreaseSize (size) {
+      let index = getSizeIndex(size);
+      if(index > 0) {
+        this.setState({
+          size: SIZE_OPTIONS[index - 1].value,
+        });
+      } else if (index < 0){
+        this.setState({
+          size: SIZE_OPTIONS[3].value,
+        });
+      }
     }
   }
 
