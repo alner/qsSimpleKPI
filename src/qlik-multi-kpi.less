@@ -60,9 +60,21 @@
     display: flex;
     align-items: stretch;
   }
-
-  .ui.statistics, .ui.cards, .ui.segments  {
+  .ui.stackable.cards{
     width: 100%;
+
+  }
+  .ui.statistics, .ui.segments  {
+    width: 100%;
+  }
+  .ui.cards{
+    .ui.statistics{
+      display: flex;
+      text-align: center;
+      width: fit-content;
+      justify-content: center;
+    }
+
   }
   .ui.vertical.segments,
   .ui.horizontal.segments {
@@ -82,7 +94,15 @@
   .ui.statistic > .value {
     width: 100%;
   }
+  .ui.cards{
+    .statistic{
+      width: 100%;
+      text-align: center;
+      text-align: -webkit-center;
+      text-align: -ms-center;
+    }
 
+  }
   .ui.segment > .label[class*="center aligned"] {
     text-align: center;
   }
@@ -121,7 +141,7 @@
   .ui.cards {
     margin: 0 !important;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     height: 100%;
     display: -ms-flexbox;
     display: flex;
@@ -193,20 +213,22 @@
     margin: 0;
     vertical-align: top;
   }
+  .ui.card{
+    max-width: max-content !important;
 
+    .ui.statistics{
+      display: flex;
+      width: fit-content;
+      display: flex;
+      justify-content: center;
+    }
+  }
   .ui.segments, .ui.cards {
-    overflow: auto;
     .ui.segment{
       .ui.statistics{
         display: block;
       }
     }
-    .ui.card{
-      .ui.statistics{
-        display: flex;
-      }
-    }
-
     .ui.segment, .ui.card {
       flex-direction: column;
       min-width: 150px;
