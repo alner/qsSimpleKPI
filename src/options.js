@@ -147,7 +147,7 @@ const SIZE_OPTIONS = [
     tooltip: "Small"
   },
   {
-    value: "",
+    value: "normal",
     label: "Normal",
     tooltip: "Normal"
   },
@@ -177,6 +177,13 @@ function getDivideByValue(value) {
   var divs = DIVIDE_BY.indexOf(value);
   if(divs !== -1)
     return 100 / divs;
+  else
+    return null;
+}
+function getDivideByNumber(value) {
+  var divs = DIVIDE_BY.indexOf(value);
+  if(divs !== -1)
+    return divs;
   else
     return null;
 }
@@ -238,5 +245,6 @@ export default {
   DIM_VIEW_OPTIONS,
   FONT_SIZE_OPTIONS,
   getSizeIndex,
-  getDivideByValue
+  getDivideByValue,
+  getDivideByNumber
 };

@@ -536,7 +536,7 @@ export default function ({ ShowService }) {
             label: "Size",
             ref: "options.size",
             options: SIZE_OPTIONS,
-            defaultValue: ""
+            defaultValue: "normal"
           },
 
           autoSize: {
@@ -562,7 +562,7 @@ export default function ({ ShowService }) {
             component: "dropdown",
             label: "Items per row",
             ref: "options.divideBy",
-            defaultValue: "auto",
+            defaultValue: "one",
             options: [
               {
                 value: "",
@@ -695,7 +695,6 @@ export default function ({ ShowService }) {
             placeholderTranslation : "Object.ErrorMessage.CalculationCondition",
             translation : "properties.hyperCube.calcCondMessage",
             show : function (data) {
-            //var val = propertyResolver.getValue(data, "qHyperCubeDef.qCalcCond");
               var cond = data.qHyperCubeDef && data.qHyperCubeDef.qCalcCond;
               return cond && cond.qv && "" !== cond.qv;
             }

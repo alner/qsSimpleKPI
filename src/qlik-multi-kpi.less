@@ -38,18 +38,21 @@
     height: 100%;
     display: flex;
     align-items: flex-start;
+    overflow: auto;
   }
 
   .bottom-aligned-items {
     height: 100%;
     display: flex;
     align-items: flex-end;
+    overflow: auto;
   }
 
   .center-aligned-items {
     height: 100%;
     display: flex;
     align-items: center;
+    overflow: auto;
   }
 
   .stretched-items {
@@ -61,7 +64,6 @@
   .ui.statistics, .ui.cards, .ui.segments  {
     width: 100%;
   }
-
   .ui.vertical.segments,
   .ui.horizontal.segments {
     height: 100%;
@@ -113,6 +115,7 @@
   .ui.statistic > .value {
     text-transform: none;
     box-sizing: border-box;
+    padding: 5px 5px;
   }
 
   .ui.cards {
@@ -126,6 +129,7 @@
     flex-wrap: wrap;
   }
   .ui.cards, .ui.segments{
+    min-width: max-content;
     &.edit-mode{
       overflow: hidden;
     }
@@ -192,9 +196,18 @@
 
   .ui.segments, .ui.cards {
     overflow: auto;
+    .ui.segment{
+      .ui.statistics{
+        display: block;
+      }
+    }
+    .ui.card{
+      .ui.statistics{
+        display: flex;
+      }
+    }
 
     .ui.segment, .ui.card {
-      display: flex;
       flex-direction: column;
       min-width: 150px;
       min-width: fit-content !important;
@@ -249,6 +262,7 @@
         text-align: right;
       }
       .top.left {
+
         border-top: none;
         border-bottom: 1px solid #a6a6a6;
         text-align: left;

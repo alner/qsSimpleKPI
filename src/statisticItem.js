@@ -32,12 +32,12 @@ class Icon extends Component {
         value = Math.min(THRESHOLD, value);
         for (let i = 1; i <= value; ++i) {
           icons.push(
-            <div key={i} className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}>
+            <div key={`${i}_parent_div`} className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}>
               <i key={i} className={`${valueIcon} ${iconSize}`}></i>
             </div>
           );
           if (i % ICONS_PER_ROW === 0) {
-            icons.push(<br />);
+            icons.push(<br key={`${i}_br`}/>);
           }
         }
       }
@@ -48,8 +48,10 @@ class Icon extends Component {
         </div>
       );
     }
-    else
+    else if(valueIcon)
       return (<div className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``}`}><i className={`${valueIcon} ${iconSize}`}></i></div>);
+    else
+      return (<div style={{ display : 'none' }}> </div>);
   }
 }
 
@@ -113,8 +115,8 @@ export default class StatisticItem extends Component {
       isShow
     } = this.props.item;
 
-    let labelStyles = { padding: "0px 5px", textAlign: textAlignment };
-    let valueStyles = { padding: "0px 5px", textAlign: textAlignment };
+    let labelStyles = { padding: "5px 5px", textAlign: textAlignment };
+    let valueStyles = { padding: "5px 5px", textAlign: textAlignment };
 
     if(labelColor)
       labelStyles.color = labelColor.color;
