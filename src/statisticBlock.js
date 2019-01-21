@@ -104,17 +104,17 @@ class StatisticBlock extends Component {
       if (this.state.overflow !== "auto" && shouldShowScrollBar) {
         this.setState({ overflow: "auto" });
       }
-
       return;
     }
 
     let currentSize = this.state.size;
+    const thereAreDimensions = this.props.kpis.qDimensionInfo.length > 0;
     const updateSizeArguments = {
-      containerElement: this.refs.parent,
+      containerElement: thereAreDimensions ? this.refs.parent : this.refs.statistics,
       options: this.props.options,
       kpis: this.props.kpis
     };
-    if (this.props.kpis.qDimensionInfo.length > 0) {
+    if (thereAreDimensions) {
       if (this.getIfWeShouldUpdateSize(updateSizeArguments)){
         this.decreaseSize(currentSize);
       }
