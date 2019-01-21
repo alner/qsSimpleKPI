@@ -115,84 +115,87 @@ class StatisticBlock extends Component {
       kpis: this.props.kpis
     };
     if (this.props.kpis.qDimensionInfo.length > 0) {
-      if (getIfWeShouldUpdateSize(updateSizeArguments)){
+      if (this.getIfWeShouldUpdateSize(updateSizeArguments)){
         this.decreaseSize(currentSize);
       }
     } else {
-      if (getIfWeShouldUpdateSizeWithoutDimension(updateSizeArguments)) {
+      if (this.getIfWeShouldUpdateSizeWithoutDimension(updateSizeArguments)) {
         this.decreaseSize(currentSize);
       }
     }
+  }
 
-    function getIfWeShouldUpdateSize ({ containerElement, options, kpis }) {
-      const containerSize = containerElement.getBoundingClientRect();
-      let elementClientWidth = containerSize.width;
-      let elementClientHeight = containerSize.height;
-      let childrenElements = containerElement.children;
-      let dividedBy = options.divideBy;
-      let dividedByNumber = getDivideByNumber(dividedBy);
-      let childrenHeight = 0;
-      let childrenCombinedWidth = 0;
+  getIfWeShouldUpdateSize ({ containerElement, options, kpis }) {
+    const containerSize = containerElement.getBoundingClientRect();
+    let elementClientWidth = containerSize.width;
+    let elementClientHeight = containerSize.height;
+    let childrenElements = containerElement.children;
+    let dividedBy = options.divideBy;
+    let dividedByNumber = getDivideByNumber(dividedBy);
+    let childrenHeight = 0;
+    let childrenCombinedWidth = 0;
 
-      if (options.dimShowAs == "segment" && options.dimensionsOrientation == "vertical"){
-        childrenCombinedWidth = childrenElements[0].getBoundingClientRect().width;
-        for (let i = 0 ; i < childrenElements.length ; i++){
-          childrenHeight = childrenHeight + childrenElements[i].getBoundingClientRect().height;
+    if (options.dimShowAs == "segment" && options.dimensionsOrientation == "vertical"){
+      childrenCombinedWidth = childrenElements[0].getBoundingClientRect().width;
+      for (let i = 0 ; i < childrenElements.length ; i++){
+        const plusHeight = childrenElements[i] ? childrenElements[i].getBoundingClientRect().height : 0;
+        childrenHeight = childrenHeight + plusHeight;
+      }
+    }else{
+      if (dividedBy == "auto" || dividedBy == ""){
+        for (let e of childrenElements) {
+          childrenCombinedWidth = childrenCombinedWidth + e.getBoundingClientRect().width;
         }
+
       }else{
-        if (dividedBy == "auto" || dividedBy == ""){
-          for (let e of childrenElements) {
-            childrenCombinedWidth = childrenCombinedWidth + e.getBoundingClientRect().width;
-          }
-        }else{
-          let rows = kpis.qMeasureInfo.length;
-          let ratio = Math.floor(rows / dividedByNumber) + 1;
-          if (rows % dividedByNumber == 0){
-            for (let i = 0 ; i < rows/dividedByNumber ; i++ + ratio){
-              childrenHeight = childrenHeight + childrenElements[i].getBoundingClientRect().height;
-            }
-          }
-          else{
-            for (let i = 0 ; i <= Math.floor(rows/dividedByNumber) ; i++ + ratio){
-              childrenHeight = childrenHeight + childrenElements[i].getBoundingClientRect().height;
-            }
-          }
-          for ( let i = 0 ; i < dividedByNumber ; i++){
-            childrenCombinedWidth = childrenCombinedWidth + childrenElements[i].getBoundingClientRect().width;
+        let rows = kpis.qMeasureInfo.length;
+        let ratio = Math.floor(rows / dividedByNumber) + 1;
+        if (rows % dividedByNumber == 0){
+          for (let i = 0 ; i < rows/dividedByNumber ; i++ + ratio){
+            const plusHeight = childrenElements[i] ? childrenElements[i].getBoundingClientRect().height : 0;
+            childrenHeight = childrenHeight + plusHeight;
           }
         }
+        else{
+          for (let i = 0 ; i <= Math.floor(rows/dividedByNumber) ; i++ + ratio){
+            childrenHeight = childrenHeight + childrenElements[i].getBoundingClientRect().height;
+          }
+        }
+        for ( let i = 0 ; i < dividedByNumber ; i++){
+          childrenCombinedWidth = childrenCombinedWidth + childrenElements[i].getBoundingClientRect().width;
+        }
       }
-
-      return elementClientWidth < childrenCombinedWidth || elementClientHeight < childrenHeight;
     }
 
-    function getIfWeShouldUpdateSizeWithoutDimension({ containerElement, options, kpis }) {
-      const containerElementSize = containerElement.getBoundingClientRect();
-      let elementClientWidth = containerElementSize.width;
-      let elementClientHeight = containerElementSize.height;
-      let childrenElm = containerElement.children;
-      let childrenCombinedWidth = 0;
-      let childrenHeight = 0;
-      let dividedBy = options.divideBy;
-      let dividedByNumber = getDivideByNumber(dividedBy);
-      let rows = kpis.qMeasureInfo.length;
-      let ratio = Math.floor(rows / dividedByNumber) + 1;
-      if (rows % dividedByNumber == 0){
-        for (let i = 0 ; i < rows/dividedByNumber ; i++ + ratio){
-          childrenHeight = childrenHeight + childrenElm[i].getBoundingClientRect().height;
-        }
-      }
-      else{
-        for (let i = 0 ; i <= Math.floor(rows/dividedByNumber) ; i++ + ratio){
-          childrenHeight = childrenHeight + childrenElm[i].getBoundingClientRect().height;
-        }
-      }
-      for ( let i = 0 ; i < dividedByNumber ; i++){
-        childrenCombinedWidth = childrenCombinedWidth + childrenElm[i].getBoundingClientRect().width;
-      }
+    return elementClientWidth < childrenCombinedWidth || elementClientHeight < childrenHeight;
+  }
 
-      return elementClientWidth < childrenCombinedWidth || elementClientHeight < childrenHeight;
+  getIfWeShouldUpdateSizeWithoutDimension({ containerElement, options, kpis }) {
+    const containerElementSize = containerElement.getBoundingClientRect();
+    let elementClientWidth = containerElementSize.width;
+    let elementClientHeight = containerElementSize.height;
+    let childrenElm = containerElement.children;
+    let childrenCombinedWidth = 0;
+    let childrenHeight = 0;
+    let dividedBy = options.divideBy;
+    let dividedByNumber = getDivideByNumber(dividedBy);
+    let rows = kpis.qMeasureInfo.length;
+    let ratio = Math.floor(rows / dividedByNumber) + 1;
+    if (rows % dividedByNumber == 0){
+      for (let i = 0 ; i < rows/dividedByNumber ; i++ + ratio){
+        childrenHeight = childrenHeight + childrenElm[i].getBoundingClientRect().height;
+      }
     }
+    else{
+      for (let i = 0 ; i <= Math.floor(rows/dividedByNumber) ; i++ + ratio){
+        childrenHeight = childrenHeight + childrenElm[i].getBoundingClientRect().height;
+      }
+    }
+    for ( let i = 0 ; i < dividedByNumber ; i++){
+      childrenCombinedWidth = childrenCombinedWidth + childrenElm[i].getBoundingClientRect().width;
+    }
+
+    return elementClientWidth < childrenCombinedWidth || elementClientHeight < childrenHeight;
   }
   
   decreaseSize (size) {
