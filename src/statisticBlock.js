@@ -109,29 +109,32 @@ class StatisticBlock extends Component {
     }
 
     let currentSize = this.state.size;
+    const updateSizeArguments = {
+      containerElement: this.refs.parent,
+      options: this.props.options,
+      kpis: this.props.kpis
+    };
     if (this.props.kpis.qDimensionInfo.length > 0) {
-      if (getIfWeShouldUpdateSize()){
-        decreaseSize(currentSize);
+      if (getIfWeShouldUpdateSize(updateSizeArguments)){
+        this.decreaseSize(currentSize);
       }
     } else {
-      if (getIfWeShouldUpdateSizeWithoutDimension()) {
-        decreaseSize(currentSize);
+      if (getIfWeShouldUpdateSizeWithoutDimension(updateSizeArguments)) {
+        this.decreaseSize(currentSize);
       }
     }
 
-    function getIfWeShouldUpdateSize () {
-      let containerElement = this.refs.parent; // until we are updating react, we have to use this outdated syntax
-
+    function getIfWeShouldUpdateSize ({ containerElement, options, kpis }) {
       const containerSize = containerElement.getBoundingClientRect();
       let elementClientWidth = containerSize.width;
       let elementClientHeight = containerSize.height;
       let childrenElements = containerElement.children;
-      let dividedBy = this.props.options.divideBy;
+      let dividedBy = options.divideBy;
       let dividedByNumber = getDivideByNumber(dividedBy);
       let childrenHeight = 0;
       let childrenCombinedWidth = 0;
 
-      if (this.props.options.dimShowAs == "segment" && this.props.options.dimensionsOrientation == "vertical"){
+      if (options.dimShowAs == "segment" && options.dimensionsOrientation == "vertical"){
         childrenCombinedWidth = childrenElements[0].getBoundingClientRect().width;
         for (let i = 0 ; i < childrenElements.length ; i++){
           childrenHeight = childrenHeight + childrenElements[i].getBoundingClientRect().height;
@@ -142,7 +145,7 @@ class StatisticBlock extends Component {
             childrenCombinedWidth = childrenCombinedWidth + e.getBoundingClientRect().width;
           }
         }else{
-          let rows = this.props.kpis.qMeasureInfo.length;
+          let rows = kpis.qMeasureInfo.length;
           let ratio = Math.floor(rows / dividedByNumber) + 1;
           if (rows % dividedByNumber == 0){
             for (let i = 0 ; i < rows/dividedByNumber ; i++ + ratio){
@@ -163,17 +166,16 @@ class StatisticBlock extends Component {
       return elementClientWidth < childrenCombinedWidth || elementClientHeight < childrenHeight;
     }
 
-    function getIfWeShouldUpdateSizeWithoutDimension() {
-      let containerElement = this.refs.statistics;
+    function getIfWeShouldUpdateSizeWithoutDimension({ containerElement, options, kpis }) {
       const containerElementSize = containerElement.getBoundingClientRect();
       let elementClientWidth = containerElementSize.width;
       let elementClientHeight = containerElementSize.height;
       let childrenElm = containerElement.children;
       let childrenCombinedWidth = 0;
       let childrenHeight = 0;
-      let dividedBy = this.props.options.divideBy;
+      let dividedBy = options.divideBy;
       let dividedByNumber = getDivideByNumber(dividedBy);
-      let rows = this.props.kpis.qMeasureInfo.length;
+      let rows = kpis.qMeasureInfo.length;
       let ratio = Math.floor(rows / dividedByNumber) + 1;
       if (rows % dividedByNumber == 0){
         for (let i = 0 ; i < rows/dividedByNumber ; i++ + ratio){
@@ -191,18 +193,18 @@ class StatisticBlock extends Component {
 
       return elementClientWidth < childrenCombinedWidth || elementClientHeight < childrenHeight;
     }
-
-    function decreaseSize (size) {
-      let index = getSizeIndex(size);
-      if(index > 0) {
-        this.setState({
-          size: SIZE_OPTIONS[index - 1].value,
-        });
-      } else if (index < 0){
-        this.setState({
-          size: SIZE_OPTIONS[3].value,
-        });
-      }
+  }
+  
+  decreaseSize (size) {
+    let index = getSizeIndex(size);
+    if(index > 0) {
+      this.setState({
+        size: SIZE_OPTIONS[index - 1].value,
+      });
+    } else if (index < 0){
+      this.setState({
+        size: SIZE_OPTIONS[3].value,
+      });
     }
   }
 
