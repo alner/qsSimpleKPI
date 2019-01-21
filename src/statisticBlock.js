@@ -20,7 +20,6 @@ class StatisticBlock extends Component {
     this.componentReady = this.componentReady.bind(this);
     this.kpiItemResizeHandler = this.kpiItemResizeHandler.bind(this);
     this.onDimensionLabelClick = this.onDimensionLabelClick.bind(this);
-    // this.parent = React.createRef();
   }
 
   componentDidMount(){
@@ -77,9 +76,6 @@ class StatisticBlock extends Component {
 
   kpiItemResizeHandler(isNeedResize) {
     if(!isNeedResize && !this.state.is_show) {
-      // this.setState({
-      //   is_show: true
-      // });
       this.componentReady();
     } else
     if(isNeedResize && this.props.options.autoSize) {

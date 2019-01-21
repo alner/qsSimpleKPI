@@ -695,9 +695,6 @@ export default function ({ ShowService }) {
             placeholderTranslation : "Object.ErrorMessage.CalculationCondition",
             translation : "properties.hyperCube.calcCondMessage",
             show : function (data) {
-              console.log(data);
-
-            //var val = propertyResolver.getValue(data, "qHyperCubeDef.qCalcCond");
               var cond = data.qHyperCubeDef && data.qHyperCubeDef.qCalcCond;
               return cond && cond.qv && "" !== cond.qv;
             }
