@@ -545,7 +545,7 @@ export default function ({ ShowService }) {
             label: "Responsive size",
             ref: "options.autoSize",
             defaultValue: false,
-            show: true,
+            show: false,
             options: [
               {
                 value: true,
