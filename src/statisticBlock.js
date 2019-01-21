@@ -126,6 +126,9 @@ class StatisticBlock extends Component {
   }
 
   getIfWeShouldUpdateSize ({ containerElement, options, kpis }) {
+    if (!containerElement || ! options || !kpis) {
+      return false;
+    }
     const containerSize = containerElement.getBoundingClientRect();
     let elementClientWidth = containerSize.width;
     let elementClientHeight = containerSize.height;
@@ -171,6 +174,9 @@ class StatisticBlock extends Component {
   }
 
   getIfWeShouldUpdateSizeWithoutDimension({ containerElement, options, kpis }) {
+    if (!containerElement || ! options || !kpis) {
+      return false;
+    }
     const containerElementSize = containerElement.getBoundingClientRect();
     let elementClientWidth = containerElementSize.width;
     let elementClientHeight = containerElementSize.height;
