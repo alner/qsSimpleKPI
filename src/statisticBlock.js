@@ -134,7 +134,7 @@ class StatisticBlock extends Component {
     let elementClientHeight = containerSize.height;
     let childrenElements = containerElement.children;
     let dividedBy = options.divideBy;
-    let dividedByNumber = getDivideByNumber(dividedBy);
+    let dividedByNumber = getDivideByNumber(dividedBy) || 1;
     let childrenHeight = 0;
     let childrenCombinedWidth = 0;
 
@@ -161,11 +161,13 @@ class StatisticBlock extends Component {
         }
         else{
           for (let i = 0 ; i <= Math.floor(rows/dividedByNumber) ; i++ + ratio){
-            childrenHeight = childrenHeight + childrenElements[i].getBoundingClientRect().height;
+            const plusHeight = childrenElements[i] ? childrenElements[i].getBoundingClientRect().height : 0;
+            childrenHeight = childrenHeight + plusHeight;
           }
         }
         for ( let i = 0 ; i < dividedByNumber ; i++){
-          childrenCombinedWidth = childrenCombinedWidth + childrenElements[i].getBoundingClientRect().width;
+          const plusWidth = childrenElements[i] ? childrenElements[i].getBoundingClientRect().width : 0;
+          childrenCombinedWidth = childrenCombinedWidth + plusWidth;
         }
       }
     }
@@ -180,25 +182,28 @@ class StatisticBlock extends Component {
     const containerElementSize = containerElement.getBoundingClientRect();
     let elementClientWidth = containerElementSize.width;
     let elementClientHeight = containerElementSize.height;
-    let childrenElm = containerElement.children;
+    let childrenElements = containerElement.children;
     let childrenCombinedWidth = 0;
     let childrenHeight = 0;
     let dividedBy = options.divideBy;
-    let dividedByNumber = getDivideByNumber(dividedBy);
+    let dividedByNumber = getDivideByNumber(dividedBy) || 1;
     let rows = kpis.qMeasureInfo.length;
     let ratio = Math.floor(rows / dividedByNumber) + 1;
     if (rows % dividedByNumber == 0){
       for (let i = 0 ; i < rows/dividedByNumber ; i++ + ratio){
-        childrenHeight = childrenHeight + childrenElm[i].getBoundingClientRect().height;
+        const plusHeight = childrenElements[i] ? childrenElements[i].getBoundingClientRect().height : 0;
+        childrenHeight = childrenHeight + plusHeight;
       }
     }
     else{
       for (let i = 0 ; i <= Math.floor(rows/dividedByNumber) ; i++ + ratio){
-        childrenHeight = childrenHeight + childrenElm[i].getBoundingClientRect().height;
+        const plusHeight = childrenElements[i] ? childrenElements[i].getBoundingClientRect().height : 0;
+        childrenHeight = childrenHeight + plusHeight;
       }
     }
     for ( let i = 0 ; i < dividedByNumber ; i++){
-      childrenCombinedWidth = childrenCombinedWidth + childrenElm[i].getBoundingClientRect().width;
+      const plusWidth = childrenElements[i] ? childrenElements[i].getBoundingClientRect().width : 0;
+      childrenCombinedWidth = childrenCombinedWidth + plusWidth;
     }
 
     return elementClientWidth < childrenCombinedWidth || elementClientHeight < childrenHeight;
