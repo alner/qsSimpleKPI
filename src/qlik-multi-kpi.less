@@ -71,7 +71,7 @@
   .ui.segments {
     min-width: max-content;
   }
-  
+
   .ui.statistics .statistic > .label,
   .ui.statistic > .label {
     text-transform: none;
@@ -113,7 +113,7 @@
     box-sizing: border-box;
     padding: 5px 5px;
   }
-  
+
   .ui.vertical.segments,
   .ui.horizontal.segments {
     height: 100%;
@@ -124,7 +124,7 @@
       overflow: hidden;
     }
   }
-  
+
   .ui.cards {
     align-items: center;
     margin: 0 !important;
@@ -230,7 +230,10 @@
     margin: 0;
     vertical-align: top;
   }
-
+  .ui.card .ui.label{
+    border: 1px solid #a6a6a6 !important;
+    border-bottom: none;
+  }
   .ui.segments, .ui.cards {
     .ui.segment{
       .ui.statistics{
@@ -251,7 +254,7 @@
         display: block;
         padding: 10px 5px;
         border-bottom: solid 1px rgb(166,166,166) !important;
-        box-sizing: content-box;
+        box-sizing: border-box;
       }
 
       >.statistics {
