@@ -60,19 +60,16 @@
     display: flex;
     align-items: stretch;
   }
+  .ui.stackable.cards{
+    width: 100%;
 
-  .ui.statistics, .ui.cards, .ui.segments  {
+  }
+  .ui.statistics, .ui.segments  {
     width: 100%;
   }
-  .ui.vertical.segments,
-  .ui.horizontal.segments {
-    height: 100%;
-  }
 
-  @media (max-width: 767px) {
-    .ui.cards {
-      height: 100%;
-    }
+  .ui.segments {
+    min-width: max-content;
   }
 
   .ui.statistics .statistic > .label,
@@ -82,7 +79,6 @@
   .ui.statistic > .value {
     width: 100%;
   }
-
   .ui.segment > .label[class*="center aligned"] {
     text-align: center;
   }
@@ -118,24 +114,40 @@
     padding: 5px 5px;
   }
 
+  .ui.vertical.segments,
+  .ui.horizontal.segments {
+    height: 100%;
+  }
+
+  .ui.cards, .ui.segments{
+    &.edit-mode{
+      overflow: hidden;
+    }
+  }
+
   .ui.cards {
+    align-items: center;
     margin: 0 !important;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     height: 100%;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-  }
-  .ui.cards, .ui.segments{
-    min-width: max-content;
-    &.edit-mode{
-      overflow: hidden;
+
+    &.one > .card {
+      margin: .5rem .75rem;
+    }
+
+    @media (max-width: 767px) {
+        height: 100%;
     }
   }
+
   .ui.cards > .card,
   .ui.card {
+    align-items: center;
     padding: 0 10px;
     -ms-flex: 1;
     flex: 1;
@@ -143,7 +155,32 @@
     background-color: transparent !important;
     -ms-flex-preferred-size: 20%;
     min-width: 150px;
+    border: none;
+    box-shadow: none;
 
+    &:first-child > .statistics,
+    > .statistics {
+      border: 1px solid rgba(34,36,38,.15) !important;
+      border-radius: .28571429rem;
+      box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+
+      @media (max-width: 767px) {
+        margin: auto;
+        padding: 1em 0;
+      }
+    }
+
+    .statistics {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      width: 250px;
+
+      > .statistic {
+        align-items: center
+      }
+    }
   }
 
   .ui.tag.label {
@@ -193,20 +230,16 @@
     margin: 0;
     vertical-align: top;
   }
-
+  .ui.card .ui.label{
+    border: 1px solid #a6a6a6 !important;
+    border-bottom: none;
+  }
   .ui.segments, .ui.cards {
-    overflow: auto;
     .ui.segment{
       .ui.statistics{
         display: block;
       }
     }
-    .ui.card{
-      .ui.statistics{
-        display: flex;
-      }
-    }
-
     .ui.segment, .ui.card {
       flex-direction: column;
       min-width: 150px;
@@ -221,7 +254,7 @@
         display: block;
         padding: 10px 5px;
         border-bottom: solid 1px rgb(166,166,166) !important;
-        box-sizing: content-box;
+        box-sizing: border-box;
       }
 
       >.statistics {
@@ -262,7 +295,6 @@
         text-align: right;
       }
       .top.left {
-
         border-top: none;
         border-bottom: 1px solid #a6a6a6;
         text-align: left;

@@ -15,6 +15,7 @@ class DimensionEntry extends Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.hidePointerCursor = this.hidePointerCursor.bind(this);
+    this.getlabelWidth = this.getlabelWidth.bind(this);
 
   }
 
@@ -26,7 +27,12 @@ class DimensionEntry extends Component {
       return "default";
     }
   }
+  getlabelWidth(){
+    var chartBody = this.refs.chartBody;
+    var chartBodywidth = chartBody && chartBody.getBoundingClientRect().width;
+    return chartBodywidth;
 
+  }
   updateFlexBasis (key) {
     this.props.style.flexBasis = dividedByObject[key];
   }
@@ -70,11 +76,11 @@ class DimensionEntry extends Component {
             <a
               className={`ui ${label.size} ${label.orientation} ${label.alignment} label`}
               onClick={this.handleClick}
-              style={{ cursor: this.hidePointerCursor() }}
+              style={{ cursor: this.hidePointerCursor(), width :this.getlabelWidth() }}
             >{label.text}</a>
           )
         }
-        <div className={`ui ${divideBy} ${label.alignment} statistics`}>
+        <div className={`ui ${divideBy} ${label.alignment} statistics`} ref='chartBody'>
           {children}
         </div>
       </div>
