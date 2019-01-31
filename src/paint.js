@@ -115,6 +115,9 @@ export default function setupPaint({
       ]);
     },
     beforeDestroy: function(id){
+      if (!id) {
+        return;
+      }
       ReactDOM.unmountComponentAtNode(elements[id]);
     }
   };
