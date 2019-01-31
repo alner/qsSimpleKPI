@@ -77,148 +77,16 @@ class StatisticBlock extends Component {
   kpiItemResizeHandler(isNeedResize) {
     if(!isNeedResize && !this.state.is_show) {
       this.componentReady();
-    } else
-    if(isNeedResize && this.props.options.autoSize) {
-      let size = this.state.size;
-      let index = getSizeIndex(size);
-      if(index > 0) {
-        this.setState({
-          size: SIZE_OPTIONS[index - 1].value
-        });
-      } else {
-        if(this.state.valueFontStyleIndex)
-          this.setState({ valueFontStyleIndex: this.state.valueFontStyleIndex - 1 });
-        else
-        if(this.state.valueFontStyleIndex !== 0)
-          this.setState({ valueFontStyleIndex: FONT_SIZE_OPTIONS.length - 1 });
-      }
     }
   }
   checkRequiredSize(){
     let element = this.props.element;
 
-    if (!this.props.options.autoSize) {
-      const scrollWidth = element.scrollWidth * 0.95;
-      const scrollHeight = element.scrollHeight * 0.95;
-      const shouldShowScrollBar = (element.clientHeight < scrollHeight || element.clientWidth < scrollWidth);
-      if (this.state.overflow !== "auto" && shouldShowScrollBar) {
-        this.setState({ overflow: "auto" });
-      }
-      return;
-    }
-
-    let currentSize = this.state.size;
-    const thereAreDimensions = this.props.kpis.qDimensionInfo.length > 0;
-    const updateSizeArguments = {
-      containerElement: thereAreDimensions ? this.refs.parent : this.refs.statistics,
-      options: this.props.options,
-      kpis: this.props.kpis
-    };
-    if (thereAreDimensions) {
-      if (this.getIfWeShouldUpdateSize(updateSizeArguments)){
-        this.decreaseSize(currentSize);
-      }
-    } else {
-      if (this.getIfWeShouldUpdateSizeWithoutDimension(updateSizeArguments)) {
-        this.decreaseSize(currentSize);
-      }
-    }
-  }
-
-  getIfWeShouldUpdateSize ({ containerElement, options, kpis }) {
-    if (!containerElement || ! options || !kpis) {
-      return false;
-    }
-    const containerSize = containerElement.getBoundingClientRect();
-    let elementClientWidth = containerSize.width;
-    let elementClientHeight = containerSize.height;
-    let childrenElements = containerElement.children;
-    let dividedBy = options.divideBy;
-    let dividedByNumber = getDivideByNumber(dividedBy) || 1;
-    let childrenHeight = 0;
-    let childrenCombinedWidth = 0;
-
-    if (options.dimShowAs == "segment" && options.dimensionsOrientation == "vertical"){
-      childrenCombinedWidth = childrenElements[0].getBoundingClientRect().width;
-      for (let i = 0 ; i < childrenElements.length ; i++){
-        const plusHeight = childrenElements[i] ? childrenElements[i].getBoundingClientRect().height : 0;
-        childrenHeight = childrenHeight + plusHeight;
-      }
-    }else{
-      if (dividedBy == "auto" || dividedBy == ""){
-        for (let e of childrenElements) {
-          childrenCombinedWidth = childrenCombinedWidth + e.getBoundingClientRect().width;
-        }
-
-      }else{
-        let rows = kpis.qMeasureInfo.length;
-        let ratio = Math.floor(rows / dividedByNumber) + 1;
-        if (rows % dividedByNumber == 0){
-          for (let i = 0 ; i < rows/dividedByNumber ; i++ + ratio){
-            const plusHeight = childrenElements[i] ? childrenElements[i].getBoundingClientRect().height : 0;
-            childrenHeight = childrenHeight + plusHeight;
-          }
-        }
-        else{
-          for (let i = 0 ; i <= Math.floor(rows/dividedByNumber) ; i++ + ratio){
-            const plusHeight = childrenElements[i] ? childrenElements[i].getBoundingClientRect().height : 0;
-            childrenHeight = childrenHeight + plusHeight;
-          }
-        }
-        for ( let i = 0 ; i < dividedByNumber ; i++){
-          const plusWidth = childrenElements[i] ? childrenElements[i].getBoundingClientRect().width : 0;
-          childrenCombinedWidth = childrenCombinedWidth + plusWidth;
-        }
-      }
-    }
-
-    return elementClientWidth < childrenCombinedWidth || elementClientHeight < childrenHeight;
-  }
-
-  getIfWeShouldUpdateSizeWithoutDimension({ containerElement, options, kpis }) {
-    if (!containerElement || ! options || !kpis) {
-      return false;
-    }
-    const containerElementSize = containerElement.getBoundingClientRect();
-    let elementClientWidth = containerElementSize.width;
-    let elementClientHeight = containerElementSize.height;
-    let childrenElements = containerElement.children;
-    let childrenCombinedWidth = 0;
-    let childrenHeight = 0;
-    let dividedBy = options.divideBy;
-    let dividedByNumber = getDivideByNumber(dividedBy) || 1;
-    let rows = kpis.qMeasureInfo.length;
-    let ratio = Math.floor(rows / dividedByNumber) + 1;
-    if (rows % dividedByNumber == 0){
-      for (let i = 0 ; i < rows/dividedByNumber ; i++ + ratio){
-        const plusHeight = childrenElements[i] ? childrenElements[i].getBoundingClientRect().height : 0;
-        childrenHeight = childrenHeight + plusHeight;
-      }
-    }
-    else{
-      for (let i = 0 ; i <= Math.floor(rows/dividedByNumber) ; i++ + ratio){
-        const plusHeight = childrenElements[i] ? childrenElements[i].getBoundingClientRect().height : 0;
-        childrenHeight = childrenHeight + plusHeight;
-      }
-    }
-    for ( let i = 0 ; i < dividedByNumber ; i++){
-      const plusWidth = childrenElements[i] ? childrenElements[i].getBoundingClientRect().width : 0;
-      childrenCombinedWidth = childrenCombinedWidth + plusWidth;
-    }
-
-    return elementClientWidth < childrenCombinedWidth || elementClientHeight < childrenHeight;
-  }
-  
-  decreaseSize (size) {
-    let index = getSizeIndex(size);
-    if(index > 0) {
-      this.setState({
-        size: SIZE_OPTIONS[index - 1].value,
-      });
-    } else if (index < 0){
-      this.setState({
-        size: SIZE_OPTIONS[3].value,
-      });
+    const scrollWidth = element.scrollWidth * 0.95;
+    const scrollHeight = element.scrollHeight * 0.95;
+    const shouldShowScrollBar = (element.clientHeight < scrollHeight || element.clientWidth < scrollWidth);
+    if (this.state.overflow !== "auto" && shouldShowScrollBar) {
+      this.setState({ overflow: "auto" });
     }
   }
 
@@ -249,7 +117,7 @@ class StatisticBlock extends Component {
       let itemSize = item.ovParams && item.size !== DEFAULT_SIZE ? item.size : options.size;
       if(deltaSizeIndex > 0) {
         let itemSizeIndex = getSizeIndex(itemSize);
-        itemSizeIndex = Math.max(0, options.autoSize && deltaSizeIndex > 0 ? itemSizeIndex - deltaSizeIndex + 1 : itemSizeIndex);
+        itemSizeIndex = Math.max(0, deltaSizeIndex > 0 ? itemSizeIndex - deltaSizeIndex + 1 : itemSizeIndex);
         itemSize = SIZE_OPTIONS[itemSizeIndex].value;
       }
       if(index >= data.length) return;
