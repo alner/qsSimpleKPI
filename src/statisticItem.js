@@ -32,7 +32,7 @@ class Icon extends Component {
       let icons = [];
       if(!isNaN(value) && isFinite(value)) {
         value = Math.min(THRESHOLD, value);
-        for (let i = 1; i <= value; ++i) {
+        for (let i = 1; i <= value; i++) {
           icons.push(
             <div id="icon" ref="infographicIcon" key={`${i}_parent_div`} className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}>
               <i key={i} className={`${valueIcon} ${iconSize}`}></i>
@@ -69,8 +69,10 @@ export default class StatisticItem extends Component {
     let wrapperElement;
     let iconElement;
     if(iconComponentElement){
-      wrapperElement = iconComponentElement.refs.infographicWrapper;
       iconElement = iconComponentElement.refs.infographicIcon;
+    }
+    if(this.refs.statisticContainer){
+      wrapperElement = this.refs.statisticContainer.parentNode;
     }
     let warpperWidth = 0;
     let iconWidth = 0;
@@ -79,16 +81,12 @@ export default class StatisticItem extends Component {
       warpperWidth= wrapperElement.getBoundingClientRect().width;
       iconWidth= iconElement.getBoundingClientRect().width;
     }
-    let allowedColumns = (warpperWidth / iconWidth) ;
     let iconsColumnNumber = 20;
-    if ( allowedColumns > 15 ){
+    if ( iconWidth * 20 <= warpperWidth ){
       iconsColumnNumber = 20;
     }
-    else if (allowedColumns <= 15 && allowedColumns > 10){
+    else if (iconWidth * 20 > warpperWidth){
       iconsColumnNumber = 10;
-    }
-    if( allowedColumns < 10){
-      iconsColumnNumber = 5;
     }
     return iconsColumnNumber;
   }
@@ -222,7 +220,7 @@ export default class StatisticItem extends Component {
     // *** patch for ios dev ***
     // statistic-${index} - allows to use custom style to each measures element
     let statisticItem = (
-      <div className={`statistic statistic-${index+1}`}
+      <div ref="statisticContainer" className={`statistic statistic-${index+1}`}
         style={statisticStyles}
         onClick={onClick}>
         <div className={`ui one ${size} statistics`}>
