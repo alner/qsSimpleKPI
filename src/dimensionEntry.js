@@ -43,12 +43,16 @@ class DimensionEntry extends Component {
       isSelected,
       onDeselect,
       onSelect,
-      isInEditMode
+      isInEditMode,
+      inStoryMode
     } = this.props;
     if(isInEditMode){
       return;
     }
     if(this.props.dimension[0].qIsNull){
+      return;
+    }
+    if(inStoryMode == false){
       return;
     }
     this.props.onToggle(dimNo, dimensionIndex);
