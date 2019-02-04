@@ -16,7 +16,8 @@ class Icon extends Component {
     const hasIconSizeChanged = this.props.iconSize !== nextProps.iconSize;
     const hasInfographicChanged = this.props.infographic !== nextProps.infographic;
     const hasIsOnValueChanged = this.props.isOnValue !== nextProps.isOnValue;
-    return hasValueChanged || hasIconChanged || hasIconSizeChanged || hasInfographicChanged || hasIsOnValueChanged;
+    const hasColumnNumberChanged = this.props.columnNumber !== nextProps.columnNumber;
+    return hasValueChanged || hasIconChanged || hasIconSizeChanged || hasInfographicChanged || hasIsOnValueChanged || hasColumnNumberChanged;
   }
   render() {
     let {
@@ -24,7 +25,8 @@ class Icon extends Component {
       valueIcon,
       iconSize,
       infographic,
-      isOnValue
+      isOnValue,
+      columnNumber
     } = this.props;
     if(infographic && valueIcon) {
       let icons = [];
@@ -32,18 +34,15 @@ class Icon extends Component {
         value = Math.min(THRESHOLD, value);
         for (let i = 1; i <= value; ++i) {
           icons.push(
-            <div key={`${i}_parent_div`} className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}>
+            <div id="icon" ref="infographicIcon" key={`${i}_parent_div`} className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}>
               <i key={i} className={`${valueIcon} ${iconSize}`}></i>
             </div>
           );
-          if (i % ICONS_PER_ROW === 0) {
-            icons.push(<br key={`${i}_br`}/>);
-          }
         }
       }
 
       return (
-        <div className="infographic-icon-set-wrapper">
+        <div id="wrapper" ref="infographicWrapper" className="infographic-icon-set-wrapper" style={{ gridTemplateColumns : `repeat(${columnNumber} ,1fr)` }}>
           {icons}
         </div>
       );
@@ -65,6 +64,34 @@ export default class StatisticItem extends Component {
     setTimeout(function(){self.checkRequiredSize();}, 100);
   }
 
+  getIconsColumnNumber(){
+    let iconComponentElement = this.refs.icon;
+    let wrapperElement;
+    let iconElement;
+    if(iconComponentElement){
+      wrapperElement = iconComponentElement.refs.infographicWrapper;
+      iconElement = iconComponentElement.refs.infographicIcon;
+    }
+    let warpperWidth = 0;
+    let iconWidth = 0;
+
+    if (wrapperElement && iconElement){
+      warpperWidth= wrapperElement.getBoundingClientRect().width;
+      iconWidth= iconElement.getBoundingClientRect().width;
+    }
+    let allowedColumns = (warpperWidth / iconWidth) ;
+    let iconsColumnNumber = 20;
+    if ( allowedColumns > 15 ){
+      iconsColumnNumber = 20;
+    }
+    else if (allowedColumns <= 15 && allowedColumns > 10){
+      iconsColumnNumber = 10;
+    }
+    if( allowedColumns < 10){
+      iconsColumnNumber = 5;
+    }
+    return iconsColumnNumber;
+  }
   componentDidUpdate() {
     this.checkRequiredSize();
   }
@@ -114,10 +141,10 @@ export default class StatisticItem extends Component {
       kpisRows,
       isShow
     } = this.props.item;
+     let columnNumber = this.getIconsColumnNumber();
 
     let labelStyles = { padding: "5px 5px", textAlign: textAlignment };
     let valueStyles = { padding: "5px 5px", textAlign: textAlignment };
-
     if(labelColor)
       labelStyles.color = labelColor.color;
 
@@ -144,9 +171,9 @@ export default class StatisticItem extends Component {
     let iconOrderFirst = iconOrder === "first";
     let labelComponent = hideLabel ? null : (
       <div key="lbl" className="label" style={labelStyles}>
-        {iconOrderFirst && this.props.item.iconPosition === 'label' ? <Icon valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
+        {iconOrderFirst && this.props.item.iconPosition === 'label' ? <Icon ref="icon" columnNumber={columnNumber} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
         {this.props.item.label}
-        {!iconOrderFirst && this.props.item.iconPosition === 'label' ? <Icon valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
+        {!iconOrderFirst && this.props.item.iconPosition === 'label' ? <Icon ref="icon" columnNumber={columnNumber} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} /> : null}
       </div>
     );
 
@@ -160,9 +187,12 @@ export default class StatisticItem extends Component {
       kpisRows,
       isShow
     };
-    const icon = (
-      <Icon isOnValue={true} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} />
-    );
+    const icon = () => {
+      return (
+        <Icon ref="icon" columnNumber={columnNumber} isOnValue={true} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} />
+        );
+      };
+
     let valueComponent = hideValue ? null : (
       <ValueComponent {...valueComponentProps}>
         {iconOrderFirst && this.props.item.iconPosition === 'value' ? icon : null}

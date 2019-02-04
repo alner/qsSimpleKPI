@@ -31,7 +31,9 @@
   }
 
   .infographic-icon-set-wrapper {
+
     line-height: 0; // hack to offset height from 4rem font-size from semantic-ui
+    display: grid;
   }
 
   .top-aligned-items {
@@ -108,6 +110,7 @@
     bottom: 0;
     &.infographic{
       margin: 10px 0;
+      width: fit-content;
     }
   }
   .value--icon--wrapper.on-value{
@@ -256,7 +259,7 @@
     .statistics {
       display: flex;
       justify-content: center;
-      
+
       .statistic {
         min-width: 0;
         align-self: flex-start;
