@@ -106,13 +106,12 @@ let DragDropSpec = {
       let placeElementWidth = $(placeElement).width();
       let newHeight = mainContainerHeight - topMargin;
       if(newHeight > 0
-      && (newHeight < placeElementHeight || newHeight > placeElementHeight)) {
+      && (newHeight !== Math.round(placeElementHeight))) {
         $(placeElement).height(newHeight);
         this.height = newHeight;
         this.props.services.Qlik.resize(this.state.itemid);
       } else
-      if(placeElementWidth > this.width
-      || placeElementWidth < this.width) {
+      if(Math.round(placeElementWidth) !== this.width) {
         if(Math.abs(placeElementWidth - this.width) > 5)
           this.props.services.Qlik.resize(this.state.itemid);
 
