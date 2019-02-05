@@ -89,6 +89,7 @@
   .ui.statistics .statistic > .label,
   .ui.statistic > .label {
     text-transform: none;
+    width: 100%;
   }
   .ui.statistic > .value {
     width: 100%;
@@ -103,6 +104,15 @@
   .ui.segments, .ui.segment {
     background-color: transparent !important;
   }
+  .ui.segment{
+    // min-width: fit-content !important;
+  }
+  .ui.statistic .label span{
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+  }
   .value--icon--wrapper{
     display: inline-block;
     position: relative;
@@ -110,7 +120,7 @@
     bottom: 0;
     &.infographic{
       margin: 10px 0;
-      width: fit-content;
+      // width: fit-content;
     }
   }
   .value--icon--wrapper.on-value{
@@ -140,9 +150,9 @@
   }
 
   .ui.cards {
-    align-items: center;
+    // align-items: center;
     margin: 0 !important;
-    align-items: center;
+    // align-items: center;
     justify-content: space-evenly;
     height: 100%;
     display: -ms-flexbox;

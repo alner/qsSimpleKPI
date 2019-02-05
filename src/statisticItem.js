@@ -82,10 +82,10 @@ export default class StatisticItem extends Component {
       iconWidth= iconElement.getBoundingClientRect().width;
     }
     let iconsColumnNumber = 20;
-    if ( iconWidth * 20 <= warpperWidth ){
+    if ( iconWidth * iconsColumnNumber <= warpperWidth ){
       iconsColumnNumber = 20;
     }
-    else if (iconWidth * 20 > warpperWidth){
+    else if (iconWidth * iconsColumnNumber > warpperWidth){
       iconsColumnNumber = 10;
     }
     return iconsColumnNumber;
