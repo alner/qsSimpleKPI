@@ -539,24 +539,6 @@ export default function ({ ShowService }) {
             defaultValue: "normal"
           },
 
-          autoSize: {
-            type: "boolean",
-            component: "switch",
-            label: "Responsive size",
-            ref: "options.autoSize",
-            defaultValue: false,
-            show: false,
-            options: [
-              {
-                value: true,
-                label: "On"
-              },
-              {
-                value: false,
-                label: "Off"
-              }]
-          },
-
           divideBy: {
             type: "string",
             component: "dropdown",

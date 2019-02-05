@@ -70,24 +70,20 @@
 
   .ui.horizontal.segments {
     margin: 0;
+    height: auto;
+    align-self: flex-start;
+
+    @media (max-width: 767px) {
+      display: block;
+    }
   }
 
   @media (max-width: 767px) {
     .ui.cards {
       height: 100%;
     }
-    
-  .ui.segments {
-    min-width: max-content;
   }
-  }
-  .ui.statistics .statistic > .label,
-  .ui.statistic > .label {
-    text-transform: none;
-  }
-  .ui.statistic > .value {
-    width: 100%;
-  }
+  
   .ui.segment > .label[class*="center aligned"] {
     text-align: center;
   }
@@ -116,15 +112,26 @@
       margin: 10px 0 ;
     }
   }
-  .ui.statistics .statistic > .value,
-  .ui.statistic > .value {
-    text-transform: none;
-    box-sizing: border-box;
-    padding: 5px 5px;
+  .ui.statistics .statistic,
+  .ui.statistic {
+
+    @media (max-width: 763px) {
+      display: block;
+    }
+
+    > .label {
+      text-transform: none;
+    }
+
+    > .value {
+      width: 100%;
+      text-transform: none;
+      box-sizing: border-box;
+      padding: 5px 5px;
+    }
   }
 
-  .ui.vertical.segments,
-  .ui.horizontal.segments {
+  .ui.vertical.segments {
     height: 100%;
   }
 
@@ -145,12 +152,18 @@
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 
+    @media (max-width: 767px) {
+        height: 100%;
+    }
+
     &.one > .card {
       margin: .5rem .75rem;
     }
 
-    @media (max-width: 767px) {
-        height: 100%;
+    .ui.segment {
+      .ui.statistics{
+        display: block;
+      }
     }
   }
 
@@ -243,16 +256,39 @@
     border: 1px solid #a6a6a6 !important;
     border-bottom: none;
   }
-  .ui.segments, .ui.cards {
-    .ui.segment{
-      .ui.statistics{
+
+  .ui.segments {
+    .statistics {
+      display: flex;
+      justify-content: center;
+      
+      .statistic {
+        align-self: flex-start;
+      }
+
+      @media (max-width: 767px) {
         display: block;
+
+        .statistic {
+          width: 100%;
+          margin-bottom: .7rem;
+        }
       }
     }
+  }
+
+  .ui.segments, .ui.cards {
+    .ui.card {
+      min-width: 250px; // IE support
+      min-width: fit-content;
+    }
+
+    .ui.segment {
+      min-width: 150px;
+    }
+
     .ui.segment, .ui.card {
       flex-direction: column;
-      min-width: 150px;
-      min-width: fit-content !important;
       padding: 0;
       a{
         font-size: 16px;
@@ -327,6 +363,12 @@
       .huge {
         font-size: xx-large;
       }
+    }
+  }
+
+  @media (max-width: 767px) {
+    .ui.statistics {
+      display: block;
     }
   }
 }

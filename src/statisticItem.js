@@ -187,7 +187,7 @@ export default class StatisticItem extends Component {
     // *** patch for ios devices ***
     let divPercent = getDivideByValue(this.props.options.divideBy);
     if(divPercent) {
-      statisticStyles.width = divPercent + '%';
+      statisticStyles.flexBasis = divPercent + '%';
     }
     // *** patch for ios dev ***
     // statistic-${index} - allows to use custom style to each measures element
