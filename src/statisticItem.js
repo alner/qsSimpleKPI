@@ -72,14 +72,14 @@ export default class StatisticItem extends Component {
       iconElement = iconComponentElement.refs.infographicIcon.children[0];
     }
     if(this.refs.statisticContainer){
-      wrapperElement = this.refs.statisticContainer.parentNode;
+      wrapperElement = this.refs.statisticContainer;
     }
     let warpperWidth = 0;
     let iconWidth = 0;
-
+    const iconPadding = 2
     if (wrapperElement && iconElement){
       warpperWidth= wrapperElement.getBoundingClientRect().width;
-      iconWidth= iconElement.getBoundingClientRect().width;
+      iconWidth= iconElement.getBoundingClientRect().width - iconPadding;
     }
     let iconsColumnNumber = 20;
     if ( iconWidth * iconsColumnNumber <= warpperWidth ){
