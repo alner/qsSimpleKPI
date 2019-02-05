@@ -132,11 +132,23 @@
       margin: 10px 0 ;
     }
   }
-  .ui.statistics .statistic > .value,
-  .ui.statistic > .value {
-    text-transform: none;
-    box-sizing: border-box;
-    padding: 5px 5px;
+  .ui.statistics .statistic,
+  .ui.statistic {
+
+    @media (max-width: 763px) {
+      display: block;
+    }
+
+    > .label {
+      text-transform: none;
+    }
+
+    > .value {
+      width: 100%;
+      text-transform: none;
+      box-sizing: border-box;
+      padding: 5px 5px;
+    }
   }
 
   .ui.vertical.segments {
@@ -271,7 +283,6 @@
       justify-content: center;
 
       .statistic {
-        min-width: 0;
         align-self: flex-start;
       }
 
@@ -280,6 +291,7 @@
 
         .statistic {
           width: 100%;
+          margin-bottom: .7rem;
         }
       }
     }
@@ -371,6 +383,12 @@
       .huge {
         font-size: xx-large;
       }
+    }
+  }
+
+  @media (max-width: 767px) {
+    .ui.statistics {
+      display: block;
     }
   }
 }
