@@ -336,16 +336,14 @@ class StatisticBlock extends Component {
     }
   }
 
-  onDimensionLabelClick(dimNo, value) {
+  onDimensionLabelClick(dimensionNumber, value) {
     const { services } = this.props;
-    const component = services.QlikComponent;
-    const inStoryMode = component.options.selections;
-    if (services && services.QlikComponent) {
-      if(inStoryMode == false){
-        return;
-      }else {
-        services.QlikComponent.selectValues(dimNo, [value], true);
-      }
+    if (!services || !services.QlikComponent || !services.QlikComponent.options) {
+      return;
+    }
+    const inStoryMode = services.QlikComponent.options.selections;
+    if (!inStoryMode) {
+      services.QlikComponent.selectValues(dimensionNumber, [value], true);
     }
   }
 }

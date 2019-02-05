@@ -52,7 +52,7 @@ class DimensionEntry extends Component {
     if(this.props.dimension[0].qIsNull){
       return;
     }
-    if(inStoryMode == false){
+    if(inStoryMode === false){
       return;
     }
     this.props.onToggle(dimNo, dimensionIndex);
