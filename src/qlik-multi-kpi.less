@@ -104,10 +104,7 @@
   .ui.segments, .ui.segment {
     background-color: transparent !important;
   }
-  .ui.segment{
-    // min-width: fit-content !important;
-  }
-  .ui.statistic .label span{
+  .ui.statistic .label .infographic-icon-set-wrapper +span{
     width: 100%;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -115,6 +112,7 @@
   }
   .value--icon--wrapper{
     position: relative;
+    display: inline-block;
     margin: 8px;
     bottom: 0;
     &.infographic{
