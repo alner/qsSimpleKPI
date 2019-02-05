@@ -35,7 +35,7 @@ class Icon extends Component {
         for (let i = 1; i <= value; i++) {
           icons.push(
             <div id="icon" ref="infographicIcon" key={`${i}_parent_div`} className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}>
-              <i key={i} className={`${valueIcon} ${iconSize}`}></i>
+              <i ref="iconElement" key={i} className={`${valueIcon} ${iconSize}`}></i>
             </div>
           );
         }
@@ -69,7 +69,7 @@ export default class StatisticItem extends Component {
     let wrapperElement;
     let iconElement;
     if(iconComponentElement){
-      iconElement = iconComponentElement.refs.infographicIcon;
+      iconElement = iconComponentElement.refs.infographicIcon.children[0];
     }
     if(this.refs.statisticContainer){
       wrapperElement = this.refs.statisticContainer.parentNode;
