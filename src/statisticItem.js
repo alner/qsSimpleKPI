@@ -64,31 +64,30 @@ export default class StatisticItem extends Component {
     setTimeout(function(){self.checkRequiredSize();}, 100);
   }
 
-  getIconsColumnNumber(){
+  getNumberOfIconsPerColumn(){
     let iconComponentElement = this.refs.icon;
     let wrapperElement;
     let iconElement;
-    if(iconComponentElement){
+    if(iconComponentElement && iconComponentElement.refs.infographicIcon){
       iconElement = iconComponentElement.refs.infographicIcon.children[0];
     }
     if(this.refs.statisticContainer){
       wrapperElement = this.refs.statisticContainer;
     }
-    let warpperWidth = 0;
+    let wrapperWidth = 0;
     let iconWidth = 0;
     const iconPadding = 2;
     if (wrapperElement && iconElement){
-      warpperWidth= wrapperElement.getBoundingClientRect().width;
+      wrapperWidth= wrapperElement.getBoundingClientRect().width;
       iconWidth= iconElement.getBoundingClientRect().width + iconPadding;
     }
-    let iconsColumnNumber = 20;
-    if ( iconWidth * iconsColumnNumber <= warpperWidth ){
-      iconsColumnNumber = 20;
+    let numberOfIconsPerColumn = 20;
+    let canFitIcons = iconWidth * numberOfIconsPerColumn < wrapperWidth;
+
+    if (!canFitIcons){
+      numberOfIconsPerColumn = 10;
     }
-    else if (iconWidth * iconsColumnNumber > warpperWidth){
-      iconsColumnNumber = 10;
-    }
-    return iconsColumnNumber;
+    return numberOfIconsPerColumn;
   }
   componentDidUpdate() {
     this.checkRequiredSize();
@@ -139,7 +138,7 @@ export default class StatisticItem extends Component {
       kpisRows,
       isShow
     } = this.props.item;
-     let columnNumber = this.getIconsColumnNumber();
+     let columnNumber = this.getNumberOfIconsPerColumn();
 
     let labelStyles = { padding: "5px 5px", textAlign: textAlignment };
     let valueStyles = { padding: "5px 5px", textAlign: textAlignment };
