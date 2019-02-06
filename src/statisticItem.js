@@ -76,10 +76,10 @@ export default class StatisticItem extends Component {
     }
     let warpperWidth = 0;
     let iconWidth = 0;
-    const iconPadding = 2
+    const iconPadding = 2;
     if (wrapperElement && iconElement){
       warpperWidth= wrapperElement.getBoundingClientRect().width;
-      iconWidth= iconElement.getBoundingClientRect().width - iconPadding;
+      iconWidth= iconElement.getBoundingClientRect().width + iconPadding;
     }
     let iconsColumnNumber = 20;
     if ( iconWidth * iconsColumnNumber <= warpperWidth ){
