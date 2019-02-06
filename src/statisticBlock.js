@@ -255,6 +255,14 @@ class StatisticBlock extends Component {
                   const dimensionLabel = dim[dimNo].qText;
                   const dimensionIndex = dim[dimNo].qElemNumber;
                   let measures = self.renderKpis(kpis, dindex, divideByNumber);
+                  let aMeasureHasInfographicIcons = false;
+                  let iconSize = '';
+                  for(var i = 0 ; i < measures.length ; i++){
+                    if (measures[i].props.item.infographic === true){
+                      aMeasureHasInfographicIcons = true;
+                      iconSize = measures[i].props.item.iconSize;
+                    }
+                  }
                   const labelOptions = {
                     alignment: dimLabelsAlignment,
                     isHidden: dimHideLabels,
@@ -277,6 +285,8 @@ class StatisticBlock extends Component {
                       showAs={dimShowAs}
                       style={segmentStyle}
                       dimDivideBy={dimDivideBy}
+                      aMeasureHasInfographicIcons={aMeasureHasInfographicIcons}
+                      iconSize={iconSize}
                     >
                       {measures}
                     </DimensionEntry>
