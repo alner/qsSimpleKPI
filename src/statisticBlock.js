@@ -341,10 +341,7 @@ class StatisticBlock extends Component {
     if (!services || !services.QlikComponent || !services.QlikComponent.options) {
       return;
     }
-    const inStoryMode = services.QlikComponent.options.selections;
-    if (!inStoryMode) {
-      services.QlikComponent.selectValues(dimensionNumber, [value], true);
-    }
+    services.QlikComponent.selectValues(dimensionNumber, [value], true);
   }
 }
 
