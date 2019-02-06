@@ -338,10 +338,9 @@ class StatisticBlock extends Component {
 
   onDimensionLabelClick(dimensionNumber, value) {
     const { services } = this.props;
-    if (!services || !services.QlikComponent || !services.QlikComponent.options) {
-      return;
+    if (services && services.QlikComponent) {
+      services.QlikComponent.selectValues(dimensionNumber, [value], true);
     }
-    services.QlikComponent.selectValues(dimensionNumber, [value], true);
   }
 }
 
