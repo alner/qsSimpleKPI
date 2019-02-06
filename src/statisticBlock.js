@@ -231,6 +231,7 @@ class StatisticBlock extends Component {
         if(dimDivideBy === "auto")
           dimDivideBy = DIVIDE_BY[Math.min(10, kpis.qDimensionInfo[dimNo].qCardinal)];
         let isInEditMode = this.props.services.State.isInEditMode();
+        let inStoryMode = this.props.services.QlikComponent.options.selections;
         let EditModeClass = isInEditMode ? 'edit-mode' : '';
         let dimShowAsContainer = dimShowAs === 'card' ? `${dimDivideBy} stackable cards` : 'segments';
         let dimLabelsAlignment = '';
@@ -267,6 +268,7 @@ class StatisticBlock extends Component {
                       key={dimensionLabel}
                       dimension={dim}
                       isInEditMode={isInEditMode}
+                      inStoryMode={inStoryMode}
                       divideBy={divideBy}
                       dindex={dindex}
                       divideByNumber={divideByNumber}
@@ -334,10 +336,10 @@ class StatisticBlock extends Component {
     }
   }
 
-  onDimensionLabelClick(dimNo, value) {
+  onDimensionLabelClick(dimensionNumber, value) {
     const { services } = this.props;
     if (services && services.QlikComponent) {
-      services.QlikComponent.selectValues(dimNo, [value], true);
+      services.QlikComponent.selectValues(dimensionNumber, [value], true);
     }
   }
 }
