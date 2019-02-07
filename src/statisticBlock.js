@@ -257,10 +257,14 @@ class StatisticBlock extends Component {
                   let measures = self.renderKpis(kpis, dindex, divideByNumber);
                   let aMeasureHasInfographicIcons = false;
                   let iconSize = '';
-                  for(var i = 0 ; i < measures.length ; i++){
-                    if (measures[i].props.item.infographic === true){
-                      aMeasureHasInfographicIcons = true;
-                      iconSize = measures[i].props.item.iconSize;
+                  if(measures){
+                    for(var i = 0 ; i < measures.length ; i++){
+                      if(measures[i]){
+                        if (measures[i].props.item.infographic === true){
+                          aMeasureHasInfographicIcons = true;
+                          iconSize = measures[i].props.item.iconSize;
+                        }
+                      }
                     }
                   }
                   const labelOptions = {
