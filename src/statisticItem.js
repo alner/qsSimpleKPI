@@ -34,7 +34,7 @@ class Icon extends Component {
         value = Math.min(THRESHOLD, value);
         for (let i = 1; i <= value; i++) {
           icons.push(
-            <div id="icon" ref="infographicIcon" key={`${i}_parent_div`} className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}>
+            <div ref="infographicIcon" key={`${i}_parent_div`} className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}>
               <i ref="iconElement" key={i} className={`${valueIcon} ${iconSize}`}></i>
             </div>
           );
@@ -184,11 +184,9 @@ export default class StatisticItem extends Component {
       kpisRows,
       isShow
     };
-    const icon = () => {
-      return (
-        <Icon ref="icon" columnNumber={columnNumber} isOnValue={true} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} />
-        );
-      };
+    const icon = (
+      <Icon ref="icon" columnNumber={columnNumber} isOnValue={true} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} />
+    );
 
     let valueComponent = hideValue ? null : (
       <ValueComponent {...valueComponentProps}>
