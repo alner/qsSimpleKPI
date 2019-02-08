@@ -30,6 +30,12 @@ class Icon extends Component {
     } = this.props;
     if(infographic && valueIcon) {
       let icons = [];
+      let gridColumnNumber = 20;
+      if(value < columnNumber ){
+        gridColumnNumber = Math.floor(value);
+      }else{
+        gridColumnNumber = columnNumber;
+      }
       if(!isNaN(value) && isFinite(value)) {
         value = Math.min(THRESHOLD, value);
         for (let i = 1; i <= value; i++) {
@@ -42,7 +48,7 @@ class Icon extends Component {
       }
 
       return (
-        <div id="wrapper" ref="infographicWrapper" className="infographic-icon-set-wrapper" style={{ gridTemplateColumns : `repeat(${columnNumber} ,1fr)` }}>
+        <div id="wrapper" ref="infographicWrapper" className="infographic-icon-set-wrapper" style={{ gridTemplateColumns : `repeat(${gridColumnNumber} ,1fr)` }}>
           {icons}
         </div>
       );
