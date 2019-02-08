@@ -30,11 +30,17 @@ class Icon extends Component {
     } = this.props;
     if(infographic && valueIcon) {
       let icons = [];
+      let gridColumnNumber = 20;
+      if(value < columnNumber ){
+        gridColumnNumber = Math.floor(value);
+      }else{
+        gridColumnNumber = columnNumber;
+      }
       if(!isNaN(value) && isFinite(value)) {
         value = Math.min(THRESHOLD, value);
         for (let i = 1; i <= value; i++) {
           icons.push(
-            <div id="icon" ref="infographicIcon" key={`${i}_parent_div`} className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}>
+            <div ref="infographicIcon" key={`${i}_parent_div`} className={`value--icon--wrapper ${iconSize}${isOnValue ? ` on-value` : ``} infographic`}>
               <i ref="iconElement" key={i} className={`${valueIcon} ${iconSize}`}></i>
             </div>
           );
@@ -42,7 +48,7 @@ class Icon extends Component {
       }
 
       return (
-        <div id="wrapper" ref="infographicWrapper" className="infographic-icon-set-wrapper" style={{ gridTemplateColumns : `repeat(${columnNumber} ,1fr)` }}>
+        <div id="wrapper" ref="infographicWrapper" className="infographic-icon-set-wrapper" style={{ gridTemplateColumns : `repeat(${gridColumnNumber} ,1fr)` }}>
           {icons}
         </div>
       );
@@ -184,11 +190,9 @@ export default class StatisticItem extends Component {
       kpisRows,
       isShow
     };
-    const icon = () => {
-      return (
-        <Icon ref="icon" columnNumber={columnNumber} isOnValue={true} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} />
-        );
-      };
+    const icon = (
+      <Icon ref="icon" columnNumber={columnNumber} isOnValue={true} valueIcon={valueIcon} iconSize={iconSize} value={numericValue} infographic={infographic} />
+    );
 
     let valueComponent = hideValue ? null : (
       <ValueComponent {...valueComponentProps}>
