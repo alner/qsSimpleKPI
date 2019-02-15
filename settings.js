@@ -9,5 +9,5 @@ module.exports = {
   name: packageJSON.name,
   version: process.env.VERSION || 'local-dev',
   url: process.env.BUILD_URL || defaultBuildDestination,
-  port: 8081
+  port: process.env.PORT || 8081
 };
