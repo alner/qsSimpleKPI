@@ -70,7 +70,7 @@ define(dependencies,
       paint,
       support: {
         snapshot: true,
-        export: true,
+        export: false,
         exportData: true
       },
       beforeDestroy: function(){
