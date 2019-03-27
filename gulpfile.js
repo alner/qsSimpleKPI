@@ -1,48 +1,75 @@
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var less = require('gulp-less');
 var del = require('del');
 var zip = require('gulp-zip');
 var cssnano = require('gulp-cssnano');
 var purify = require('gulp-purifycss');
-var runSequence = require('run-sequence');
 var LessPluginAutoPrefix = require('less-plugin-autoprefix');
 var autoprefix= new LessPluginAutoPrefix({ browsers: ["last 2 versions"] });
 var path = require('path');
-var settings = require('./settings');
-var startDevServer = require('./server').start;
-var build = require('./server').build;
-var jeditor = require("gulp-json-editor");
+var webpackConfig = require('./webpack.config');
+var webpack = require('webpack');
+var pkg = require('./package.json');
 
-var qextFile = path.resolve('./src/' + settings.name + '.qext');
 var lessFiles = path.resolve('./src/**/*.less');
-var cssFiles = path.resolve('./src/**/*.css');
+var DIST = './dist';
+var VERSION = process.env.VERSION || 'local-dev';
+
+gulp.task('qext', function () {
+	var qext = {
+		name: 'Multi KPI',
+		type: 'visualization',
+		description: pkg.description + '\nVersion: ' + VERSION,
+		version: VERSION,
+		icon: 'kpi',
+		preview: 'multikpi.png',
+		keywords: 'qlik-sense, visualization',
+		author: pkg.author,
+		homepage: pkg.homepage,
+		license: pkg.license,
+		repository: pkg.repository,
+		dependencies: {
+			'qlik-sense': '>=5.5.x'
+		}
+	};
+	if (pkg.contributors) {
+		qext.contributors = pkg.contributors;
+	}
+	var src = require('stream').Readable({
+		objectMode: true
+	});
+	src._read = function () {
+		this.push(new gutil.File({
+			cwd: '',
+			base: '',
+			path: pkg.name + '.qext',
+			contents: Buffer.from(JSON.stringify(qext, null, 4))
+		}));
+		this.push(null);
+	};
+	return src.pipe(gulp.dest(DIST));
+});
 
 var ccsnanoConfig = {
   discardUnused: true,
   discardEmpty: true
 };
 
-gulp.task('webpack', function(callback){
-    build(function(err, stats){
-        if(err) {
-          return callback(err);
-        }
-        callback();
-    });
-});
+gulp.task('webpack-build', done => {
+  webpack(webpackConfig, (error, statistics) => {
+    const compilationErrors = statistics && statistics.compilation.errors;
+    const hasCompilationErrors = !statistics || (compilationErrors && compilationErrors.length > 0);
 
-gulp.task('devServer', function(callback){
-    startDevServer(function(err, server){
-        if(err) {
-          return callback(err);
-        }
-        callback();
-    });
-});
+    console.log(statistics && statistics.toString({ chunks: false, colors: true })); // eslint-disable-line no-console
 
-gulp.task('qext', function () {
-  return gulp.src(qextFile)
-  .pipe(gulp.dest(settings.buildDestination));
+    if (error || hasCompilationErrors) {
+      console.log('Build has errors or eslint errors, fail it'); // eslint-disable-line no-console
+      process.exit(1);
+    }
+
+    done();
+  });
 });
 
 gulp.task('less2css', function(){
@@ -51,64 +78,37 @@ gulp.task('less2css', function(){
     plugins: [autoprefix]
   }))
   .pipe(cssnano(ccsnanoConfig))
-  .pipe(gulp.dest(settings.buildDestination));
+  .pipe(gulp.dest(DIST));
 });
 
 gulp.task('purifycss', function(){
-  return gulp.src(`${settings.buildDestination}/*.css`)
+  return gulp.src(`${DIST}/*.css`)
     .pipe(purify(['./src/**/*.js']))
-    .pipe(gulp.dest(settings.buildDestination));
+    .pipe(gulp.dest(DIST));
 });
 
-gulp.task('css', function(){
-  return gulp.src(cssFiles)
-  .pipe(cssnano(ccsnanoConfig))
-  .pipe(gulp.dest(settings.buildDestination));
-});
-
-gulp.task('startWatcher', function(){
-  gulp.watch(qextFile, ['qext']);
-  gulp.watch(lessFiles, ['less2css']);
-  gulp.watch(cssFiles, ['css']);
-});
-
-gulp.task('remove-build-folder', function(){
-  return del([settings.buildDestination], { force: true });
+gulp.task('clean', function(){
+  return del([DIST], { force: true });
 });
 
 gulp.task('zip-build', function(){
-  return gulp.src(settings.buildDestination + '/**/*')
-    .pipe(zip(`${settings.name}_${settings.version}.zip`))
-    .pipe(gulp.dest(settings.buildDestination));
-});
-
-gulp.task('update-qext-version', function () {
-  return gulp.src(`${settings.buildDestination}/${settings.name}.qext`)
-    .pipe(jeditor({
-      'version': settings.version
-    }))
-    .pipe(gulp.dest(settings.buildDestination));
+  return gulp.src(DIST + '/**/*')
+    .pipe(zip(`${pkg.name}_${VERSION}.zip`))
+    .pipe(gulp.dest(DIST));
 });
 
 gulp.task('add-assets', function(){
-  return gulp.src("./assets/**/*").pipe(gulp.dest(settings.buildDestination));
+  return gulp.src('./assets/**/*').pipe(gulp.dest(DIST));
 });
 
-gulp.task('prepare', ['qext', 'less2css', 'add-assets'])
-gulp.task('watch', function(callback) {
-  runSequence(
-    'prepare',
-    'startWatcher',
-    'devServer'
-  );
-});
-gulp.task('build', function(callback) {
-  runSequence(
-    'remove-build-folder',
-    'prepare',
-    'purifycss',
-    'webpack',
-    'update-qext-version',
-    'zip-build'
-  );
-});
+gulp.task('build',
+  gulp.series('clean', 'qext', 'less2css', 'add-assets', 'purifycss', 'webpack-build')
+);
+
+gulp.task('zip',
+  gulp.series('build', 'zip-build')
+);
+
+gulp.task('default',
+  gulp.series('build')
+);
