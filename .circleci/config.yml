@@ -56,16 +56,18 @@ jobs:
           command: |
             export VERSION=$(scripts/get-bumped-version.sh)
             echo "Version: ${VERSION}"
-            npm run build
+            npm run build:zip
+            sudo chmod +x scripts/verify-files.sh
+            scripts/verify-files.sh
           environment:
             NODE_ENV: production
       - persist_to_workspace:
           root: ~/qlik-multi-kpi
           paths:
-            - build
+            - dist
       - store_artifacts:
-          path: build
-          destination: build
+          path: dist
+          destination: dist
   deploy:
     <<: *defaults
     steps:

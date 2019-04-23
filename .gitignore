@@ -1,7 +1,7 @@
 node_modules/
 semantic/dist/
 semantic/tasks/
-build/
+dist/
 deploy/
 BUMPED_VERSION
 *.map
