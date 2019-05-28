@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import senseDragDropSupport from './senseDragDropSupport';
 
-const QLIK_COMP_TOOLBAR_HEIGHT = 44; // additional selections panel height
-
 class ValueComponent extends Component {
   render(){
     let { valueStyles } = this.props;
@@ -54,31 +52,31 @@ let DragDropSpec = {
   },
 
   onInjectObjectHandler: function(placeElement){
-    if(!this.props.embeddedItem) // manual property deletion
+    if (!this.props.embeddedItem) {
+      // manual property deletion
       return this.removeObject();
+    }
 
-    if(this.state.itemid && this.state.isObjectInjected)
+    let isInEditMode = this.props.services.State.isInEditMode();
+    if (this.state.itemid
+      && this.state.isObjectInjected
+      && this.state.isNoInteraction === isInEditMode) {
       return;
+    }
 
     this.removeObject();
     let self = this;
-    let itemid = this.state.itemid;// || this.props.embeddedItem;
+    let itemid = this.state.itemid;
     let qlik = this.props.services.Qlik;
     //let height = $(placeElement).height();
     if(itemid && itemid.trim().length > 0) {
-      self.setState({ isObjectInjected: false, object: null, itemid: "" });
-      qlik.currApp().getObject(placeElement, itemid, { noInteraction: true }).then((object) => {
-        //let newHeight = height - QLIK_COMP_TOOLBAR_HEIGHT;
-        self.onObjectInvalidated = function(){
-          if(object.layout.qSelectionInfo.qInSelections) {
-            // add extra space at top for selection toolbar
-            $(placeElement).css('margin-top', `${QLIK_COMP_TOOLBAR_HEIGHT}px`);
-          } else {
-            $(placeElement).css('margin-top', '0px');
-          }
-        };
-        object.Validated.bind(this.onObjectInvalidated);
-
+      self.setState({
+        isObjectInjected: false,
+        isNoInteraction: isInEditMode,
+        object: null,
+        itemid: ""
+      });
+      qlik.currApp().getObject(placeElement, itemid, { noInteraction: isInEditMode }).then((object) => {
         let width = $(placeElement).width();
         let height = $(placeElement).height();
         this.setState({ itemid: itemid, object: object, isObjectInjected: true });
@@ -91,12 +89,6 @@ let DragDropSpec = {
 
   onRepaintObjectHandler: function(placeElement){
     if(this.state.object) {
-      let topMargin = 0;
-      if(this.state.object.layout
-      && this.state.object.layout.qSelectionInfo.qInSelections) {
-        // add extra space at top for selection toolbar
-        topMargin = QLIK_COMP_TOOLBAR_HEIGHT;
-      }
       let kpisRows = this.props.kpisRows;
       let mainContainerElement = this.props.mainContainerElement;
       let mainContainerHeight = Math.floor(
@@ -104,11 +96,10 @@ let DragDropSpec = {
         || $(mainContainerElement).height()) / kpisRows);
       let placeElementHeight = $(placeElement).height();
       let placeElementWidth = $(placeElement).width();
-      let newHeight = mainContainerHeight - topMargin;
-      if(newHeight > 0
-      && (newHeight !== Math.round(placeElementHeight))) {
-        $(placeElement).height(newHeight);
-        this.height = newHeight;
+      if(mainContainerHeight > 0
+      && (mainContainerHeight !== Math.round(placeElementHeight))) {
+        $(placeElement).height(mainContainerHeight);
+        this.height = mainContainerHeight;
         this.props.services.Qlik.resize(this.state.itemid);
       } else
       if(Math.round(placeElementWidth) !== this.width) {
@@ -122,10 +113,6 @@ let DragDropSpec = {
 
   onRemoveObjectHandler: function(placeElement) {
     if(this.state.object) {
-      if(this.onObjectInvalidated) {
-        this.state.object.Validated.unbind(this.onObjectInvalidated);
-        this.onObjectInvalidated = null;
-      }
       this.state.object.close();
       this.state.object = null;
       $(placeElement).empty();
