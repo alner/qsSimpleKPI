@@ -118,10 +118,6 @@
   .ui.segment > .label[class*="center aligned"] {
     text-align: center;
   }
-  .ui.center.aligned.statistics > div > div > div > .value,
-  .ui.center.aligned.statistics > div > div > div > .label{
-    text-align: center !important;
-  }
   .ui.segments, .ui.segment {
     background-color: transparent !important;
   }
@@ -132,10 +128,8 @@
     display: inline-block;
   }
   .value--icon--wrapper{
-    position: relative;
     display: inline-block;
-    margin: 8px;
-    bottom: 0;
+    margin: auto 8px;
     &.infographic{
       margin: 10px 0;
       &.large{
@@ -148,11 +142,9 @@
   }
   .value--icon--wrapper.on-value{
     display: inline-block;
-    position: relative;
-    margin: 8px;
-    bottom: 0px;
+    margin: auto 8px;
     &.infographic{
-      margin: 10px 0 ;
+      margin: 10px 0;
     }
   }
   .ui.statistics .statistic,
@@ -171,6 +163,8 @@
       text-transform: none;
       box-sizing: border-box;
       padding: 5px 5px;
+      display: flex;
+      flex-direction: row;
     }
   }
 
@@ -192,6 +186,19 @@
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+
+    .statistics {
+
+      .statistic {
+        align-self: flex-start;
+        overflow: hidden;
+
+        span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
 
     @media (max-width: 767px) {
         height: 100%;
@@ -305,6 +312,12 @@
 
       .statistic {
         align-self: flex-start;
+        overflow: hidden;
+
+        span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
 
       @media (max-width: 767px) {

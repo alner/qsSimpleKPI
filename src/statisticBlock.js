@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import InlineCSS from 'react-inline-css';
-import { DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex , getDivideByNumber } from './options';
+import { DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex  } from './options';
 import DimensionEntry from './dimensionEntry.container';
 import StatisticItem from './statisticItem';
 import ATTRIBUTES from './definitionAttributes';
@@ -182,9 +182,10 @@ class StatisticBlock extends Component {
 
       if(!item.groupByDimension
       || (item.groupByDimension && item.groupByDimensionValue === dimensionValue)) {
-        let itemIndex = rowindex * (measuresShift + qMeasureInfo.length) + mindex;
+        let itemIndex = rowindex * (measuresShift + qMeasureInfo.length - 1) + mindex;
         return <StatisticItem ref={"child-" + itemIndex}
           index={itemIndex}
+          measureCount={qMeasureInfo.length}
           key={item.cId}
           item={params}
           options={options}
@@ -217,7 +218,6 @@ class StatisticBlock extends Component {
     } = this.props.options;
 
     let items;
-
 
     if(kpis.qMeasureInfo.length > 0 && kpis.qDataPages.length > 0) {
       if(divideBy === "auto")
