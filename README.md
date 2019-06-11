@@ -1,6 +1,10 @@
 # Simple KPI
 
 Simple KPI component for Qlik Sense.
+
+
+## Consider to use [PowerKPI](https://powerkpi.rbcgrp.com?utm=simplekpi) component if you need supported trusted extension component with rich functionality.
+
 It can show one or several KPI using measures and one dimension (selectable, optional, it can show up to 125 measures and if it is used no more then 80 dimensions lines).
 Supports adaptive design, conditional css colors, conditional icons, infographic (with constraints, no more than 1000 icons per measure), configurable number of kpis per line, several predefined sizes, custom styles (CSS).
 Each measure can have a link to another sheet.
