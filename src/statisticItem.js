@@ -4,7 +4,6 @@ import { getDivideByValue } from './options';
 import ValueComponent from './ValueComponent';
 
 const THRESHOLD = 100;
-const ICONS_PER_ROW = 20;
 
 class Icon extends Component {
   constructor(props) {
@@ -144,10 +143,25 @@ export default class StatisticItem extends Component {
       kpisRows,
       isShow
     } = this.props.item;
-     let columnNumber = this.getNumberOfIconsPerColumn();
+    let columnNumber = this.getNumberOfIconsPerColumn();
 
-    let labelStyles = { padding: "5px 5px", textAlign: textAlignment };
-    let valueStyles = { padding: "5px 5px", textAlign: textAlignment };
+    // Convert old alignment values to new flex values
+    let contentAlignment;
+    if (textAlignment === "left") {
+      contentAlignment = "flex-start";
+    } else if (textAlignment ==="right") {
+      contentAlignment = "flex-end";
+    } else {
+      contentAlignment = textAlignment;
+    }
+
+    let labelStyles = {
+      padding: "5px 5px",
+      justifyContent: contentAlignment,
+      display: "flex",
+      flexDirection: "row",
+    };
+    let valueStyles = { padding: "5px 5px", justifyContent: contentAlignment };
     if(labelColor)
       labelStyles.color = labelColor.color;
 
@@ -195,7 +209,9 @@ export default class StatisticItem extends Component {
     );
 
     let valueComponent = hideValue ? null : (
-      <ValueComponent {...valueComponentProps}>
+      <ValueComponent
+        {...valueComponentProps}
+        valueStyles={valueStyles}>
         {iconOrderFirst && this.props.item.iconPosition === 'value' ? icon : null}
         <span style={valueStyles}>{value}</span>
         {!iconOrderFirst && this.props.item.iconPosition === 'value' ? icon : null}
@@ -216,17 +232,17 @@ export default class StatisticItem extends Component {
       statisticStyles.cursor = "pointer";
     }
     // *** patch for ios devices ***
-    let divPercent = getDivideByValue(this.props.options.divideBy);
+    let divPercent = getDivideByValue(this.props.options.divideBy, this.props.measureCount);
     if(divPercent) {
       statisticStyles.flexBasis = divPercent + '%';
     }
     // *** patch for ios dev ***
     // statistic-${index} - allows to use custom style to each measures element
     let statisticItem = (
-      <div ref="statisticContainer" className={`statistic statistic-${index+1}`}
+      <div ref="statisticContainer" className={`statistic statistic-${index}`}
         style={statisticStyles}
         onClick={onClick}>
-        <div className={`ui one ${size} statistics`}>
+        <div className={`ui one ${size} statistics`} style={{ width: "100%"}}>
           <div className={classes}>
             {content}
           </div>

@@ -5,14 +5,20 @@ import {
   DetectChangesInComponent
 } from './definitionComponents';
 
+import {
+  SIZE_OPTIONS,
+  DEFAULT_SIZE,
+  DIM_LABEL_OPTIONS,
+  DIM_VIEW_OPTIONS,
+  DIVIDE_BY_OPTIONS
+} from './options';
+
 import { FULL_ICONS_SET } from './iconsDefinitions';
-import { SIZE_OPTIONS, DEFAULT_SIZE, DIM_LABEL_OPTIONS, DIM_VIEW_OPTIONS } from './options';
 import ATTRIBUTES from './definitionAttributes';
 
 export default function ({ ShowService }) {
 // let Dialog = options.Dialog;
   //let ShowService = options.ShowService;
-
 
   let data= {
     uses: "data",
@@ -226,7 +232,7 @@ export default function ({ ShowService }) {
             defaultValue: "center",
             items : [
               {
-                value: "left",
+                value: "flex-start",
                 component : "icon-item",
                 icon:"M"
               },
@@ -235,12 +241,8 @@ export default function ({ ShowService }) {
                 icon:"O",
                 component : "icon-item"
               },
-              /*
-            label: "Center",
-            labelPlacement : "bottom",
-            */
               {
-                value: "right",
+                value: "flex-end",
                 icon:"N",
                 component : "icon-item"
               }
@@ -545,58 +547,7 @@ export default function ({ ShowService }) {
             label: "Items per row",
             ref: "options.divideBy",
             defaultValue: "one",
-            options: [
-              {
-                value: "",
-                label: "Not set",
-                tooltip: "Not set"
-              },
-              {
-                value: "auto",
-                label: "Auto",
-                tooltip: "Auto"
-              },
-              {
-                value: "one",
-                label: "1",
-                tooltip: "One"
-              },
-              {
-                value: "two",
-                label: "2",
-                tooltip: "Two"
-              },
-              {
-                value: "three",
-                label: "3",
-                tooltip: "Three"
-              },
-              {
-                value: "four",
-                label: "4",
-                tooltip: "Four"
-              },
-              {
-                value: "five",
-                label: "5",
-                tooltip: "Four"
-              },
-              {
-                value: "six",
-                label: "6",
-                tooltip: "Six"
-              },
-              {
-                value: "seven",
-                label: "7",
-                tooltip: "Seven"
-              },
-              {
-                value: "eight",
-                label: "8",
-                tooltip: "Eight"
-              },
-            ]
+            options: DIVIDE_BY_OPTIONS
           }
         }
       },

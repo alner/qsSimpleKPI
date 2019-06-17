@@ -173,19 +173,60 @@ const DIVIDE_BY = [
   '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'
 ];
 
-function getDivideByValue(value) {
-  var divs = DIVIDE_BY.indexOf(value);
-  if(divs !== -1)
-    return 100 / divs;
-  else
-    return null;
-}
-function getDivideByNumber(value) {
-  var divs = DIVIDE_BY.indexOf(value);
-  if(divs !== -1)
-    return divs;
-  else
-    return null;
+const DIVIDE_BY_OPTIONS = [
+  {
+    value: "auto",
+    label: "Auto",
+    tooltip: "Auto"
+  },
+  {
+    value: DIVIDE_BY[1],
+    label: "1",
+    tooltip: "One"
+  },
+  {
+    value: DIVIDE_BY[2],
+    label: "2",
+    tooltip: "Two"
+  },
+  {
+    value: DIVIDE_BY[3],
+    label: "3",
+    tooltip: "Three"
+  },
+  {
+    value: DIVIDE_BY[4],
+    label: "4",
+    tooltip: "Four"
+  },
+  {
+    value: DIVIDE_BY[5],
+    label: "5",
+    tooltip: "Five"
+  },
+  {
+    value: DIVIDE_BY[6],
+    label: "6",
+    tooltip: "Six"
+  },
+  {
+    value: DIVIDE_BY[7],
+    label: "7",
+    tooltip: "Seven"
+  },
+  {
+    value: DIVIDE_BY[8],
+    label: "8",
+    tooltip: "Eight"
+  },
+];
+
+function getDivideByValue(setMaxValue, count) {
+  var setMax = DIVIDE_BY.indexOf(setMaxValue);
+  if (setMax !== -1) {
+    return 100 / Math.min(setMax, count);
+  }
+  return null;
 }
 
 const DIM_LABEL_OPTIONS = [
@@ -241,10 +282,10 @@ export default {
   DEFAULT_SIZE,
   SIZE_OPTIONS,
   DIVIDE_BY,
+  DIVIDE_BY_OPTIONS,
   DIM_LABEL_OPTIONS,
   DIM_VIEW_OPTIONS,
   FONT_SIZE_OPTIONS,
   getSizeIndex,
-  getDivideByValue,
-  getDivideByNumber
+  getDivideByValue
 };
