@@ -43,7 +43,23 @@ export default function ({ ShowService }) {
             component: "color-picker",
             dualOutput: true,
             defaultValue: { index:14, color: "#000000" }
-
+          },
+          itemConditionalColor: {
+            ref: 'qDef.conditionalValueColor',
+            type: 'boolean',
+            label: 'Conditional value color',
+            component: 'switch',
+            defaultValue: false,
+            options: [
+              {
+                value: true,
+                label: 'On'
+              },
+              {
+                value: false,
+                label: 'Off'
+              }
+            ]
           },
           itemColor: {
             type: "object",
@@ -51,7 +67,10 @@ export default function ({ ShowService }) {
             label: "Value color",
             component: "color-picker",
             dualOutput: true,
-            defaultValue: { index:6, color: "#4477aa" }
+            defaultValue: { index:6, color: "#4477aa" },
+            show: function (a) {
+              return !a.qDef.conditionalValueColor
+            }
           },
           linkToSheet : {
             type : "items",

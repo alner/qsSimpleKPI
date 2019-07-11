@@ -90,6 +90,97 @@ class StatisticBlock extends Component {
     }
   }
 
+  // Interpolates the two given colors by the given mix:
+  // 0 => color1, 1 => color2, 0.5 => 50% of each
+  interpolateColors(color1, color2, mix) {
+    const c1 = parseInt('0x' + color1.color.substr(1));
+    const c1r = c1 >> 16;
+    const c1g = c1 >> 8 & 0xff;
+    const c1b = c1 & 0xff;
+    const c2 = parseInt('0x' + color2.color.substr(1));
+    const c2r = c2 >> 16;
+    const c2g = c2 >> 8 & 0xff;
+    const c2b = c2 & 0xff;
+
+    const clampedMix = Math.min(1, Math.max(0, mix));
+    const cr = c1r + clampedMix * (c2r - c1r);
+    const cg = c1g + clampedMix * (c2g - c1g);
+    const cb = c1b + clampedMix * (c2b - c1b);
+
+    const colorInt = (cr << 16) + (cg << 8) + (cb | 0);
+    let colorHex = '#';
+    if (colorInt <= 0xff) {
+      colorHex += '0000';
+    } else if (colorInt <= 0xffff) {
+      colorHex += '00';
+    }
+
+    return {
+      color: `${colorHex}${colorInt.toString(16)}`,
+      index: -1
+    }
+  }
+
+  getConditionalColor(measureColoring, measureValue) {
+    const gradient = measureColoring.gradient;
+    const lastSegment = gradient.limits.length;
+
+    // Find segment
+    let segment = 0;
+    for (let i = 0; i < gradient.limits.length; i++) {
+      if (measureValue >= gradient.limits[i]) {
+        segment++;
+      } else {
+        break;
+      }
+    }
+
+    let limitIndex;
+    if (segment == 0) {
+      limitIndex = 0;
+    } else if (segment == lastSegment) {
+      limitIndex = gradient.limits.length - 1;
+    } else {
+      // Determine what half of the segment the measure value is in
+      const lowLimit = gradient.limits[segment - 1];
+      const highLimit = gradient.limits[segment];
+      if (measureValue - lowLimit < highLimit - measureValue) {
+        limitIndex = segment - 1;
+      } else {
+        limitIndex = segment;
+      }
+    }
+
+    if (gradient.breakTypes[limitIndex]) {
+      // Soft break (interpolate)
+      let center = gradient.limits[limitIndex];
+      let width;
+      if (lastSegment == 1) {
+        // No defined edges, so use limit as width
+        width = Math.max(2, 2 * Math.abs(gradient.limits[0]));
+      } else if (segment == 0) {
+        // First segment
+        // This segment has no defined start, so base gradient width on width of next segment
+        width = gradient.limits[limitIndex + 1] - gradient.limits[limitIndex];
+      } else if (segment == lastSegment) {
+        // Last segment
+        // This segment has no defined end, so base gradient width on width of previous segment
+        width = gradient.limits[limitIndex] - gradient.limits[limitIndex - 1];
+      } else {
+        // A segment in-between limits
+        width = gradient.limits[segment] - gradient.limits[segment - 1];
+      }
+
+      const mix = ((measureValue - center) / width) + 0.5;
+      return this.interpolateColors(
+        gradient.colors[limitIndex], gradient.colors[limitIndex + 1], mix);
+
+    } else {
+      // Hard break (no interpolation)
+      return gradient.colors[segment];
+    }
+  }
+
   renderKpis(kpis, rowindex, itemsPerRow){
     const self = this;
     const mainContainerElement = this.props.element;
@@ -125,6 +216,15 @@ class StatisticBlock extends Component {
       let overridedLabel;
       if(isAttrExps)
         overridedLabel = data[index].qAttrExps.qValues[ATTRIBUTES.overridedLabel.index].qText;
+
+      let valueColor = item.valueColor;
+      if (item.conditionalValueColor
+        && item.coloring
+        && item.coloring.gradient
+        && item.coloring.gradient.limitType === "absolute") {
+        valueColor = self.getConditionalColor(item.coloring, data[index].qNum);
+      }
+
       let params = {
         label: item.ovParams && overridedLabel ? overridedLabel : item.qFallbackTitle,
         value: "",
@@ -133,7 +233,7 @@ class StatisticBlock extends Component {
         hideLabel: item.hideLabel,
         hideValue: item.hideValue,
         labelColor: item.labelColor,
-        valueColor: item.valueColor,
+        valueColor: valueColor,
         valueIcon: item.valueIcon,
         iconPosition: item.iconPosition,
         iconOrder: item.iconOrder,
