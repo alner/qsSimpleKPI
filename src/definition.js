@@ -660,13 +660,34 @@ export default function ({ ShowService }) {
     uses: "sorting"
   };
 
+  var aboutDefinition = {
+    component: 'items',
+    label: 'About',
+    items: {
+      header: {
+        label: 'Multi KPI',
+        style: 'header',
+        component: 'text'
+      },
+      paragraph1: {
+        label: `Multi KPI is a visualization that allows you to show multiple KPI values for different dimension values.`,
+        component: 'text'
+      },
+      paragraph2: {
+        label: 'Multi KPI is based upon an extension created by Alexander Nerush.',
+        component: 'text'
+      }
+    }
+  };
+
   return {
     type: "items",
     component: "accordion",
     items: {
       data,
       sorting,
-      settings
+      settings,
+      aboutDefinition
     }
   };
 }
