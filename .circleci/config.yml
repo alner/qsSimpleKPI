@@ -20,7 +20,7 @@ jobs:
           command: npm install
       - run:
           name: BlackDuck scan
-          command: curl -s https://blackducksoftware.github.io/hub-detect/hub-detect.sh | bash -s -- \
+          command: curl -s https://detect.synopsys.com/detect.sh | bash -s -- \
             --blackduck.url="https://qliktech.blackducksoftware.com" \
             --blackduck.trust.cert=true \
             --blackduck.username="svc-blackduck" \
