@@ -141,6 +141,24 @@ const DefaultSIprefixes = {
   rom = /^\(rom\)/i,
   functional = /^(\(rom\)|\(bin\)|\(hex\)|\(dec\)|\(oct\)|\(r(0[2-9]|[12]\d|3[0-6])\))/i;
 
+  function getAbbreviations(localeInfo) {
+    if (!localeInfo || !localeInfo.qNumericalAbbreviation) {
+      return DefaultSIprefixes;
+    }
+  
+    const abbreviations = {};
+    const abbrs = localeInfo.qNumericalAbbreviation.split(';');
+  
+    abbrs.forEach(abbreviation => {
+      const abbreviationTuple = abbreviation.split(':');
+      if (abbreviationTuple.length === 2) {
+        abbreviations[abbreviationTuple[0]] = abbreviationTuple[1];
+      }
+    });
+  
+    return abbreviations;
+  }
+
 class NumberFormatter {
   constructor(localeInfo, pattern, thousand, decimal, type) {
     this.localeInfo = localeInfo,
@@ -148,6 +166,7 @@ class NumberFormatter {
     this.thousandDelimiter = thousand || localeInfo.qThousandSep || ",",
     this.decimalDelimiter = decimal || localeInfo.qDecimalSep || ".",
     this.type = type || "numeric",
+    this.abbreviations = getAbbreviations(localeInfo);
     this.prepare();
   }
 
@@ -190,7 +209,7 @@ class NumberFormatter {
     });
   }
 
-  formatValue(value, SIprefixes=DefaultSIprefixes) {
+  formatValue(value) {
     let temp, exponent, absValue, num, d, t, i, numericPattern,
       decimalPartPattern, prep = this._prepared, abbr = "", sciValue = "";
 
@@ -202,35 +221,143 @@ class NumberFormatter {
 
     if (0 > value && prep.negative ? (prep = prep.negative, value = -value) : prep = prep.positive, d = prep.d, t = prep.t, prep.isFunctional)
       value = formatFunctional(value, prep.pattern, d);
-    else {
-      if (prep.percentage && (value *= 100), prep.abbreviate && (exponent = Number(Number(value).toExponential().split("e")[1]), exponent -= exponent % 3, exponent in SIprefixes && (abbr = SIprefixes[exponent], value /= Math.pow(10, exponent))), absValue = Math.abs(value), temp = prep.temp, numericPattern = prep.numericPattern, decimalPartPattern = numericPattern.split(d)[1], "I" === this.type && (value = Math.round(value)), num = value, decimalPartPattern || "#" !== numericPattern.slice(-1)[0])
-        if (absValue >= 1e15 || absValue > 0 && 1e-14 >= absValue)
-          value = absValue ? absValue.toExponential(15).replace(/\.?0+(?=e)/, "") : "0";
-        else {
-          var wholePart = Number(value.toFixed(Math.min(20, decimalPartPattern ? decimalPartPattern.length : 0)).split(".")[0]),
-            wholePartPattern = numericPattern.split(d)[0];
-          if (wholePartPattern += d, value = formatter(wholePartPattern, wholePart) || "0", decimalPartPattern) {
-            var nDecimals = Math.max(0, Math.min(14, decimalPartPattern.length)),
-              nZeroes = decimalPartPattern.replace(/#+$/, "").length,
-              decimalPart = (absValue % 1).toFixed(nDecimals).slice(2).replace(/0+$/, "");
-            for (i = decimalPart.length; nZeroes > i; i++)
-              decimalPart += "0";
-            decimalPart && (value += d + decimalPart);
-          } else
-            0 === wholePart && (num = 0);
-        }
-      else if (absValue >= Math.pow(10, temp) || 1 > absValue || 1e-4 > absValue)
-        0 === value ? value = "0" : 1e-4 > absValue || absValue >= 1e20 ? (value = num.toExponential(Math.max(1, Math.min(14, temp)) - 1), value = value.replace(/\.?0+(?=e)/, ""), sciValue = "") : (value = value.toPrecision(Math.max(1, Math.min(14, temp))), value.indexOf(".") >= 0 && (value = value.replace(value.indexOf("e") < 0 ? /0+$/ : /\.?0+(?=e)/, ""), value = value.replace(".", d)));
       else {
-        for (numericPattern += d, temp = Math.max(0, Math.min(20, temp - Math.ceil(Math.log(absValue) / Math.log(10)))), i = 0; temp > i; i++)
-          numericPattern += "#";
-        value = formatter(numericPattern, value);
+        if (prep.percentage) {
+          value *= 100;
+        }
+  
+        if (prep.abbreviate) {
+          abbr= getAbbreviations(this.localeInfo);
+          const abbreviations = this.abbreviations;
+          const abbrArray = Object.keys(abbreviations)
+            .map(key => {
+              return parseInt(key, 10);
+            })
+            .sort((a, b) => {
+              return a > b ? 1 : -1;
+            });
+          let lowerAbbreviation;
+          let upperAbbreviation = abbrArray[0];
+          i = 0;
+          exponent = Number(
+            Number(value)
+              .toExponential()
+              .split('e')[1]
+          );
+  
+          while (upperAbbreviation <= exponent && i < abbrArray.length) {
+            i++;
+            upperAbbreviation = abbrArray[i];
+          }
+  
+          if (i > 0) {
+            lowerAbbreviation = abbrArray[i - 1];
+          }
+  
+          let suggestedAbbrExponent;
+  
+          // value and lower abbreviation is for values above 10, use the lower (move to the left <== )
+          if (lowerAbbreviation && exponent > 0 && lowerAbbreviation > 0) {
+            suggestedAbbrExponent = lowerAbbreviation;
+          }
+          // value and lower abbreviation is for values below 0.1 (move to the right ==> )
+          else if ((exponent < 0 && lowerAbbreviation < 0) || !lowerAbbreviation) {
+            // upper abbreviation is also for values below 0.1 and precision allows for using the upper abbreviation ( move to the right ==>)
+            if (upperAbbreviation < 0 && upperAbbreviation - exponent <= prep.maxPrecision) {
+              suggestedAbbrExponent = upperAbbreviation;
+            }
+            // lower abbrevaition is smaller than exponent and we can't get away with not abbreviating
+            else if (lowerAbbreviation <= exponent && !(upperAbbreviation > 0 && -exponent <= prep.maxPrecision)) {
+              // (move to left <==)
+              suggestedAbbrExponent = lowerAbbreviation;
+            }
+          }
+  
+          if (suggestedAbbrExponent) {
+            abbr = abbr[suggestedAbbrExponent];
+            value /= Math.pow(10, suggestedAbbrExponent);
+          }
+        }
+  
+        absValue = Math.abs(value);
+        temp = prep.temp;
+        numericPattern = prep.numericPattern;
+        decimalPartPattern = numericPattern.split(d)[1];
+  
+        if (this.type === 'I') {
+          value = Math.round(value);
+        }
+        num = value;
+  
+        if (!decimalPartPattern && numericPattern.slice(-1)[0] === '#') {
+          if (absValue >= Math.pow(10, temp) || absValue < 1 || absValue < 1e-4) {
+            if (value === 0) {
+              value = '0';
+            } else if (absValue < 1e-4 || absValue >= 1e20) {
+              // engine always formats values < 1e-4 in scientific form, values >= 1e20 can only be represented in scientific form
+              value = num.toExponential(Math.max(1, Math.min(14, temp)) - 1);
+              value = value.replace(/\.?0+(?=e)/, '');
+              sciValue = '';
+            } else {
+              value = value.toPrecision(Math.max(1, Math.min(14, temp)));
+              if (value.indexOf('.') >= 0) {
+                value = value.replace(value.indexOf('e') < 0 ? /0+$/ : /\.?0+(?=e)/, '');
+                value = value.replace('.', d);
+              }
+            }
+          } else {
+            numericPattern += d;
+            temp = Math.max(0, Math.min(20, temp - Math.ceil(Math.log(absValue) / Math.log(10))));
+            for (i = 0; i < temp; i++) {
+              numericPattern += '#';
+            }
+            value = formatter(numericPattern, value);
+          }
+        } else if (absValue >= 1e15 || (absValue > 0 && absValue <= 1e-14)) {
+          value = absValue ? absValue.toExponential(15).replace(/\.?0+(?=e)/, '') : '0';
+        } else {
+          const wholePart = Number(
+            value.toFixed(Math.min(20, decimalPartPattern ? decimalPartPattern.length : 0)).split('.')[0]
+          );
+          let wholePartPattern = numericPattern.split(d)[0];
+          wholePartPattern += d;
+  
+          value = formatter(wholePartPattern, wholePart) || '0';
+  
+          if (decimalPartPattern) {
+            const nDecimals = Math.max(0, Math.min(14, decimalPartPattern.length)); // the length of e.g. 0000#####
+            const nZeroes = decimalPartPattern.replace(/#+$/, '').length;
+  
+            // Added toPrecision to fix rounding errors, fixes SUI-1607
+            let decimalPart = Number((absValue % 1).toPrecision(nDecimals)).toFixed(nDecimals);
+            decimalPart = decimalPart.slice(2).replace(/0+$/, ''); // remove trailing zeroes
+  
+            for (i = decimalPart.length; i < nZeroes; i++) {
+              decimalPart += '0';
+            }
+  
+            if (decimalPart) {
+              value += d + decimalPart;
+            }
+          } else if (wholePart === 0) {
+            // to avoid "-" being prefixed to value
+            num = 0;
+          }
+        }
+  
+        value = value.replace(prep.numericRegex, m => {
+          if (m === t) {
+            return prep.groupTemp;
+          }
+          if (m === d) {
+            return prep.decTemp;
+          }
+          return '';
+        });
+        if (num < 0 && !/^-/.test(value)) {
+          value = `-${value}`;
+        }
       }
-      value = value.replace(prep.numericRegex, function (m) {
-        return m === t ? prep.groupTemp : m === d ? prep.decTemp : "";
-      }),
-      0 > num && !/^\-/.test(value) && (value = "-" + value);
-    }
 
     return prep.prefix + value + sciValue + abbr + prep.postfix;
   }
