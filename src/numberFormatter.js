@@ -227,8 +227,7 @@ class NumberFormatter {
         }
   
         if (prep.abbreviate) {
-          abbr= getAbbreviations(this.localeInfo);
-          const abbreviations = this.abbreviations;
+          const abbreviations = getAbbreviations(this.localeInfo);
           const abbrArray = Object.keys(abbreviations)
             .map(key => {
               return parseInt(key, 10);
@@ -274,7 +273,7 @@ class NumberFormatter {
           }
   
           if (suggestedAbbrExponent) {
-            abbr = abbr[suggestedAbbrExponent];
+            abbr = abbreviations[suggestedAbbrExponent];
             value /= Math.pow(10, suggestedAbbrExponent);
           }
         }
