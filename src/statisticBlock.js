@@ -377,7 +377,7 @@ class StatisticBlock extends Component {
                   };
                   return (
                     <DimensionEntry
-                      key={dimensionLabel}
+                      key={dindex}
                       dimension={dim}
                       isInEditMode={isInEditMode}
                       inStoryMode={inStoryMode}
