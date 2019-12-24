@@ -59,7 +59,10 @@ export default function ({ ShowService }) {
                 value: false,
                 label: 'Off'
               }
-            ]
+            ],
+            show: function (a) {
+              return a.qLibraryId
+            }
           },
           itemColor: {
             type: "object",
