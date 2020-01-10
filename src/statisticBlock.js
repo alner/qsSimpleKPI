@@ -358,6 +358,8 @@ class StatisticBlock extends Component {
                   {
                     dimensionLabel = '-';
                   }
+                  //keyValue added to keep the key value unique
+                  let keyValue = Math.floor(Math.random() * 100000);
                   const dimensionIndex = dim[dimNo].qElemNumber;
                   let measures = self.renderKpis(kpis, dindex, divideByNumber);
                   let aMeasureHasInfographicIcons = false;
@@ -381,7 +383,7 @@ class StatisticBlock extends Component {
                   };
                   return (
                     <DimensionEntry
-                      key={dindex}
+                      key={keyValue}
                       dimension={dim}
                       isInEditMode={isInEditMode}
                       inStoryMode={inStoryMode}
