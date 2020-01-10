@@ -353,7 +353,11 @@ class StatisticBlock extends Component {
             <div className={`ui ${dimensionsOrientation} ${dimShowAsContainer} ${EditModeClass}`} ref="parent" style={segmentsStyle}>
               {
                 kpis.qDataPages[0].qMatrix.map(function(dim, dindex){
-                  const dimensionLabel = dim[dimNo].qText;
+                  let dimensionLabel = dim[dimNo].qText;
+                  if (typeof(dimensionLabel) === 'undefined' || dimensionLabel === '')
+                  {
+                    dimensionLabel = '-';
+                  }
                   const dimensionIndex = dim[dimNo].qElemNumber;
                   let measures = self.renderKpis(kpis, dindex, divideByNumber);
                   let aMeasureHasInfographicIcons = false;
@@ -377,7 +381,7 @@ class StatisticBlock extends Component {
                   };
                   return (
                     <DimensionEntry
-                      key={dimensionLabel}
+                      key={dindex}
                       dimension={dim}
                       isInEditMode={isInEditMode}
                       inStoryMode={inStoryMode}
