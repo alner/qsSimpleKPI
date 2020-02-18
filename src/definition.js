@@ -256,16 +256,16 @@ export default function ({ ShowService }) {
               {
                 value: "flex-start",
                 component : "icon-item",
-                icon:"M"
+                icon:"align_left"
               },
               {
                 value: "center",
-                icon:"O",
+                icon:"align_center",
                 component : "icon-item"
               },
               {
                 value: "flex-end",
-                icon:"N",
+                icon:"align_right",
                 component : "icon-item"
               }
             ]
