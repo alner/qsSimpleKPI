@@ -6,3 +6,4 @@ deploy/
 BUMPED_VERSION
 *.map
 *.log
+yarn.lock
