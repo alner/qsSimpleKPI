@@ -1,8 +1,8 @@
 .qv-object-qsstatistic {
   width: 100%;
   height: 100%;
-  &.edit-mode{
-    overflow-y: hidden
+  &.edit-mode {
+    overflow-y: hidden;
   }
 }
 .qv-object-qsstatistic {
@@ -31,7 +31,6 @@
   }
 
   .infographic-icon-set-wrapper {
-
     line-height: 0; // hack to offset height from 4rem font-size from semantic-ui
     display: grid;
   }
@@ -62,27 +61,24 @@
     display: flex;
     align-items: stretch;
   }
-  .ui.stackable.cards{
-    width: 100%;
-
-  }
-  .ui.statistics, .ui.segments  {
+  .ui.stackable.cards {
     width: 100%;
   }
-  .ui.segment{
-    &.infographics{
+  .ui.statistics,
+  .ui.segments {
+    width: 100%;
+  }
+  .ui.segment {
+    &.infographics {
       min-width: 170px !important;
-      &.normal{
+      &.normal {
         min-width: 200px !important;
-
       }
-      &.large{
+      &.large {
         min-width: 240px !important;
-
       }
-      &.huge{
+      &.huge {
         min-width: 300px !important;
-
       }
     }
   }
@@ -118,38 +114,38 @@
   .ui.segment > .label[class*="center aligned"] {
     text-align: center;
   }
-  .ui.segments, .ui.segment {
+  .ui.segments,
+  .ui.segment {
     background-color: transparent !important;
   }
-  .ui.statistic .label .infographic-icon-set-wrapper +span{
+  .ui.statistic .label .infographic-icon-set-wrapper + span {
     width: 100%;
     text-overflow: ellipsis;
     overflow: hidden;
     display: inline-block;
   }
-  .value--icon--wrapper{
+  .value--icon--wrapper {
     display: inline-block;
     margin: auto 8px;
-    &.infographic{
+    &.infographic {
       margin: 10px 0;
-      &.large{
+      &.large {
         margin: 20px 0;
       }
-      &.huge{
+      &.huge {
         margin: 20px 0;
       }
     }
   }
-  .value--icon--wrapper.on-value{
+  .value--icon--wrapper.on-value {
     display: inline-block;
     margin: auto 8px;
-    &.infographic{
+    &.infographic {
       margin: 10px 0;
     }
   }
   .ui.statistics .statistic,
   .ui.statistic {
-
     @media (max-width: 763px) {
       display: block;
     }
@@ -172,8 +168,9 @@
     height: 100%;
   }
 
-  .ui.cards, .ui.segments{
-    &.edit-mode{
+  .ui.cards,
+  .ui.segments {
+    &.edit-mode {
       overflow: hidden;
     }
   }
@@ -188,7 +185,6 @@
     flex-wrap: wrap;
 
     .statistics {
-
       .statistic {
         align-self: flex-start;
         overflow: hidden;
@@ -201,15 +197,15 @@
     }
 
     @media (max-width: 767px) {
-        height: 100%;
+      height: 100%;
     }
 
     &.one > .card {
-      margin: .5rem .75rem;
+      margin: 0.5rem 0.75rem;
     }
 
     .ui.segment {
-      .ui.statistics{
+      .ui.statistics {
         display: block;
       }
     }
@@ -230,9 +226,9 @@
 
     &:first-child > .statistics,
     > .statistics {
-      border: 1px solid rgba(34,36,38,.15) !important;
-      border-radius: .28571429rem;
-      box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+      border: 1px solid rgba(34, 36, 38, 0.15) !important;
+      border-radius: 0.28571429rem;
+      box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
 
       @media (max-width: 767px) {
         margin: auto;
@@ -248,7 +244,7 @@
       width: 250px;
 
       > .statistic {
-        align-items: center
+        align-items: center;
       }
     }
   }
@@ -265,8 +261,8 @@
     border: none;
     vertical-align: baseline;
     background: #fff;
-    color: rgba(0,0,0,.87);
-    font-family: icons,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    color: rgba(0, 0, 0, 0.87);
+    font-family: icons, "Helvetica Neue", Arial, Helvetica, sans-serif;
     margin: 0 0 1rem;
     padding: 1em;
     text-transform: none;
@@ -276,31 +272,35 @@
     font-style: normal;
     text-align: center;
     text-decoration: none;
-    border-radius: .28571429rem;
-    box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+    border-radius: 0.28571429rem;
+    box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    transition: 'default';
-    will-change: '';
+    transition: "default";
+    will-change: "";
     -webkit-tap-highlight-color: transparent;
   }
 
-  .ui.mini.button, .ui.mini.buttons .button, .ui.mini.buttons {
-    font-size: .71428571em;
+  .ui.mini.button,
+  .ui.mini.buttons .button,
+  .ui.mini.buttons {
+    font-size: 0.71428571em;
   }
 
-  .ui.icon.button, .ui.icon.buttons .button {
+  .ui.icon.button,
+  .ui.icon.buttons .button {
     padding: 1em;
   }
 
-  .ui.icon.button>.icon, .ui.icon.buttons .button>.icon {
-    opacity: .9;
+  .ui.icon.button > .icon,
+  .ui.icon.buttons .button > .icon {
+    opacity: 0.9;
     margin: 0;
     vertical-align: top;
   }
-  .ui.card .ui.label{
+  .ui.card .ui.label {
     border: 1px solid #a6a6a6 !important;
     border-bottom: none;
   }
@@ -325,43 +325,62 @@
 
         .statistic {
           width: 100%;
-          margin-bottom: .7rem;
+          margin-bottom: 0.7rem;
         }
       }
     }
   }
 
-  .ui.segments, .ui.cards {
+  .ui.segments,
+  .ui.cards {
     .ui.card {
       min-width: 250px; // IE support
       min-width: fit-content;
     }
 
-
-    .ui.segment, .ui.card {
+    .ui.segment,
+    .ui.card {
       flex-direction: column;
       padding: 0;
-      a{
+      a {
         font-size: 16px;
         min-width: 250px;
+        // labels sizing
+        &.mini {
+          font-size: xx-small;
+        }
+        &.tiny {
+          font-size: x-small;
+        }
+        &.small {
+          font-size: small;
+        }
+        &.normal {
+          font-size: 19px;
+        }
+        &.large {
+          font-size: x-large;
+        }
+        &.huge {
+          font-size: xx-large;
+        }
       }
 
-
-      >.label {
+      > .label {
         display: block;
         padding: 10px 5px;
-        border-bottom: solid 1px rgb(166,166,166) !important;
+        border-bottom: solid 1px rgb(166, 166, 166) !important;
         box-sizing: border-box;
       }
 
-      >.statistics {
+      > .statistics {
         padding: 1em;
         box-sizing: border-box;
       }
 
       &.is-selected > .label {
         background-color: #52cc52;
-        color: rgb(255,255,255);
+        color: rgb(255, 255, 255);
       }
 
       // labels positioning
@@ -424,4 +443,3 @@
     }
   }
 }
-
