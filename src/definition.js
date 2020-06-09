@@ -33,7 +33,7 @@ export default function ({ ShowService }) {
             ref: "qDef.autoFormatTemplate",
             defaultValue: "0A",
             show: function(a) {
-              return a.qDef.qNumFormat.qType === "U";
+              return a.qDef.qNumFormat && a.qDef.qNumFormat.qType === "U";
             }
           },
           labelColor: {
