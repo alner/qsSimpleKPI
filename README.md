@@ -3,7 +3,7 @@ This extension is part of the extension bundles for Qlik Sense. The repository i
 
 Feel free to fork and suggest pull requests for improvements and bug fixes. Changes will be moderated and reviewed before inclusion in future bundle versions. Please note that emphasis is on backward compatibility, i.e. breaking changes will most likely not be approved.
 
-Usage documentation for the extension is available at https://help.qlik.com.
+Usage documentation for the extension is available at https://help.qlik.com
 
 # Developing the extension
 If you want to do code changes to the extension follow these simple steps to get going.
