@@ -8,15 +8,15 @@ Usage documentation for the extension is available at https://help.qlik.com.
 # Developing the extension
 If you want to do code changes to the extension follow these simple steps to get going.
 
-1. Get Qlik Sense Desktop
-1. Create a new app and add Multi KPI to a sheet.
-2. Clone the repository
-3. Run `npm install`
-4. Run `npm run build` - to build a dev-version to the /dist folder.
-5. Move the content of the /dist folder to the extension directory. Usually in `C:/Users/<user>/Documents/Qlik/Sense/Extensions/qlik-multi-kpi`.
+1. Get Qlik Sense Desktop.
+2. Create a new app and add Multi KPI to a sheet.
+3. Clone the repository.
+4. Run `npm install`.
+5. Run `npm run build` - to build a dev-version to the /dist folder.
+6. Move the content of the /dist folder to the extension directory. Usually in `C:/Users/<user>/Documents/Qlik/Sense/Extensions/qlik-multi-kpi`.
 
 # Limitations
-See [Limitations](docs/LIMITATIONS.md)
+See [Limitations](docs/LIMITATIONS.md).
 
 # Original Author
 [alner](https://github.com/alner)
