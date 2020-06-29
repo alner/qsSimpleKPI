@@ -6,6 +6,9 @@ import DimensionEntry from './dimensionEntry.container';
 import StatisticItem from './statisticItem';
 import ATTRIBUTES from './definitionAttributes';
 
+const checkRequiredSizeDelay = 1;
+const readyDelay = 10;
+
 class StatisticBlock extends Component {
   constructor(props){
     super(props);
@@ -24,10 +27,6 @@ class StatisticBlock extends Component {
 
   componentDidMount(){
     var self = this;
-
-    const checkRequiredSizeDelay = 1;
-    const readyDelay = 10;
-
     this.handleIdCheckResize = setTimeout(function(){self.checkRequiredSize();}, checkRequiredSizeDelay);
     // initial resize should not be visible
     this.handleIdComponentReady = setTimeout(function(){ self.componentReady(); }, readyDelay);
@@ -35,10 +34,15 @@ class StatisticBlock extends Component {
   componentWillUnmount(){
     clearTimeout(this.handleIdComponentReady);
     clearTimeout(this.handleIdCheckResize);
+    clearTimeout(this.handleIdResolveUpdatePromise);
   }
 
   componentDidUpdate() {
+    var self = this;
     this.checkRequiredSize();
+    // Resolve promise for undo/redo to work (QB-1858)
+    // Use same delay in componentReady so it doesn't resolve to early
+    this.handleIdResolveUpdatePromise = setTimeout(function(){ self.resolveUpdatePromise(); }, readyDelay);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,7 +52,11 @@ class StatisticBlock extends Component {
   componentReady() {
     // initial resize should not be visible
     this.setState({ is_show: true });
-    this.props.services.PrintResolver && this.props.services.PrintResolver(); // we are ready... can be printed!
+    this.props.services.PrintResolver && this.props.services.PrintResolver();
+  }
+
+  resolveUpdatePromise(){
+    this.props.services.PrintResolver && this.props.services.PrintResolver();
   }
 
   restoreSize(props){
