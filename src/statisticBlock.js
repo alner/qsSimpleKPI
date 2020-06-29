@@ -6,6 +6,9 @@ import DimensionEntry from './dimensionEntry.container';
 import StatisticItem from './statisticItem';
 import ATTRIBUTES from './definitionAttributes';
 
+const checkRequiredSizeDelay = 1;
+const readyDelay = 10;
+
 class StatisticBlock extends Component {
   constructor(props){
     super(props);
@@ -24,12 +27,6 @@ class StatisticBlock extends Component {
 
   componentDidMount(){
     var self = this;
-
-    // 3.2 SR2 Printing service patch (timeout strange behaviour, 10 equals to 10 sec (instead of 10 msec) in setTimeout)
-    const isPrinting = this.isPrinting();
-    const checkRequiredSizeDelay = isPrinting ? 1 : 50; //1
-    const readyDelay = isPrinting ? 10 : 10000; // 10
-
     this.handleIdCheckResize = setTimeout(function(){self.checkRequiredSize();}, checkRequiredSizeDelay);
     // initial resize should not be visible
     this.handleIdComponentReady = setTimeout(function(){ self.componentReady(); }, readyDelay);
@@ -37,10 +34,15 @@ class StatisticBlock extends Component {
   componentWillUnmount(){
     clearTimeout(this.handleIdComponentReady);
     clearTimeout(this.handleIdCheckResize);
+    clearTimeout(this.handleIdResolveUpdatePromise);
   }
 
   componentDidUpdate() {
+    var self = this;
     this.checkRequiredSize();
+    // Resolve promise for undo/redo to work (QB-1858)
+    // Use same delay in componentReady so it doesn't resolve to early
+    this.handleIdResolveUpdatePromise = setTimeout(function(){ self.resolveUpdatePromise(); }, readyDelay);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -50,13 +52,11 @@ class StatisticBlock extends Component {
   componentReady() {
     // initial resize should not be visible
     this.setState({ is_show: true });
-    this.props.services.PrintResolver && this.props.services.PrintResolver(); // we are ready... can be printed!
+    this.props.services.PrintResolver && this.props.services.PrintResolver();
   }
 
-  isPrinting() {
-    return this.props.services.QlikComponent.backendApi.isSnapshot
-      && this.props.services.Qlik.navigation
-      && !this.props.services.Qlik.navigation.inClient;
+  resolveUpdatePromise(){
+    this.props.services.PrintResolver && this.props.services.PrintResolver();
   }
 
   restoreSize(props){
