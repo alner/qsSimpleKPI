@@ -120,11 +120,6 @@ let DragDropSpec = {
       ReactDOM.render(<span>{this.props.children}</span>, placeElement);
       this.setState({ itemid: null, object: null, isObjectInjected: false });
     }
-    if(!this.props.embeddedItem){
-      $(placeElement).empty();
-      $(placeElement).height('auto');
-      ReactDOM.render(<span>{this.props.children}</span>, placeElement);
-    }
   }
 };
 
