@@ -19,7 +19,7 @@
   "repository": "https://github.com/alner/qsSimpleKPI",
   "dependencies": {
     "promise-polyfill": "^6.0.1",
-    "react": "^0.13.3",
+    "react": "^16.13.1",
     "react-inline-css": "^2.1.0",
     "semantic-ui": "^2.1.2"
   },
