@@ -8,7 +8,7 @@ class ValueComponent extends Component {
 
     return (
       <div title={this.props.children[1].props.children} className="value" style={valueStyles}>
-        {this.props.children}
+        { (this.props.embeddedItem) ? null : this.props.children }
       </div>
     );
   }
