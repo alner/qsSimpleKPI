@@ -16,7 +16,10 @@ class DimensionEntry extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.hidePointerCursor = this.hidePointerCursor.bind(this);
     this.getlabelWidth = this.getlabelWidth.bind(this);
-
+    this.chartBody = null;
+    this.chartBodyRef = element => {
+      this.chartBody = element;
+    };
   }
 
   hidePointerCursor () {
@@ -27,11 +30,13 @@ class DimensionEntry extends Component {
       return "default";
     }
   }
-  getlabelWidth(){
-    var chartBody = this.refs.chartBody;
-    var chartBodywidth = chartBody && chartBody.getBoundingClientRect().width;
-    return chartBodywidth;
 
+  getlabelWidth(){
+    // QB-4486
+    // Multi KPI labels are distracted after select and clear selection
+    const chartBody = this.chartBody;
+    var chartBodywidth = chartBody && chartBody.width;
+    return chartBodywidth;
   }
   updateFlexBasis (key) {
     this.props.style.flexBasis = dividedByObject[key];
@@ -90,7 +95,7 @@ class DimensionEntry extends Component {
             >{label.text}</a>
           )
         }
-        <div className={`ui ${divideBy} ${label.alignment} statistics`} ref='chartBody'>
+        <div className={`ui ${divideBy} ${label.alignment} statistics`} ref={this.chartBodyRef}>
           {children}
         </div>
       </div>
