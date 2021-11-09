@@ -76,6 +76,7 @@ let DragDropSpec = {
         object: null,
         itemid: ""
       });
+      if (!qlik.currApp()) return;
       qlik.currApp().getObject(placeElement, itemid, { noInteraction: isInEditMode }).then((object) => {
         let width = $(placeElement).width();
         let height = $(placeElement).height();
