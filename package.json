@@ -19,7 +19,7 @@
     "promise-polyfill": "6.0.1",
     "react": "0.14.9",
     "react-dom": "0.14.9",
-    "react-inline-css": "2.1.0",
+    "react-inline-css": "2.3.0",
     "react-redux": "5.0.7",
     "redux": "4.0.1"
   },

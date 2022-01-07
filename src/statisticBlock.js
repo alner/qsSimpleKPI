@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import InlineCSS from 'react-inline-css';
 import { DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex  } from './options';
 import DimensionEntry from './dimensionEntry.container';
 import StatisticItem from './statisticItem';
 import ATTRIBUTES from './definitionAttributes';
-import encodeForHTML from './encoder';
+import parseStyle from './parser';
 
 const checkRequiredSizeDelay = 1;
 const readyDelay = 10;
@@ -300,7 +299,7 @@ class StatisticBlock extends Component {
 
   render(){
     const self = this;
-    const { kpis, selections } = this.props;
+    const { kpis } = this.props;
     let {
       qId,
       dimLabelOrientation,
@@ -421,7 +420,7 @@ class StatisticBlock extends Component {
     };
     if(backgroundColor) objectStyle.backgroundColor = backgroundColor.color;
     if(this.state.overflow) {
-      objectStyle.WebkitOverflowScrolling = 'touch'; // nice webkit scorll support
+      objectStyle.WebkitOverflowScrolling = 'touch'; // nice webkit scroll support
     }
 
     if(!this.state.is_show) {
@@ -429,7 +428,7 @@ class StatisticBlock extends Component {
     }
 
     return (
-      <InlineCSS namespace={`css-${qId}`} stylesheet={encodeForHTML(styles)} style={{ height: "100%" }}>
+      <InlineCSS namespace={`css-${qId}`} stylesheet={parseStyle(styles)} style={{ height: "100%" }}>
         <div className={`qv-object-qsstatistic ${this.props.services.State.isInEditMode() ? 'edit-mode' : ''}`} style={objectStyle}>
           {items}
         </div>

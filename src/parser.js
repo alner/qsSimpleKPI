@@ -1,4 +1,4 @@
-const encodeForHTML = (input) => {
+const parseStyle = (input) => {
   if (typeof input === "undefined" || input === null) {
     return "";
   }
@@ -12,7 +12,7 @@ const encodeForHTML = (input) => {
   encodingDiv.appendChild(textNode);
   encoded = encodingDiv.innerHTML;
   encodingDiv.removeChild(textNode);
-  return encoded;
+  return encoded.replace(/&amp;/g, "&");
 };
 
-export default encodeForHTML;
+export default parseStyle;
