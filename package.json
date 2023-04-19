@@ -59,7 +59,7 @@
     "less-loader": "2.2.0",
     "less-plugin-autoprefix": "1.5.1",
     "less-plugin-clean-css": "1.5.1",
-    "lodash.merge": "4.6.1",
+    "lodash.merge": "4.6.2",
     "map-stream": "0.0.6",
     "natives": "1.1.6",
     "node-libs-browser": "0.5.2",
