@@ -1,6 +1,5 @@
 var webpack = require('webpack');
-var path = require('path');
-var packageJSON = require('./package.json');
+var path = require("path");
 
 var DIST = path.resolve("./dist");
 
@@ -8,15 +7,15 @@ var DIST = path.resolve("./dist");
 var config = {
   entry: {
     js: [
-      "./src/component.js" // input file
-    ]
+      "./src/component.js", // input file
+    ],
   },
   resolve: {
-    modulesDirectories: ['node_modules', 'bower_components'],
+    modulesDirectories: ["node_modules", "bower_components"],
   },
   output: {
     path: path.resolve(__dirname, DIST),
-    filename: `${packageJSON.name}.js`,
+    filename: "qlik-multi-kpi.js",
   },
   plugins: [],
   module: {
@@ -25,10 +24,10 @@ var config = {
       {
         test: /\.jsx?$/,
         exclude: [/node_modules/, /semantic/],
-        loaders: ['babel']
+        loaders: ["babel"],
       },
-    ]
-  }
+    ],
+  },
 };
 
 if(process.env.NODE_ENV === 'production') {

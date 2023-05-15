@@ -1,5 +1,5 @@
 {
-  "name": "qlik-multi-kpi",
+  "name": "@qlik/qlik-multi-kpi",
   "version": "0.0.1",
   "description": "A tiled chart that shows one KPI per dimension value and measure.",
   "private": true,
